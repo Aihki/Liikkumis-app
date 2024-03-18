@@ -11,7 +11,24 @@ import {
 import {useUpdateContext} from './UpdateHooks';
 
 
+const useUserProgress = () => {};
+const useExcersise = () => {};
+const useUserFoodDiary = () => {};
+const useWorkouts = () => {};
+
 const useUser = () => {
+ const getUserByToken = async (token: string) => {
+  const options: RequestInit = {
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  };
+  return await fetchData<UserResponse>(
+    process.env.EXPO_PUBLIC_AUTH_API + '/users/token',
+    options,
+  );
+}
+
 const postUser = async (user: Record<string, string>)=> {
   const options: RequestInit = {
     method: 'POST',
@@ -37,7 +54,7 @@ const getEmailAvailable = async (email: string) => {
     process.env.EXPO_PUBLIC_AUTH_API + '/users/email/' + email,
   );
 };
-return {postUser, getUsernameAvailability, getEmailAvailable};
+return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable};
 };
 
 const useAuthentication = () => {
