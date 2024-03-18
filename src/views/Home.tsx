@@ -7,11 +7,6 @@ const Home = ({navigation}: {navigation: NavigationProp<ParamListBase>}) => {
 
   return (
     <>
-      <FlatList
-        data={[]}
-        renderItem={() => null}
-        keyExtractor={() => ''}
-      />
     </>
   );
 };
