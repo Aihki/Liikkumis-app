@@ -24,7 +24,7 @@ const useUser = () => {
     },
   };
   return await fetchData<UserResponse>(
-    process.env.EXPO_PUBLIC_AUTH_API + '/users/token',
+    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/token',
     options,
   );
 }
@@ -38,20 +38,20 @@ const postUser = async (user: Record<string, string>)=> {
     body: JSON.stringify(user),
   };
   await fetchData<UserResponse>(
-    process.env.EXPO_PUBLIC_AUTH_API + '/users/',
+    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/',
     options,
   );
 };
 
 const getUsernameAvailability = async (username: string) => {
 return  fetchData<{available: boolean}>(
-    process.env.EXPO_PUBLIC_AUTH_API + '/users/username/' + username,
+    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/username/' + username,
   );
 };
 
 const getEmailAvailable = async (email: string) => {
   return await fetchData<{available: boolean}>(
-    process.env.EXPO_PUBLIC_AUTH_API + '/users/email/' + email,
+    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/email/' + email,
   );
 };
 return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable};
@@ -60,7 +60,7 @@ return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable};
 const useAuthentication = () => {
   const postLogin = async (creds: Credentials) => {
     return await fetchData<LoginResponse>(
-      process.env.EXPO_PUBLIC_AUTH_API + '/auth/login',
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/auth/login',
       {
         method: 'POST',
         headers: {
@@ -87,14 +87,14 @@ const useFile = () => {
       body: formData,
     };
     return await fetchData<UploadResponse>(
-      process.env.EXPO_PUBLIC_UPLOAD_API + '/upload',
+      process.env.EXPO_PUBLIC_UPLOAD_SERVER + '/upload',
       options,
     );
   };
 
   const postExpoFile = async (imageUri: string, token: string): Promise<UploadResponse> => {
     const fileResult = await FileSystem.uploadAsync(
-      process.env.EXPO_PUBLIC_UPLOAD_API + '/upload',
+      process.env.EXPO_PUBLIC_UPLOAD_SERVER + '/upload',
       imageUri,
       {
         httpMethod: 'POST',
