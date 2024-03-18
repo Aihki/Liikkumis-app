@@ -7,6 +7,7 @@ import Login from '../views/Login';
 import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
+import Upload from '../views/Upload';
 
 
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,7 @@ const StackNavigator = () => {
           />
           <stack.Screen name="FoodDiary" component={FoodDiary} />
           <stack.Screen name="Exercise" component={Exercise} />
+          <stack.Screen name="Upload" component={Upload} />
 
         </>
       ) : (
