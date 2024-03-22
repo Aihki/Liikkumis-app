@@ -1,6 +1,6 @@
 type UserLevel = {
   level_id: number;
-  level_Name: string;
+  level_name: string;
 };
 
 type User = {
@@ -59,11 +59,11 @@ type UserProgress = {
 };
 
 type UserWithLevel = Omit<User, 'user_level_id'> &
-Pick<UserLevel, 'level_Name'>;
+Pick<UserLevel, 'level_name'>;
 
 type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
 
-type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_Name'>;
+type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_name'>;
 
 // for upload server
 type FileInfo = {
