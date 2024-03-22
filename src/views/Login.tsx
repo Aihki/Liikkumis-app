@@ -1,4 +1,4 @@
-import {Button} from '@rneui/themed';
+import {Text} from '@rneui/themed';
 import {useEffect, useState} from 'react';
 import {Keyboard, TouchableOpacity} from 'react-native';
 import LoginForm from '../components/LoginFrom';
@@ -27,10 +27,12 @@ const Login = () => {
       ) : (
         <RegisterForm handletoggle={handleToggle} />
       )}
-      <Button
-        title={!toggleReg ? 'No account yet? Register here!' : 'Back to login'}
-        onPress={handleToggle}
-      />
+      <Text>
+  {!toggleReg ? 'Dont have a account yet? ' : 'Have account already'}
+  <Text onPress={handleToggle} style={{color: 'blue'}}>
+    {!toggleReg ? 'Register here!' : 'Login'}
+  </Text>
+</Text>
     </TouchableOpacity>
   );
 };

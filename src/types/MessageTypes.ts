@@ -20,7 +20,7 @@ type UserResponse = MessageResponse & {
 };
 
 type UserDeleteResponse = MessageResponse & {
-  user: { userId: number };
+  user: { user_id: number };
 };
 
 // for upload server

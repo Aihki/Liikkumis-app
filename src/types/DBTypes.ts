@@ -1,69 +1,69 @@
 type UserLevel = {
-  levelId: number;
-  levelName: string;
+  level_id: number;
+  level_Name: string;
 };
 
 type User = {
-  userId: number;
+  user_id: number;
   username: string;
   password: string;
   email: string;
-  userLevelId: number | null;
-  userProfilePic: string | null;
-  userBannerPic: string | null;
+  user_level_id: number | null;
+  user_profile_pic: string | null;
+  user_banner_pic: string | null;
   createdAt: Date;
 };
 
 type FoodDiary = {
-  foodDiaryId: number;
-  userId: number;
-  foodDiaryDate: Date;
-  foodDiaryMeal: string;
-  foodDiaryCalories: number;
+  foodDiary_id: number;
+  user_id: number;
+  food_diary_date: Date;
+  food_diary_meal: string;
+  food_diary_calories: number;
   createdAt: Date;
 };
 
   type UserWorkout = {
-  userWorkoutId: number;
-  userId: number;
-  workoutDate: Date;
-  workoutName: string;
-  workoutDescription: string;
+  user_workout_id: number;
+  user_id: number;
+  workout_date: Date;
+  workout_name: string;
+  workout_description: string;
   createdAt: Date;
 };
 
 type Exercise = {
-  exerciseId: number;
-  userId: number;
-  userWorkoutId: number;
-  exerciseName: string;
-  exerciseWeight: number;
-  exerciseReps: number;
+  exercise_id: number;
+  user_id: number;
+  user_workout_id: number;
+  exercise_name: string;
+  exercise_weight: number;
+  exercise_reps: number;
   createdAt: Date;
 };
 
 type UserProgress = {
-  progressId: number;
-  userId: number;
-  progressDate: Date;
-  progressWeight: number;
-  progressHeight: number;
-  progressCircumferenceChest: number;
-  progressCircumferenceWaist: number;
-  progressCircumferenceThighR: number;
-  progressCircumferenceThighL: number;
-  progressCircumferenceBicepR: number;
-  progressCircumferenceBicepL: number;
-  progressCircumferenceCalvesR: number;
-  progressCircumferenceCalvesL: number;
+  progress_id: number;
+  user_id: number;
+  progress_date: Date;
+  progress_weight: number;
+  progress_height: number;
+  progress_circumference_chest: number;
+  progress_circumference_waist: number;
+  progress_circumference_thighR: number;
+  progress_circumference_thighL: number;
+  progress_circumference_bicepR: number;
+  progress_circumference_bicepL: number;
+  progress_circumference_calvesR: number;
+  progress_circumference_calvesL: number;
 };
 
-type UserWithLevel = Omit<User, 'userLevelId'> &
-Pick<UserLevel, 'levelName'>;
+type UserWithLevel = Omit<User, 'user_level_id'> &
+Pick<UserLevel, 'level_Name'>;
 
 type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
 
-type TokenContent = Pick<User, 'userId'> & Pick<UserLevel, 'levelName'>;
+type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_Name'>;
 
 // for upload server
 type FileInfo = {
