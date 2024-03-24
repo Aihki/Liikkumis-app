@@ -43,7 +43,7 @@ const LoginForm = () => {
         control={control}
         rules={{
           maxLength: 100,
-          minLength: 8,
+          minLength: 2,
           required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (

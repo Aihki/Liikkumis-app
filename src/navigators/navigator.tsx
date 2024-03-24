@@ -14,29 +14,33 @@ const Tab = createBottomTabNavigator();
 const stack = createNativeStackNavigator();
 
 const TabNavigator = () => {
+  const { user } = useUserContext();
+
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
+      {user && (
+        <>
+          <Tab.Screen name="FoodDiary" component={FoodDiary} />
+          <Tab.Screen name="Exercise" component={Exercise} />
+        </>
+      )}
     </Tab.Navigator>
   );
 };
+
 const StackNavigator = () => {
   const {user} = useUserContext();
+
   return (
     <stack.Navigator>
       {user ? (
-        <>
-          <stack.Screen
-            name="Tabs"
-            component={TabNavigator}
-            options={{headerShown: false}}
-          />
-          <stack.Screen name="FoodDiary" component={FoodDiary} />
-          <stack.Screen name="Exercise" component={Exercise} />
-          <stack.Screen name="Upload" component={Upload} />
-
-        </>
+        <stack.Screen
+          name="Tabs"
+          component={TabNavigator}
+          options={{headerShown: false}}
+        />
       ) : (
         <stack.Screen name="Login" component={Login} />
       )}
