@@ -10,14 +10,14 @@ import * as ImagePicker from 'expo-image-picker';
 import {Alert, Keyboard, ScrollView, TouchableOpacity} from 'react-native';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useBook, useFile} from '../hooks/apiHooks';
+import {useFile} from '../hooks/apiHooks';
 import {useUpdateContext} from '../hooks/UpdateHooks';
 
 const Upload = () => {
   const [image, setImage] =
     useState<ImagePicker.ImagePickerSuccessResult | null>(null);
   const {postExpoFile} = useFile();
-  const {postBook} = useBook();
+
   const {update, setUpdate} = useUpdateContext();
   const navigation: NavigationProp<ParamListBase> = useNavigation();
 
@@ -36,25 +36,25 @@ const Upload = () => {
     setImage(null);
   };
 
-  const doUpload = async (inputs: {title: string; description: string}) => {
-    if (!image) {
-      Alert.alert('No file selected', 'Please select a file');
-      return;
-    }
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        const fileResponse = await postExpoFile(image.assets![0].uri, token);
-        const mediaResponse = await postBook(fileResponse, inputs, token);
-        setUpdate(!update);
-        Alert.alert('Upload success', mediaResponse.message);
-        navigation.navigate('Home');
-        resetForm();
-      }
-    } catch (error) {
-      Alert.alert('Error', (error as Error).message);
-    }
-  };
+  // const doUpload = async (inputs: {title: string; description: string}) => {
+  //   if (!image) {
+  //     Alert.alert('No file selected', 'Please select a file');
+  //     return;
+  //   }
+  //   try {
+  //     const token = await AsyncStorage.getItem('token');
+  //     if (token) {
+  //       const fileResponse = await postExpoFile(image.assets![0].uri, token);
+  //       const mediaResponse = await (fileResponse, inputs, token);
+  //       setUpdate(!update);
+  //       Alert.alert('Upload success', mediaResponse.message);
+  //       navigation.navigate('Home');
+  //       resetForm();
+  //     }
+  //   } catch (error) {
+  //     Alert.alert('Error', (error as Error).message);
+  //   }
+  // };
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -144,7 +144,7 @@ const Upload = () => {
           <Card.Divider />
           <Button
             title="Upload"
-            onPress={handleSubmit(doUpload)}
+            // onPress={handleSubmit(doUpload)}
             buttonStyle={{backgroundColor: 'green'}}
           />
         </Card>

@@ -1,5 +1,5 @@
 import {StatusBar} from 'expo-status-bar';
-import Navigator from './src/navigators/navigator';
+import Navigator from './src/navigators/Navigator';
 import {UserProvider} from './src/contexts/UserContext';
 import {UpdateProvider} from './src/contexts/UpdateContext';
 
