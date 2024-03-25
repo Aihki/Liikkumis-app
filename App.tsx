@@ -3,6 +3,8 @@ import Navigator from './src/navigators/navigator';
 import {UserProvider} from './src/contexts/UserContext';
 import {UpdateProvider} from './src/contexts/UpdateContext';
 
+
+
 const App = () => {
   return (
     <UserProvider>

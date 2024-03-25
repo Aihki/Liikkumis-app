@@ -8,10 +8,13 @@ import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
 import Upload from '../views/Upload';
+import WorkoutDetails from '../components/WorkoutDetails';
+import { RootStackParamList } from '../types/LocalTypes';
 
 
 const Tab = createBottomTabNavigator();
-const stack = createNativeStackNavigator();
+const stack = createNativeStackNavigator<RootStackParamList>();
+
 
 const TabNavigator = () => {
   const { user } = useUserContext();
@@ -36,11 +39,14 @@ const StackNavigator = () => {
   return (
     <stack.Navigator>
       {user ? (
-        <stack.Screen
-          name="Tabs"
-          component={TabNavigator}
-          options={{headerShown: false}}
-        />
+        <>
+          <stack.Screen
+            name="Tabs"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+          <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
+        </>
       ) : (
         <stack.Screen name="Login" component={Login} />
       )}

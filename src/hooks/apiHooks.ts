@@ -80,11 +80,32 @@ const useExcersise = () => {
     );
   };
 
-  const addExercise = async (id: number, exercises: Exercise) => {
+  const getUsersExcersisesByWorkoutId = async (
+    user_id: string,
+    user_workout_id: string,
+    token: string,
+  ) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<Exercise[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/exercises/' +
+        user_id +
+        '/' +
+        user_workout_id,
+      options,
+    );
+  };
+
+  const addExercise = async (id: number, exercises: Omit<Exercise, "exercise_id" | "created_at">, token: string) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify(exercises),
     };
@@ -114,6 +135,7 @@ const useExcersise = () => {
     getUserExercises,
     getUserSpecificExercises,
     putSpecificExercise,
+    getUsersExcersisesByWorkoutId,
     addExercise,
     deleteExercise,
   };
@@ -174,12 +196,21 @@ const useWorkouts = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts',
     );
   };
-  const getUserWorkouts = async (id: number) => {
+  const getUserWorkouts = async (id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
     return await fetchData<UserWorkout[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + id,
+      options,
     );
   };
-  const postWorkout = async (workout: UserWorkout, token: string) => {
+  const postWorkout = async (
+    workout: Omit<UserWorkout, 'created_at' | 'user_workout_id'>,
+    token: string,
+  ) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
@@ -247,7 +278,7 @@ const useUser = () => {
       body: JSON.stringify(user),
     };
     await fetchData<UserResponse>(
-      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users',
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/',
       options,
     );
   };

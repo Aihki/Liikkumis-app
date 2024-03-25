@@ -8,3 +8,11 @@ export type AuthContextType = {
   handleLogout: () => void;
   handleAutoLogin: () => void;
 };
+
+export type RootStackParamList = {
+  Home: undefined;
+  Tabs: undefined;
+  Login: undefined;
+  WorkoutDetails: { workoutId: number };
+};
+
