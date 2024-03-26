@@ -24,7 +24,7 @@ const WorkoutDetails = () => {
     const token = await AsyncStorage.getItem('token')
     if (!token || !user) return
     try {
-      const uExercises = await getUsersExcersisesByWorkoutId(workoutId, String(user.user_id), token);
+      const uExercises = await getUsersExcersisesByWorkoutId(String(user.user_id), workoutId, token);
       setExercises(uExercises)
 
     } catch (e) {
@@ -33,7 +33,6 @@ const WorkoutDetails = () => {
   }
 
   useEffect(() => { exercisesByWorkoutId(String(workoutId)) }, [])
-
   return (
     <>
       <AddExercise  workoutId={workoutId} />
@@ -44,6 +43,7 @@ const WorkoutDetails = () => {
           renderItem={({item}) => (
             <View>
                 <Text>{item.user_workout_id}</Text>
+                <Text>{item.exercise_name}</Text>
             </View>
           )}
         />

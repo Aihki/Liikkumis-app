@@ -13,7 +13,7 @@ interface WorkoutsProps {
   updateWorkouts: boolean;
 }
 
-const Workouts: React.FC<WorkoutsProps> = (updateWorkouts ) => {
+const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -24,9 +24,13 @@ const Workouts: React.FC<WorkoutsProps> = (updateWorkouts ) => {
   const getUserWorkoutsById = async (user: UserWithNoPassword) => {
     const token =  await AsyncStorage.getItem('token');
     if (!token || !user) return
+    try {
+      const getWorkouts = await getUserWorkouts(user.user_id, token)
+      setWorkouts(getWorkouts);
+    } catch (error) {
+      console.error(error)
+    }
 
-    const getWorkouts = await getUserWorkouts(user.user_id, token)
-    setWorkouts(getWorkouts);
   }
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const Workouts: React.FC<WorkoutsProps> = (updateWorkouts ) => {
   }, [updateWorkouts])
 
   return (
-    <View className="px-4 pt-10 pb-4">
+    <View className="px-4 pt-4 pb-2 h-full">
       <Text className="w-full text-center text-[22px] pb-3">Workout History</Text>
       {workouts && workouts.length > 0 ? (
         <FlatList
@@ -45,7 +49,7 @@ const Workouts: React.FC<WorkoutsProps> = (updateWorkouts ) => {
             <TouchableOpacity onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id })}>
               <View className="bg-white p-4 mb-4 rounded-lg shadow">
                 <Text className="text-xl font-bold mb-2">{item.workout_name}</Text>
-                <Text className="text-gray-800 mb-1">Date: {item.workout_date}</Text>
+                <Text className="text-gray-800 mb-1">Date: {item.workout_date?.toString().split('T')[0]}</Text>
                 <Text className="text-gray-600 mb-3">{item.workout_description}</Text>
                 <Text className="text-gray-400">Created at: {new Date(item.created_at).toISOString().split('T')[0]}</Text>
                 {/* Add more Text components here if needed */}

@@ -14,6 +14,7 @@ const Exercise = () => {
   return (
     <View>
       <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />
+      <View className='border-b p-2 border-gray-300 '></View>
       <Workouts updateWorkouts={updateWorkouts} />
     </View>
   );
