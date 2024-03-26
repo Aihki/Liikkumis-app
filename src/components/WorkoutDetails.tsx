@@ -10,6 +10,7 @@ import AddExercise from "./AddExercise";
 
 
 
+
 const WorkoutDetails = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'WorkoutDetails'>>();
   const { workoutId } = route.params;

@@ -48,11 +48,24 @@ const useUserProgress = () => {
 };
 
 const useExcersise = () => {
-  const getUserExercises = async (id: number) => {
+  const getUserExercises = async (id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
     return await fetchData<Exercise[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id,
+      options,
     );
   };
+
+  const getDefailtExercises = async () => {
+    return await fetchData<Exercise[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises',
+    );
+  };
+
   const getUserSpecificExercises = async (id: number, exerciseId: number) => {
     return await fetchData<Exercise[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER +
@@ -134,6 +147,7 @@ const useExcersise = () => {
   return {
     getUserExercises,
     getUserSpecificExercises,
+    getDefailtExercises,
     putSpecificExercise,
     getUsersExcersisesByWorkoutId,
     addExercise,

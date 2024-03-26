@@ -1,33 +1,43 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TextInput, View, Text, TouchableOpacity } from "react-native"
-import { useUserContext } from "../hooks/ContextHooks";
-import { useExcersise } from "../hooks/apiHooks";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { Exercise } from "../types/DBTypes";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUserContext } from '../hooks/ContextHooks';
+import { useExcersise } from '../hooks/apiHooks';
 
 interface AddExerciseProps {
   workoutId: number;
 }
 
 const AddExercise: React.FC<AddExerciseProps> = ({ workoutId }) => {
-
   const { user } = useUserContext();
-  const { addExercise } = useExcersise();
+  const { addExercise, getDefailtExercises } = useExcersise();
 
-  const [exerciseName, setExerciseName] = useState<string>('')
-  const [exerciseWeight, setExerciseWeight] = useState<number>(0)
+  const [exerciseName, setExerciseName] = useState<string>('');
+  const [exerciseWeight, setExerciseWeight] = useState<number>(0);
   const [exerciseReps, setExerciseReps] = useState<number>(0);
+  const [defaultExercises, setDefaultExercises] = useState<string[]>([]);
+  const [isPickerShow, setIsPickerShow] = useState<boolean>(false);
 
-  const weightOptions = [1, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
-  const repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25];
+  // Replace with your actual weight options
+  const weightOptions = [...Array(201).keys()].filter(k => k % 5 === 0 && k !== 0);
 
+  const repOptions = [...Array(26).keys()].filter(k => k !== 0);
 
+  const getExercises = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!user || !token) return;
+    try {
+      const exercises = await getDefailtExercises();
+      setDefaultExercises(exercises.map(ex => ex.exercise_name));
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const addAnExercise = async () => {
     const token = await AsyncStorage.getItem('token');
-    if (!token || !user ) return
+    if (!token || !user) return;
     try {
       const exercises = {
         user_id: user.user_id,
@@ -36,27 +46,41 @@ const AddExercise: React.FC<AddExerciseProps> = ({ workoutId }) => {
         exercise_weight: exerciseWeight,
         exercise_reps: exerciseReps,
       };
-      await addExercise(workoutId, exercises, token)
-      console.log("Exercise added successfully.")
-      setExerciseName('')
+      await addExercise(workoutId, exercises, token);
+      setExerciseName('');
       setExerciseWeight(0);
       setExerciseReps(0);
     } catch (error) {
-      console.error(error)
-      console.error("Failed to add exercise:", error)
+      console.error("Failed to add exercise:", error);
     }
-  }
+  };
 
+  useEffect(() => {
+    getExercises();
+  }, []);
 
   return (
-    <View className='flex flex-col items-center w-full pt-10 gap-3'>
-      <Text className="font-medium text-[20px]">Add Exercise</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Add Exercise</Text>
       <TextInput
         placeholder="Exercise Name"
         value={exerciseName}
         onChangeText={setExerciseName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl'
+        onFocus={() => setIsPickerShow(true)}
+        onBlur={() => setIsPickerShow(false)}
+        style={styles.input}
       />
+      {isPickerShow && (
+        <Picker
+          selectedValue={exerciseName}
+          onValueChange={(itemValue, itemIndex) => setExerciseName(itemValue)}
+          style={styles.picker}
+        >
+          {defaultExercises.map((name, index) => (
+            <Picker.Item label={name} value={name} key={index} />
+          ))}
+        </Picker>
+      )}
       <Text>Exercise Weight</Text>
       <Picker
         selectedValue={exerciseWeight}
@@ -84,11 +108,38 @@ const AddExercise: React.FC<AddExerciseProps> = ({ workoutId }) => {
       <TouchableOpacity
         onPress={addAnExercise}
         className='px-4 py-2 bg-blue-500 rounded-xl'
-      >
+        >
         <Text className='text-white text-[20px] font-medium'>Add Exercise</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default AddExercise
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    borderRadius: 5,
+    width: '90%',
+    marginBottom: 15,
+  },
+  picker: {
+    height: 50,
+    width: 150,
+    marginBottom: 15,
+  },
+  // Add more styles as needed
+});
+
+export default AddExercise;
