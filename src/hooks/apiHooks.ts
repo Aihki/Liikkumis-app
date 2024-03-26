@@ -50,57 +50,63 @@ const useUserProgress = () => {
 };
 
 const useExcersise = () => {
-  const getUserExercises = async (id: number) => {
-    return await fetchData<Exercise[]>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id,
-    );
-  }
-  const getUserSpecificExercises = async (id: number, exerciseId: number) => {
-    return await fetchData<Exercise[]>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/' + exerciseId,
-    );
-  }
-  const putSpecificExercise = async (id:number, exercises:Exercise) => {
+  const getUsersExcersisesById = async (user_id: string ,token: string) => {
     const options: RequestInit = {
-      method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(exercises),
     };
-    return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/' + exercises.exercise_id,
+    return await fetchData<Exercise[]>(
+      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises/' + user_id,
       options,
     );
-  }
+  };
 
-  const addExercise = async (id:number, exercises:Exercise) => {
+  const getUsersExcersisesByWorkoutId = async (user_id: string, user_workout_id: string ,token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<Exercise[]>(
+      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises/' + user_id + '/' + user_workout_id,
+      options,
+    );
+  };
+
+  const postExcersise = async (
+    excersise: Omit<Exercise, 'user_excersise_id' | 'created_at'>,
+    token: string,
+  ) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(exercises),
+      body: JSON.stringify(excersise),
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id,
+      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises',
       options,
     );
-  }
+  };
 
-  const deleteExercise = async (id:number, exerciseId:number) => {
+  const removeExcersise = async (user_id: string, user_excersise_id: string, token: string) => {
     const options: RequestInit = {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/' + exerciseId,
+      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises/' + user_id + '/' + user_excersise_id,
       options,
     );
-  }
-  return {getUserExercises, getUserSpecificExercises, putSpecificExercise, addExercise, deleteExercise};
+  };
+
+
+  return { postExcersise, getUsersExcersisesById, getUsersExcersisesByWorkoutId, removeExcersise };
 };
 const useUserFoodDiary = () => {
   const getUserFoodDiary = async (id: number) => {
@@ -227,7 +233,7 @@ const postUser = async (user: Record<string, string>)=> {
   );
 };
 
-const getUsernameAvailability = async (username: string) => {
+const getUsernameAvailable = async (username: string) => {
 return  fetchData<{available: boolean}>(
     process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/username/' + username,
   );
@@ -238,7 +244,7 @@ const getEmailAvailable = async (email: string) => {
     process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/email/' + email,
   );
 };
-return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable};
+return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
 };
 
 const useAuthentication = () => {

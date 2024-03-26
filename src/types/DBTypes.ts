@@ -11,25 +11,25 @@ type User = {
   user_level_id: number | null;
   user_profile_pic: string | null;
   user_banner_pic: string | null;
-  createdAt: Date;
+  created_at: Date;
 };
 
 type FoodDiary = {
-  foodDiary_id: number;
+  food_diary_id: number;
   user_id: number;
   food_diary_date: Date;
   food_diary_meal: string;
   food_diary_calories: number;
-  createdAt: Date;
+  created_at: Date;
 };
 
-  type UserWorkout = {
+type UserWorkout = {
   user_workout_id: number;
   user_id: number;
-  workout_date: Date;
+  workout_date: string;
   workout_name: string;
   workout_description: string;
-  createdAt: Date;
+  created_at: Date;
 };
 
 type Exercise = {
@@ -39,7 +39,7 @@ type Exercise = {
   exercise_name: string;
   exercise_weight: number;
   exercise_reps: number;
-  createdAt: Date;
+  created_at: Date;
 };
 
 type UserProgress = {
@@ -50,16 +50,15 @@ type UserProgress = {
   progress_height: number;
   progress_circumference_chest: number;
   progress_circumference_waist: number;
-  progress_circumference_thighR: number;
-  progress_circumference_thighL: number;
-  progress_circumference_bicepR: number;
-  progress_circumference_bicepL: number;
-  progress_circumference_calvesR: number;
-  progress_circumference_calvesL: number;
+  progress_circumference_thigh_r: number;
+  progress_circumference_thigh_l: number;
+  progress_circumference_bicep_r: number;
+  progress_circumference_bicep_l: number;
+  progress_circumference_calves_r: number;
+  progress_circumference_calves_l: number;
 };
 
-type UserWithLevel = Omit<User, 'user_level_id'> &
-Pick<UserLevel, 'level_name'>;
+type UserWithLevel = Omit<User, 'user_level_id'> & Pick<UserLevel, 'level_name'>;
 
 type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
 
@@ -70,7 +69,6 @@ type FileInfo = {
     filename: string;
     user_id: number;
 };
-
 
 export type {
     UserLevel,
@@ -83,4 +81,4 @@ export type {
     UserWithNoPassword,
     TokenContent,
     FileInfo
-  };
+};

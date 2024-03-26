@@ -7,38 +7,47 @@ import Login from '../views/Login';
 import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
-import Upload from '../views/Upload';
+import ProfilePic from '../components/ProfilePic';
+import BannerPic from '../components/BannerPic';
+
 
 
 const Tab = createBottomTabNavigator();
 const stack = createNativeStackNavigator();
 
 const TabNavigator = () => {
+  const { user } = useUserContext();
+
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
+      <Tab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
+      {user && (
+        <>
+          <Tab.Screen name="FoodDiary" component={FoodDiary} options={{headerShown: false}}/>
+          <Tab.Screen name="Exercise" component={Exercise}  options={{headerShown: false}}/>
+        </>
+      )}
     </Tab.Navigator>
   );
 };
+
 const StackNavigator = () => {
   const {user} = useUserContext();
+
   return (
     <stack.Navigator>
       {user ? (
         <>
-          <stack.Screen
-            name="Tabs"
-            component={TabNavigator}
-            options={{headerShown: false}}
-          />
-          <stack.Screen name="FoodDiary" component={FoodDiary} />
-          <stack.Screen name="Exercise" component={Exercise} />
-          <stack.Screen name="Upload" component={Upload} />
-
-        </>
+        <stack.Screen
+          name="Tabs"
+          component={TabNavigator}
+          options={{ headerShown: false }} />
+          <stack.Screen name="ProfilePic" component={ProfilePic} />
+          <stack.Screen name="BannerPic" component={BannerPic} />
+          </>
       ) : (
-        <stack.Screen name="Login" component={Login} />
+        <stack.Screen name="Login" component={Login} options={{headerShown: false}} />
       )}
     </stack.Navigator>
   );
