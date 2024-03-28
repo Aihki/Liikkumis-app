@@ -1,36 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {useUserContext} from '../hooks/ContextHooks';
 import {TouchableOpacity, Text, SafeAreaView, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Motivational from '../components/Motivational';
+
+
+
 
 const Profile = () => {
   const {handleLogout} = useUserContext();
   const {user} = useUserContext();
-
   const navigation = useNavigation();
+
+
+
 
   return (
     <>
       <SafeAreaView>
-        <TouchableOpacity onPress={() => navigation.navigate('BannerPic')}>
-        <View className="w-full">
-          <Image
-            source={{
-              uri: 'https://media.timeout.com/images/106041640/image.jpg',
-            }}
-            className="h-60 w-full"
-            resizeMode="cover"
-          />
+      <View className=" flex justify-center w-full h-60 bg-black">
+        <Motivational />
         </View>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('ProfilePic')}>
           <View className="flex items-center">
             <Image
               source={{
-                uri: 'https://i.pinimg.com/originals/37/37/03/373703ed3f43d5908cdfc4662eb75b9b.jpg',
+                uri:
+             'http://localhost:3002/uploads/' + user?.user_profile_pic || 'https://via.placeholder.com/150',
               }}
               resizeMode="cover"
-              className="w-36 h-36 rounded-full -mt-20"
+              className="w-36 h-36 rounded-full -mt-14"
             />
           </View>
           <View className="flex items-center justify-center">
@@ -53,5 +52,6 @@ const Profile = () => {
     </>
   );
 };
+
 
 export default Profile;

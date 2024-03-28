@@ -1,5 +1,5 @@
 import * as FileSystem from 'expo-file-system';
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import {fetchData} from '../lib/utils';
 import {Credentials} from '../types/LocalTypes';
 import {
@@ -9,15 +9,14 @@ import {
   UserResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import { Exercise, FoodDiary, UserProgress, UserWorkout } from '../types/DBTypes';
-
+import {Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
 
 const useUserProgress = () => {
-  const getUserProgress = async (id:number) => {
+  const getUserProgress = async (id: number) => {
     return await fetchData<UserProgress[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + id,
     );
-  }
+  };
 
   const postProgress = async (progress: UserProgress) => {
     const options: RequestInit = {
@@ -31,8 +30,8 @@ const useUserProgress = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/',
       options,
     );
-  }
- const putProgress = async (progress: UserProgress) => {
+  };
+  const putProgress = async (progress: UserProgress) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
@@ -44,13 +43,12 @@ const useUserProgress = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + progress.user_id,
       options,
     );
-  }
+  };
   return {getUserProgress, postProgress, putProgress};
-
 };
 
 const useExcersise = () => {
-  const getUsersExcersisesById = async (user_id: string ,token: string) => {
+  const getUsersExcersisesById = async (user_id: string, token: string) => {
     const options: RequestInit = {
       headers: {
         Authorization: 'Bearer ' + token,
@@ -62,14 +60,22 @@ const useExcersise = () => {
     );
   };
 
-  const getUsersExcersisesByWorkoutId = async (user_id: string, user_workout_id: string ,token: string) => {
+  const getUsersExcersisesByWorkoutId = async (
+    user_id: string,
+    user_workout_id: string,
+    token: string,
+  ) => {
     const options: RequestInit = {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     };
     return await fetchData<Exercise[]>(
-      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises/' + user_id + '/' + user_workout_id,
+      process.env.EXPO_PUBLIC_TRANING_SERVER +
+        '/excersises/' +
+        user_id +
+        '/' +
+        user_workout_id,
       options,
     );
   };
@@ -92,7 +98,11 @@ const useExcersise = () => {
     );
   };
 
-  const removeExcersise = async (user_id: string, user_excersise_id: string, token: string) => {
+  const removeExcersise = async (
+    user_id: string,
+    user_excersise_id: string,
+    token: string,
+  ) => {
     const options: RequestInit = {
       method: 'DELETE',
       headers: {
@@ -100,13 +110,21 @@ const useExcersise = () => {
       },
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRANING_SERVER + '/excersises/' + user_id + '/' + user_excersise_id,
+      process.env.EXPO_PUBLIC_TRANING_SERVER +
+        '/excersises/' +
+        user_id +
+        '/' +
+        user_excersise_id,
       options,
     );
   };
 
-
-  return { postExcersise, getUsersExcersisesById, getUsersExcersisesByWorkoutId, removeExcersise };
+  return {
+    postExcersise,
+    getUsersExcersisesById,
+    getUsersExcersisesByWorkoutId,
+    removeExcersise,
+  };
 };
 const useUserFoodDiary = () => {
   const getUserFoodDiary = async (id: number) => {
@@ -114,7 +132,7 @@ const useUserFoodDiary = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id,
     );
   };
-  const postFoodDiary = async (id:number, foodDiary: FoodDiary) => {
+  const postFoodDiary = async (id: number, foodDiary: FoodDiary) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
@@ -126,8 +144,8 @@ const useUserFoodDiary = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id,
       options,
     );
-  }
-  const putFoodDiary = async (id:number, foodDiary: FoodDiary) => {
+  };
+  const putFoodDiary = async (id: number, foodDiary: FoodDiary) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
@@ -139,8 +157,8 @@ const useUserFoodDiary = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id,
       options,
     );
-  }
-  const deleteFoodDiary = async (id:number, foodDiary_id:number) => {
+  };
+  const deleteFoodDiary = async (id: number, foodDiary_id: number) => {
     const options: RequestInit = {
       method: 'DELETE',
       headers: {
@@ -148,103 +166,111 @@ const useUserFoodDiary = () => {
       },
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id + '/' + foodDiary_id,
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/fooddiary/' +
+        id +
+        '/' +
+        foodDiary_id,
       options,
     );
-  }
+  };
   return {getUserFoodDiary, postFoodDiary, putFoodDiary, deleteFoodDiary};
 };
 const useWorkouts = () => {
- const getWorkouts = async () => {
-  return await fetchData<UserWorkout[]>(
-    process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts',
-  );
-}
-const getUserWorkouts = async (id:number) => {
-  return await fetchData<UserWorkout[]>(
-    process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + id,
-  );
-}
-const postWorkout = async (workout: UserWorkout) => {
-  const options: RequestInit = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(workout),
+  const getWorkouts = async () => {
+    return await fetchData<UserWorkout[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts',
+    );
   };
-  return await fetchData<MessageResponse>(
-    process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts',
-    options,
-  );
-}
-const putWorkout = async (workout: UserWorkout) => {
-  const options: RequestInit = {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(workout),
+  const getUserWorkouts = async (id: number) => {
+    return await fetchData<UserWorkout[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + id,
+    );
   };
-  return await fetchData<MessageResponse>(
-    process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + workout.user_id,
-    options,
-  );
-};
-const deleteWorkout = async (id:number, workout_id: number) => {
-  const options: RequestInit = {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const postWorkout = async (workout: UserWorkout) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(workout),
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts',
+      options,
+    );
   };
-  return await fetchData<MessageResponse>(
-    process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + id + '/' + workout_id,
-    options,
-  );
-  }
+  const putWorkout = async (workout: UserWorkout) => {
+    const options: RequestInit = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(workout),
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + workout.user_id,
+      options,
+    );
+  };
+  const deleteWorkout = async (id: number, workout_id: number) => {
+    const options: RequestInit = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/workouts/' +
+        id +
+        '/' +
+        workout_id,
+      options,
+    );
+  };
   return {getWorkouts, getUserWorkouts, postWorkout, putWorkout, deleteWorkout};
 };
 
 const useUser = () => {
- const getUserByToken = async (token: string) => {
-  const options: RequestInit = {
-    headers: {
-      Authorization: 'Bearer ' + token,
-    },
+  const getUserByToken = async (token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<UserResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/token',
+      options,
+    );
   };
-  return await fetchData<UserResponse>(
-    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/token',
-    options,
-  );
-}
 
-const postUser = async (user: Record<string, string>)=> {
-  const options: RequestInit = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(user),
+  const postUser = async (user: Record<string, string>) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    };
+    await fetchData<UserResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/',
+      options,
+    );
   };
-  await fetchData<UserResponse>(
-    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/',
-    options,
-  );
-};
 
-const getUsernameAvailable = async (username: string) => {
-return  fetchData<{available: boolean}>(
-    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/username/' + username,
-  );
-};
+  const getUsernameAvailable = async (username: string) => {
+    return fetchData<{available: boolean}>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/username/' + username,
+    );
+  };
 
-const getEmailAvailable = async (email: string) => {
-  return await fetchData<{available: boolean}>(
-    process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/email/' + email,
-  );
-};
-return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
+  const getEmailAvailable = async (email: string) => {
+    return await fetchData<{available: boolean}>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/email/' + email,
+    );
+  };
+  return {getUserByToken, postUser, getUsernameAvailable, getEmailAvailable};
 };
 
 const useAuthentication = () => {
@@ -264,6 +290,29 @@ const useAuthentication = () => {
   return {postLogin};
 };
 
+const useProfileUpdate = () => {
+  const fetchProfilePic = async (id: number) => {
+  return await fetchData<User[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/user/picture/' + id,
+    );
+  }
+
+  const postPicture = async (id:number ,picture: string, token: string) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({picture}),
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/user/picture/'+ id,
+      options,
+    );
+  };
+  return {fetchProfilePic, postPicture};
+};
 
 const useFile = () => {
   const postFile = async (file: File, token: string) => {
@@ -282,7 +331,12 @@ const useFile = () => {
     );
   };
 
-  const postExpoFile = async (imageUri: string, token: string): Promise<UploadResponse> => {
+  const postExpoFile = async (
+    imageUri: string,
+    token: string,
+  ): Promise<UploadResponse> => {
+    console.log('imageUri', imageUri)
+    console.log('token', token)
     const fileResult = await FileSystem.uploadAsync(
       process.env.EXPO_PUBLIC_UPLOAD_SERVER + '/upload',
       imageUri,
@@ -300,4 +354,13 @@ const useFile = () => {
   return {postFile, postExpoFile};
 };
 
-export {useUser, useAuthentication, useFile, useWorkouts, useUserFoodDiary, useUserProgress, useExcersise};
+export {
+  useUser,
+  useAuthentication,
+  useFile,
+  useWorkouts,
+  useUserFoodDiary,
+  useUserProgress,
+  useExcersise,
+  useProfileUpdate,
+};

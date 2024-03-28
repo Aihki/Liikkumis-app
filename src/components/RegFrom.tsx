@@ -1,5 +1,4 @@
 import React from 'react';
-import {Input} from '@rneui/themed';
 import {Alert, Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {useUser} from '../hooks/apiHooks';

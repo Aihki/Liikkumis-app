@@ -8,7 +8,7 @@ import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
 import ProfilePic from '../components/ProfilePic';
-import BannerPic from '../components/BannerPic';
+
 
 
 
@@ -44,7 +44,6 @@ const StackNavigator = () => {
           component={TabNavigator}
           options={{ headerShown: false }} />
           <stack.Screen name="ProfilePic" component={ProfilePic} />
-          <stack.Screen name="BannerPic" component={BannerPic} />
           </>
       ) : (
         <stack.Screen name="Login" component={Login} options={{headerShown: false}} />

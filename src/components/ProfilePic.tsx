@@ -7,16 +7,21 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import {Alert, Image, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFile} from '../hooks/apiHooks';
+import {useFile, useProfileUpdate} from '../hooks/apiHooks';
 import {useUpdateContext} from '../hooks/UpdateHooks';
+import { useUserContext } from '../hooks/ContextHooks';
 
 const ChangeProfilePic = () => {
   const [image, setImage] =
     useState<ImagePicker.ImagePickerSuccessResult | null>(null);
   const {postExpoFile} = useFile();
+  const {postPicture} = useProfileUpdate();
+  const {user} = useUserContext();
+
 
   const {update, setUpdate} = useUpdateContext();
   const navigation: NavigationProp<ParamListBase> = useNavigation();
+
 
   const resetForm = () => {
     setImage(null);
@@ -30,17 +35,20 @@ const ChangeProfilePic = () => {
     }
     try {
       const token = await AsyncStorage.getItem('token');
-      if (token) {
-        const fileResponse = await postExpoFile(image.assets![0].uri, token);
-        setUpdate(!update);
-        Alert.alert( 'Profile picture updated successfully');
-        navigation.navigate('Home');
-        resetForm();
+      if (!token || !user) {
+        return;
       }
+      const fileResponse = await postExpoFile(image.assets![0].uri, token);
+      const pictureResponse = await postPicture(user?.user_id, fileResponse.data.user_profile_pic, token);
+      setUpdate(!update);
+      Alert.alert('Profile picture updated successfully');
+      navigation.navigate('Profile');
+      resetForm();
     } catch (error) {
       Alert.alert('Error', (error as Error).message);
     }
   };
+
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -81,7 +89,7 @@ const ChangeProfilePic = () => {
              className='w-36 h-36 rounded-full'
               source={{
                 uri: image
-                  ? image.assets![0].uri
+                  ?  image.assets![0].uri
                   : 'https://via.placeholder.com/150?text=Choose+media',
               }}
             />
