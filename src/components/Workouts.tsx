@@ -46,7 +46,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
           data={workouts}
           keyExtractor={(item) => item.user_workout_id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id })}>
+            <TouchableOpacity onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id, refresh: true  })}>
               <View className="bg-white p-4 mb-4 rounded-lg shadow">
                 <Text className="text-xl font-bold mb-2">{item.workout_name}</Text>
                 <Text className="text-gray-800 mb-1">Date: {item.workout_date?.toString().split('T')[0]}</Text>

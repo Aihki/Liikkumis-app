@@ -1,4 +1,4 @@
-import { UserWithNoPassword } from "./DBTypes";
+import { Exercise, UserWithNoPassword } from "./DBTypes";
 
 type MessageResponse = {
     message: string;
@@ -23,6 +23,11 @@ type UserDeleteResponse = MessageResponse & {
   user: { user_id: number };
 };
 
+type ExerciseApiResponse = {
+  data: Exercise[];
+  message?: string;
+}
+
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
@@ -42,5 +47,6 @@ export type {
     LoginResponse,
     UserResponse,
     UserDeleteResponse,
-    UploadResponse
+    UploadResponse,
+    ExerciseApiResponse
 };

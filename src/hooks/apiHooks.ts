@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import {fetchData} from '../lib/utils';
 import {Credentials} from '../types/LocalTypes';
 import {
+  ExerciseApiResponse,
   LoginResponse,
   MessageResponse,
   UploadResponse,
@@ -94,8 +95,8 @@ const useExcersise = () => {
   };
 
   const getUsersExcersisesByWorkoutId = async (
-    user_id: string,
-    user_workout_id: string,
+    user_id: number,
+    user_workout_id: number,
     token: string,
   ) => {
     const options: RequestInit = {
@@ -107,7 +108,7 @@ const useExcersise = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER +
         '/exercises/' +
         user_id +
-        '/' +
+        '/workout/' +
         user_workout_id,
       options,
     );
@@ -122,7 +123,7 @@ const useExcersise = () => {
       },
       body: JSON.stringify(exercises),
     };
-    return await fetchData<MessageResponse>(
+    return await fetchData<Exercise[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id,
       options,
     );
@@ -221,6 +222,19 @@ const useWorkouts = () => {
       options,
     );
   };
+
+  const getUserWorkoutByWorkoutId = async (id: number, workout_id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<UserWorkout>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + workout_id + '/' + id,
+      options,
+    );
+  };
+
   const postWorkout = async (
     workout: Omit<UserWorkout, 'created_at' | 'user_workout_id'>,
     token: string,
@@ -238,24 +252,26 @@ const useWorkouts = () => {
       options,
     );
   };
-  const putWorkout = async (workout: UserWorkout) => {
+  const putWorkout = async (workout:  Omit<UserWorkout, 'created_at'>, token: string) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify(workout),
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + workout.user_id,
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/' + workout.user_workout_id,
       options,
     );
   };
-  const deleteWorkout = async (id: number, workout_id: number) => {
+  const deleteWorkout = async (id: number, workout_id: number, token: string) => {
     const options: RequestInit = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
     };
     return await fetchData<MessageResponse>(
@@ -267,7 +283,7 @@ const useWorkouts = () => {
       options,
     );
   };
-  return {getWorkouts, getUserWorkouts, postWorkout, putWorkout, deleteWorkout};
+  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout};
 };
 
 const useUser = () => {

@@ -7,9 +7,13 @@ import Login from '../views/Login';
 import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
-import Upload from '../views/Upload';
-import WorkoutDetails from '../components/WorkoutDetails';
+
+
 import { RootStackParamList } from '../types/LocalTypes';
+import WorkoutDetails from '../components/WorkoutDetails';
+import AddExerciseScreen from '../components/AddExerciseScreen';
+import EditExerciseScreen from '../components/EditExerciseScreen';
+import EditWorkoutScreen from '../components/EditWorkoutScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -46,6 +50,9 @@ const StackNavigator = () => {
             options={{ headerShown: false }}
           />
           <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
+          <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
+          <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
+          <stack.Screen name="EditExerciseScreen" component={EditExerciseScreen} />
         </>
       ) : (
         <stack.Screen name="Login" component={Login} />
