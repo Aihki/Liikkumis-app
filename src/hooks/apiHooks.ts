@@ -129,11 +129,12 @@ const useExcersise = () => {
     );
   };
 
-  const deleteExercise = async (id: number, exerciseId: number) => {
+  const deleteExercise = async (id: number, exerciseId: number, token: string) => {
     const options: RequestInit = {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
     };
     return await fetchData<MessageResponse>(

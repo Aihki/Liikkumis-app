@@ -15,11 +15,12 @@ const EditWorkoutScreen = () => {
   const { workoutId } = route.params;
   const { user } = useUserContext();
   const { putWorkout, getUserWorkoutByWorkoutId, deleteWorkout } = useWorkouts();
+  const [workoutInfo, setWorkoutInfo] = useState<any | null>(null);
   const [workout_name, setWorkoutName] = useState('');
   const [workout_description, setWorkoutDescription] = useState('');
-  const [workoutDate, setWorkoutDate] = useState(new Date());
+  const [workoutDate, setWorkoutDate] = useState(workoutInfo?.workout_date ? new Date(workoutInfo?.workout_date) : new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [workoutInfo, setWorkoutInfo] = useState<any | null>(null);
+
 
 
   const onDateChange = (_: any, selectedDate?: Date) => {
@@ -83,12 +84,28 @@ const EditWorkoutScreen = () => {
         onChangeText={setWorkoutName}
         className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl'
       />
-      <TextInput
-        placeholder={workoutInfo?.workout_description}
-        value={workout_description}
-        onChangeText={setWorkoutDescription}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl '
-      />
+      <View className='relative w-[90%]'>
+        <TextInput
+          placeholder="Workout Description"
+          value={workout_description}
+          onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))} // Limit to 200 characters
+          multiline
+          numberOfLines={5}
+          textAlignVertical="top"
+          className='p-2 border-gray-300 bg-gray-100 border rounded-xl '
+        />
+        <Text
+          className={`absolute right-2 bottom-2 ${
+            workout_description.length > 175
+              ? workout_description.length >= 200
+                ? 'text-red-500' // If input is 200 or more characters, text color is red
+                : 'text-orange-500' // If input is more than 175 but less than 200, text color is orange
+              : 'text-gray-600' // Otherwise, text color is normal
+          }`}
+        >
+        {workout_description.length} / 200
+      </Text>
+    </View>
       <View className='flex w-full items-center justify-center  flex-row'>
       <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-400 w-[45%]'>
         <Text className='text-center'>Edit Workout Date</Text>

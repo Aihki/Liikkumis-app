@@ -14,6 +14,7 @@ import WorkoutDetails from '../components/WorkoutDetails';
 import AddExerciseScreen from '../components/AddExerciseScreen';
 import EditExerciseScreen from '../components/EditExerciseScreen';
 import EditWorkoutScreen from '../components/EditWorkoutScreen';
+import AddWorkoutScreen from '../components/AddWorkoutScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -49,6 +50,7 @@ const StackNavigator = () => {
             component={TabNavigator}
             options={{ headerShown: false }}
           />
+          <stack.Screen name="AddWorkoutScreen" component={AddWorkoutScreen} />
           <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
           <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
           <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />

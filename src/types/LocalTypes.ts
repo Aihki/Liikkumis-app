@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Home: undefined;
   Tabs: undefined;
   Login: undefined;
+  AddWorkoutScreen: { onWorkoutAdded: () => void };
   WorkoutDetails: { workoutId: number; refresh?: boolean };
   EditWorkoutScreen: { workoutId: number; refresh?: boolean };
   AddExerciseScreen: { workoutId: number; refresh?: boolean };

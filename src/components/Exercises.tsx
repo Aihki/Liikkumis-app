@@ -20,7 +20,7 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
 
   const [userExercises, setuserExercises] = useState<Exercise[] | []>([]);
   const { user } = useUserContext();
-  const { getUsersExcersisesByWorkoutId } = useExcersise();
+  const { getUsersExcersisesByWorkoutId, deleteExercise } = useExcersise();
 
   const getExercisesByWorkoutId = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -37,11 +37,22 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
     }
   };
 
+  const deleteExerciseWhithEId = async (userId: number, exerciseId: number) => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !user) return;
+    try {
+      await deleteExercise(user?.user_id, exerciseId, token);
+      getExercisesByWorkoutId();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  const deleteExercise = async (exerciseId: number) => {
+  const ExerciseWarning = async (exerciseId: number) => {
+    if (!user) return;
     Alert.alert("Delete Exercise", "Are you sure you want to delete this exercise?", [
       { text: "Cancel", style: "cancel" },
-      { text: "Delete", onPress: () => console.log("Delete Exercise"), style: "destructive" },
+      { text: "Delete", onPress: () => deleteExerciseWhithEId(user?.user_id, exerciseId)},
     ]);
   };
 
@@ -71,7 +82,7 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
                     name="trash"
                     size={24}
                     color="black"
-                    onPress={() => deleteExercise(item.exercise_id)}
+                    onPress={() => ExerciseWarning(item.exercise_id)}
                   />
                 </TouchableOpacity>
                 <Text className="text-xl font-bold mb-2">{item.exercise_name}</Text>

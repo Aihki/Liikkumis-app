@@ -40,7 +40,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
 
   return (
     <View className="px-4 pt-4 pb-2 h-full">
-      <Text className="w-full text-center text-[22px] pb-3">Workout History</Text>
+      <Text className="w-full text-center text-[22px] pb-3">Your Workouts</Text>
       {workouts && workouts.length > 0 ? (
         <FlatList
           data={workouts}
