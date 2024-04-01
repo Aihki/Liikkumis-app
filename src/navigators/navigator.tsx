@@ -1,6 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
 import Login from '../views/Login';
@@ -10,6 +11,12 @@ import Exercise from '../views/Exercise';
 import Upload from '../views/Upload';
 
 
+export type RootStackParamList = {
+  FoodDiary: undefined;
+  FoodDetailScreen: undefined;
+  // Define other screens here
+};
+
 const Tab = createBottomTabNavigator();
 const stack = createNativeStackNavigator();
 
@@ -17,6 +24,7 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="FoodDiary" component={FoodDiary} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );

@@ -5,7 +5,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {useUser} from '../hooks/apiHooks';
 
 const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
-  const {postUser, getUsernameAvailable, getEmailAvailable} = useUser();
+  const {postUser, getUsernameAvailability, getEmailAvailable} = useUser();
   const initValues = {
     username: '',
     password: '',
@@ -46,7 +46,7 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           required: {value: true, message: 'is required'},
           validate: async (value) => {
             try {
-              const {available} = await getUsernameAvailable(value);
+              const {available} = await getUsernameAvailability(value);
               return available ? available : 'Username taken';
             } catch (error) {
               console.log((error as Error).message);

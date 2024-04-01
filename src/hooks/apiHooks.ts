@@ -10,6 +10,7 @@ import {
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
 import { Exercise, FoodDiary, UserProgress, UserWorkout } from '../types/DBTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage'; // Import the AsyncStorage module
 
 
 const useUserProgress = () => {
@@ -121,6 +122,10 @@ const useUserFoodDiary = () => {
       options,
     );
   }
+  const saveMealToDatabase = async (userId: number, meal: FoodDiary) => {
+    // Directly use FoodDiary type without conversion as it's already in the right shape
+    return await postFoodDiary(userId, meal);
+  };
   const putFoodDiary = async (id:number, foodDiary: FoodDiary) => {
     const options: RequestInit = {
       method: 'PUT',
@@ -134,20 +139,30 @@ const useUserFoodDiary = () => {
       options,
     );
   }
-  const deleteFoodDiary = async (id:number, foodDiary_id:number) => {
-    const options: RequestInit = {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id + '/' + foodDiary_id,
-      options,
-    );
-  }
-  return {getUserFoodDiary, postFoodDiary, putFoodDiary, deleteFoodDiary};
+  const deleteFoodDiary = async (userId: number, foodDiaryId: number) => {
+    try {
+      const token = await AsyncStorage.getItem('token'); // Retrieve the stored token
+      const options: RequestInit = {
+        method: 'DELETE',
+        headers: {
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+        },
+      };
+
+      const response = await fetchData<MessageResponse>(
+        `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/fooddiary/${userId}/${foodDiaryId}`,
+        options,
+      );
+
+      return response;
+    } catch (error) {
+      console.error('Error deleting food diary entry:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  };
+  return {getUserFoodDiary, postFoodDiary, putFoodDiary, deleteFoodDiary, saveMealToDatabase};
 };
+
 const useWorkouts = () => {
  const getWorkouts = async () => {
   return await fetchData<UserWorkout[]>(
