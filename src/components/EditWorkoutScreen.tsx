@@ -1,5 +1,5 @@
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
-import {Text, TextInput, TouchableOpacity, View, Platform} from "react-native"
+import {Text, TextInput, TouchableOpacity, View, Platform, StyleSheet} from "react-native"
 import {RootStackParamList} from "../types/LocalTypes";
 import {useUserContext} from "../hooks/ContextHooks";
 import {useWorkouts} from "../hooks/apiHooks";
@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {useEffect, useState} from "react";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-
+;
 
 const EditWorkoutScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'EditWorkoutScreen'>>();
@@ -51,6 +51,7 @@ const EditWorkoutScreen = () => {
         user_workout_id: workoutId,
         workout_name,
         workout_description,
+        workout_type: workoutInfo?.workout_type,
         workout_date: workoutDate.toISOString().split('T')[0],
       };
 
@@ -69,8 +70,9 @@ const EditWorkoutScreen = () => {
   } catch (error) {
     console.error(error);
   }
-
   };
+
+
 
   useEffect(() => { getWorkout(); }, []);
 
@@ -137,5 +139,25 @@ const EditWorkoutScreen = () => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  dropdown: {
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    height: 50, // Adjust the height as needed
+    width: '90%',
+  },
+  selectedText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  placeholderText: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default EditWorkoutScreen

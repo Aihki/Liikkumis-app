@@ -26,6 +26,7 @@ type FoodDiary = {
 type UserWorkout = {
   user_workout_id: number;
   user_id: number;
+  workout_type: string;
   workout_date: string;
   workout_name: string;
   workout_description: string;
@@ -39,6 +40,8 @@ type Exercise = {
   exercise_name: string;
   exercise_weight: number;
   exercise_reps: number;
+  exercise_duration: number;
+  exercise_distance: string;
   created_at: Date;
 };
 
@@ -58,7 +61,8 @@ type UserProgress = {
   progress_circumference_calves_l: number;
 };
 
-type UserWithLevel = Omit<User, 'user_level_id'> & Pick<UserLevel, 'level_name'>;
+type UserWithLevel = Omit<User, 'user_level_id'> &
+  Pick<UserLevel, 'level_name'>;
 
 type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
 
@@ -66,19 +70,19 @@ type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_name'>;
 
 // for upload server
 type FileInfo = {
-    filename: string;
-    user_id: number;
+  filename: string;
+  user_id: number;
 };
 
 export type {
-    UserLevel,
-    User,
-    FoodDiary,
-    UserWorkout,
-    Exercise,
-    UserProgress,
-    UserWithLevel,
-    UserWithNoPassword,
-    TokenContent,
-    FileInfo
+  UserLevel,
+  User,
+  FoodDiary,
+  UserWorkout,
+  Exercise,
+  UserProgress,
+  UserWithLevel,
+  UserWithNoPassword,
+  TokenContent,
+  FileInfo,
 };

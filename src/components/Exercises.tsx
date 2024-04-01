@@ -30,7 +30,12 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
       const exercisesResponse = await getUsersExcersisesByWorkoutId(user.user_id, workoutId, token);
       console.log(exercisesResponse);
       if (exercisesResponse) {
-        setuserExercises(exercisesResponse);
+        const processedExercises = exercisesResponse.map(exercise => ({
+          ...exercise,
+          exercise_distance: exercise.exercise_distance.toString(),
+          created_at: new Date(exercise.created_at),
+        }));
+        setuserExercises(processedExercises);
       }
     } catch (error) {
       console.error(error);
@@ -77,31 +82,53 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
               }}
             >
               <View className="bg-white p-4 mb-4 rounded-lg shadow">
-                <TouchableOpacity className="absolute top-4 right-4 p-2 z-10">
+                <TouchableOpacity className="absolute top-5 right-4 p-2 z-10">
                   <FontAwesome
                     name="trash"
-                    size={24}
+                    size={22}
                     color="black"
                     onPress={() => ExerciseWarning(item.exercise_id)}
                   />
                 </TouchableOpacity>
-                <Text className="text-xl font-bold mb-2">{item.exercise_name}</Text>
-                <Text className="text-gray-800 mb-1">Reps: {item.exercise_reps}</Text>
-                <Text className="text-gray-600 mb-3">Weight: {item.exercise_weight}</Text>
-                <Text className="text-gray-400">
-                  Created at: {new Date(item.created_at).toISOString().split('T')[0]}
-                </Text>
-            </View>
-          </TouchableOpacity>
+                {item.exercise_duration === 0 && item.exercise_distance === '0.00' && item.exercise_weight > 0 ? (
+                  // Gym
+                  <>
+                    <Text>Gym</Text>
+                    <Text>{item.exercise_name}</Text>
+                    <Text>{item.exercise_weight} lbs</Text>
+                    <Text>{item.exercise_reps} reps</Text>
+                  </>
+                ) : item.exercise_weight === 0 && item.exercise_distance === '0.00' && item.exercise_duration > 0 ? (
+                  // Body weight with duration
+                  <>
+                    <Text>{item.exercise_name}</Text>
+                    <Text>Duration: {item.exercise_duration} seconds</Text>
+                  </>
+                ) : item.exercise_weight === 0 && (item.exercise_distance !== '0.00' || item.exercise_duration > 0) ? (
+                  // Cardio
+                  <>
+                    <Text>{item.exercise_name}</Text>
+                    <Text>{item.exercise_distance} km</Text>
+                    <Text>{item.exercise_duration} minutes</Text>
+                  </>
+                ) : (
+                  // Body weight with reps
+                  <>
+                    <Text>{item.exercise_name}</Text>
+                    <Text>Reps: {item.exercise_reps}</Text>
+                  </>
+                )
+                }
 
+              </View>
+            </TouchableOpacity>
           )}
-          className="mt-2"
         />
-      ) : (
-        <View className="items-center">
-          <Text className="text-lg text-gray-500 pt-5 ">No Exercises added.</Text>
-        </View>
-      )}
+        ) : (
+            <View className="items-center">
+                <Text className="text-lg text-gray-500 pt-5 ">No Exercises added.</Text>
+            </View>
+        )}
     </View>
   )
 }

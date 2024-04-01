@@ -11,6 +11,8 @@ const Exercise = () => {
     setUpdateWorkouts(prevState => !prevState); // Toggle to trigger useEffect
   };
 
+  
+
   return (
     <View>
       <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />

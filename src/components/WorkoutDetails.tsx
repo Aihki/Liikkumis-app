@@ -67,7 +67,7 @@ return (
             <Exercises workoutId={workoutId} />
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('AddExerciseScreen', { workoutId: workoutId, refresh: true  })}
+              onPress={() => navigation.navigate('AddExerciseScreen', { workoutId: workoutId, workoutInfo: workoutInfo, refresh: true  })}
               className=' absolute z-10 bottom-0 left-[7%] px-4 py-2 bg-blue-500 rounded-xl w-[85%]'
             >
             <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>

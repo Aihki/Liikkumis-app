@@ -1,4 +1,4 @@
-import { Text, TextInput, TouchableOpacity, View, Platform } from "react-native"
+import { Text, TextInput, TouchableOpacity, View, Platform, StyleSheet  } from "react-native"
 import { useWorkouts } from "../hooks/apiHooks";
 import { useUserContext } from "../hooks/ContextHooks";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from "../types/LocalTypes";
+import { Dropdown } from "react-native-element-dropdown";
 
 type AddWorkoutScreenRouteProp = RouteProp<RootStackParamList, 'AddWorkoutScreen'>;
 
@@ -18,6 +19,7 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
   const { postWorkout } = useWorkouts();
   const { user } = useUserContext();
   const [workout_name, setWorkoutName] = useState('');
+  const [workoutType, setWorkoutType] = useState('');
   const [workout_description, setWorkoutDescription] = useState('');
   const [workoutDate, setWorkoutDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -44,6 +46,7 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
         user_id: user.user_id,
         workout_name,
         workout_description,
+        workout_type: workoutType,
         workout_date: workoutDate.toISOString().split('T')[0],
       };
       await postWorkout(workout, token);
@@ -59,6 +62,13 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
     }
   };
 
+
+  const options = [
+    { label: 'Gym', value: 'Gym' },
+    { label: 'Body Weight', value: 'Body Weight' },
+    { label: 'Cardio', value: 'Cardio' },
+  ];
+
   return (
     <View className='flex flex-col items-center w-full pt-3 gap-3'>
       <Text className='text-[22px] pb-1'>Add New Workout</Text>
@@ -66,17 +76,28 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
         placeholder="Workout Name"
         value={workout_name}
         onChangeText={setWorkoutName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl'
+        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl '
+      />
+      <Dropdown
+        data={options}
+        labelField="label"
+        valueField="value"
+        placeholder="Workout Type"
+        value={workoutType}
+        onChange={(item) => setWorkoutType(item.value)}
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedText}
+        placeholderStyle={styles.placeholderText}
       />
       <View className='relative w-[90%]'>
         <TextInput
           placeholder="Workout Description"
           value={workout_description}
-          onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))} 
+          onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))}
           multiline
           numberOfLines={5}
           textAlignVertical="top"
-          className='p-2 border-gray-300 bg-gray-100 border rounded-xl '
+          className='p-2 border-gray-300 bg-gray-100 border rounded-xl  '
         />
       <Text
         className={`absolute right-2 bottom-2 ${
@@ -115,5 +136,25 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  dropdown: {
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    height: 50,
+    width: '90%',
+  },
+  selectedText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  placeholderText: {
+    fontSize: 16,
+    color: 'gray',
+  },
+});
 
 export default AddWorkoutScreen

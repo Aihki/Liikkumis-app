@@ -1,4 +1,4 @@
-import {User, UserWithNoPassword} from './DBTypes';
+import {User, UserWithNoPassword, UserWorkout} from './DBTypes';
 export type Credentials = Pick<User, 'username' | 'password'>;
 /* export { Credentials }; */
 
@@ -13,10 +13,25 @@ export type RootStackParamList = {
   Home: undefined;
   Tabs: undefined;
   Login: undefined;
-  AddWorkoutScreen: { onWorkoutAdded: () => void };
-  WorkoutDetails: { workoutId: number; refresh?: boolean };
-  EditWorkoutScreen: { workoutId: number; refresh?: boolean };
-  AddExerciseScreen: { workoutId: number; refresh?: boolean };
-  EditExerciseScreen: { exerciseId: number; refresh?: boolean };
+  AddWorkoutScreen: {onWorkoutAdded: () => void};
+
+  WorkoutDetails: {
+    workoutId: number;
+    workoutInfo?: UserWorkout;
+    refresh?: boolean;
+  };
+
+  EditWorkoutScreen: {workoutId: number; refresh?: boolean};
+
+  AddExerciseScreen: {
+    workoutId: number;
+    workoutInfo: UserWorkout;
+    refresh?: boolean;
+  };
+  EditExerciseScreen: {exerciseId: number; refresh?: boolean};
 };
 
+export type ExerciseProps = {
+  workout: UserWorkout;
+  workoutId: number;
+}
