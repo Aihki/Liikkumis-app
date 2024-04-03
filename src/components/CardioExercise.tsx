@@ -17,7 +17,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
 
   const [exerciseName, setExerciseName] = useState<string>('');
   const [exerciseDuration, setExerciseDuration] = useState<number | null>(null);
-  const [exerciseDistance, setExerciseDistance] = useState<string>('');
+  const [exerciseDistance, setExerciseDistance] = useState<number | null>(null);
   const [isDurationBased, setIsDurationBased] = useState(false);
   const [isDistanceBased, setIsDistanceBased] = useState(false);
 
@@ -26,7 +26,8 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
     if (!token || !user) return;
     try {
       const exerciseDurationValue = exerciseDuration ? exerciseDuration : 0;
-      const exerciseDistanceValue = exerciseDistance !== null ? exerciseDistance : '0';
+      const exerciseDistanceValue = exerciseDistance !== null ? exerciseDistance : 0;
+
 
       const exercises = {
         user_id: user.user_id,
@@ -35,6 +36,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
         exercise_name: exerciseName,
         exercise_duration: exerciseDurationValue,
         exercise_reps: 0,
+        exercise_sets: 0,
         exercise_distance: exerciseDistanceValue,
       };
 
@@ -42,7 +44,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
 
       setExerciseName('');
       setExerciseDuration(null);
-      setExerciseDistance('');
+      setExerciseDistance(null);
 
       navigation.navigate('WorkoutDetails', { workoutId: workoutId, refresh: true });
     } catch (error) {
@@ -62,7 +64,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
 
 
   const durationOptions = [30, 45, 60, 90, 120, 150, 180].map(sec => ({ label: `${sec} minutes`, value: sec }));
-  const distanceOptions = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'].map(km => ({ label: `${km} km`, value: km }));
+  const distanceOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(km => ({ label: `${km} km`, value: km }));
 
   return (
     <View className="flex items-center pt-5">
@@ -88,7 +90,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
             labelField="label"
             valueField="value"
             placeholder="Select Distance"
-            value={exerciseDistance}
+            value={distanceOptions.find(option => option.value === exerciseDistance) || null} // Ensure the entire object or null is passed
             onChange={(item) => setExerciseDistance(item.value)}
             style={styles.dropdown}
             selectedTextStyle={styles.selectedText}
@@ -100,7 +102,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
             labelField="label"
             valueField="value"
             placeholder="Exercise Duration"
-            value={durationOptions.find(option => option.value === exerciseDuration) || null}
+            value={durationOptions.find(option => option.value === exerciseDuration) || null} // This is correct
             onChange={(item) => setExerciseDuration(item.value)}
             style={styles.dropdown}
             selectedTextStyle={styles.selectedText}

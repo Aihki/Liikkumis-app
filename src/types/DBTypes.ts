@@ -40,10 +40,20 @@ type Exercise = {
   exercise_name: string;
   exercise_weight: number;
   exercise_reps: number;
+  exercise_sets: number;
   exercise_duration: number;
-  exercise_distance: string;
+  exercise_distance: number;
   created_at: Date;
 };
+
+type PersonalBest = {
+  pb_id: number;
+  user_id: number;
+  exercise_name: string;
+  max_weight: number;
+  record_date: Date;
+  created_at: Date;
+}
 
 type UserProgress = {
   progress_id: number;
@@ -80,6 +90,7 @@ export type {
   FoodDiary,
   UserWorkout,
   Exercise,
+  PersonalBest,
   UserProgress,
   UserWithLevel,
   UserWithNoPassword,

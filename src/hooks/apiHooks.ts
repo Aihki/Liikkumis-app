@@ -6,6 +6,7 @@ import {
   ExerciseApiResponse,
   LoginResponse,
   MessageResponse,
+  PersonalBestSuccessResponse,
   UploadResponse,
   UserResponse,
 } from '../types/MessageTypes';
@@ -67,13 +68,19 @@ const useExcersise = () => {
     );
   };
 
-  const getUserSpecificExercises = async (id: number, exerciseId: number) => {
+  const getUserSpecificExercises = async (id: number, exerciseId: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    }
     return await fetchData<Exercise[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER +
         '/exercises/' +
         id +
         '/' +
         exerciseId,
+      options,
     );
   };
   const putSpecificExercise = async (id: number, exercises: Exercise) => {
@@ -146,6 +153,23 @@ const useExcersise = () => {
       options,
     );
   };
+
+  const getPersonalBestByExerciseName = async (id: number, exerciseName: string, token: string ): Promise<PersonalBestSuccessResponse> => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/exercises/' +
+        id +
+        '/personal-best/' +
+        exerciseName,
+      options,
+    );
+  };
+
   return {
     getUserExercises,
     getUserSpecificExercises,
@@ -154,6 +178,7 @@ const useExcersise = () => {
     getUsersExcersisesByWorkoutId,
     addExercise,
     deleteExercise,
+    getPersonalBestByExerciseName
   };
 };
 const useUserFoodDiary = () => {

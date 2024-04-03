@@ -32,7 +32,7 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
       if (exercisesResponse) {
         const processedExercises = exercisesResponse.map(exercise => ({
           ...exercise,
-          exercise_distance: exercise.exercise_distance.toString(),
+          exercise_distance: exercise.exercise_distance,
           created_at: new Date(exercise.created_at),
         }));
         setuserExercises(processedExercises);
@@ -78,11 +78,11 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('EditExerciseScreen', { exerciseId: item.exercise_id, refresh: true  })
+                navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true  })
               }}
             >
               <View className="bg-white p-4 mb-4 rounded-lg shadow">
-                <TouchableOpacity className="absolute top-5 right-4 p-2 z-10">
+                <TouchableOpacity className="absolute top-5 right-4 p-2 z-10 h-full justify-center">
                   <FontAwesome
                     name="trash"
                     size={22}
@@ -90,35 +90,36 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
                     onPress={() => ExerciseWarning(item.exercise_id)}
                   />
                 </TouchableOpacity>
-                {item.exercise_duration === 0 && item.exercise_distance === '0.00' && item.exercise_weight > 0 ? (
+                {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
                   // Gym
                   <>
-                    <Text>Gym</Text>
-                    <Text>{item.exercise_name}</Text>
-                    <Text>{item.exercise_weight} lbs</Text>
-                    <Text>{item.exercise_reps} reps</Text>
+                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                    <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} lbs</Text>
+                    <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} reps</Text>
+                    <Text className="text-base text-gray-600 mb-2">{item.exercise_sets} sets</Text>
                   </>
-                ) : item.exercise_weight === 0 && item.exercise_distance === '0.00' && item.exercise_duration > 0 ? (
+                ) : item.exercise_weight === 0 && item.exercise_distance === 0 && item.exercise_duration > 0 ? (
                   // Body weight with duration
                   <>
-                    <Text>{item.exercise_name}</Text>
-                    <Text>Duration: {item.exercise_duration} seconds</Text>
+                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                    <Text className="text-base text-gray-600 mb-2">Duration: {item.exercise_duration} seconds</Text>
                   </>
-                ) : item.exercise_weight === 0 && (item.exercise_distance !== '0.00' || item.exercise_duration > 0) ? (
+                ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
                   // Cardio
                   <>
-                    <Text>{item.exercise_name}</Text>
-                    <Text>{item.exercise_distance} km</Text>
-                    <Text>{item.exercise_duration} minutes</Text>
+
+                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                    <Text className="text-base text-gray-600 mb-0.5">{item.exercise_distance} km</Text>
+                    <Text className="text-base text-gray-600 mb-2">{item.exercise_duration} minutes</Text>
                   </>
                 ) : (
                   // Body weight with reps
                   <>
-                    <Text>{item.exercise_name}</Text>
-                    <Text>Reps: {item.exercise_reps}</Text>
+                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                    <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
+                    <Text className="text-base text-gray-600 mb-2">Sets: {item.exercise_sets}</Text>
                   </>
-                )
-                }
+                )}
 
               </View>
             </TouchableOpacity>

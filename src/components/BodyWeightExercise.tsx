@@ -17,6 +17,7 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
 
   const [exerciseName, setExerciseName] = useState<string>('');
   const [exerciseReps, setExerciseReps] = useState<number | null>(null);
+  const [exerciseSets, setExerciseSets] = useState<number | null>(null);
   const [exerciseDuration, setExerciseDuration] = useState<number | null>(null);
   const [isDurationBased, setIsDurationBased] = useState(false);
 
@@ -27,6 +28,7 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
     try {
       const exerciseDurationValue = exerciseDuration ? exerciseDuration : 0;
       const exerciseRepsValue = exerciseReps !== null ? exerciseReps : 0;
+      const exerciseSetsValue = exerciseSets !== null ? exerciseSets : 0;
 
       const exercises = {
         user_id: user.user_id,
@@ -35,7 +37,8 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
         exercise_name: exerciseName,
         exercise_duration: exerciseDurationValue,
         exercise_reps: exerciseRepsValue,
-        exercise_distance: '0',
+        exercise_sets: exerciseSetsValue,
+        exercise_distance: 0,
       };
 
       await addExercise(user.user_id, exercises, token);
@@ -71,11 +74,13 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
 
 
   const repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25].map(num => ({ label: `${num} reps`, value: num }));
+  const setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: `${num} sets`, value: num }));
+
 
   const durationOptions = [30, 45, 60, 90, 120, 150, 180].map(sec => ({ label: `${sec} seconds`, value: sec }));
 
   return (
-    <View className="flex items-center pt-5 gap-3">
+    <View className="flex items-center pt-5 ">
       <Dropdown
         data={options}
         labelField="label"
@@ -90,37 +95,54 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
         selectedTextStyle={styles.selectedText}
         placeholderStyle={styles.placeholderText}
       />
-      {isDurationBased ? (
-        <Dropdown
-          mode="default"
-          data={durationOptions}
-          labelField="label"
-          valueField="value"
-          placeholder="Select Duration"
-          value={durationOptions.find(option => option.value === exerciseDuration) || null}
-          onChange={(item) => setExerciseDuration(item.value)}
-          style={styles.dropdown}
-          selectedTextStyle={styles.selectedText}
-          placeholderStyle={styles.placeholderText}
-        />
-      ) : (
-        <Dropdown
-          mode="default"
-          data={repOptions}
-          labelField="label"
-          valueField="value"
-          placeholder="Select Rep Count"
-          value={repOptions.find(option => option.value === exerciseReps) || null}
-          onChange={(item) => setExerciseReps(item.value)}
-          style={styles.dropdown}
-          selectedTextStyle={styles.selectedText}
-          placeholderStyle={styles.placeholderText}
-        />
-      )}
+      <View className=" flex w-full items-center">
+        {isDurationBased ? (
+          <Dropdown
+            mode="default"
+            data={durationOptions}
+            labelField="label"
+            valueField="value"
+            placeholder="Select Duration"
+            value={durationOptions.find(option => option.value === exerciseDuration) || null}
+            onChange={(item) => setExerciseDuration(item.value)}
+            style={styles.dropdown}
+            selectedTextStyle={styles.selectedText}
+            placeholderStyle={styles.placeholderText}
+          />
+        ) : (
+          <>
+            <Dropdown
+              mode="default"
+              data={repOptions}
+              labelField="label"
+              valueField="value"
+              placeholder="Select Rep Count"
+              value={repOptions.find(option => option.value === exerciseReps) || null}
+              onChange={(item) => setExerciseReps(item.value)}
+              style={styles.dropdown}
+              selectedTextStyle={styles.selectedText}
+              placeholderStyle={styles.placeholderText}
+            />
+            <Dropdown
+                mode="default"
+                data={setOptions}
+                labelField="label"
+                valueField="value"
+                placeholder="Set Count"
+                value={repOptions.find(option => option.value === exerciseSets) || null}
+                onChange={(item) => setExerciseSets(item.value)}
+                style={styles.dropdown}
+                selectedTextStyle={styles.selectedText}
+                placeholderStyle={styles.placeholderText}
+              />
+            </>
+
+        )}
+      </View>
 
       <TouchableOpacity
           onPress={() => addAnExercise()}
-          className='px-4 py-2 bg-blue-500 rounded-xl w-[85%] mt-4'
+          className='px-4 py-2 bg-blue-500 rounded-xl w-[85%] mt-2'
           >
           <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
         </TouchableOpacity>
@@ -135,7 +157,8 @@ const styles = StyleSheet.create({
     borderColor: '#D1D5DB',
     borderRadius: 8,
     paddingHorizontal: 8,
-    height: 50, // Adjust the height as needed
+    marginBottom: 10,
+    height: 50,
     width: '90%',
   },
   selectedText: {

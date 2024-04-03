@@ -28,6 +28,11 @@ type ExerciseApiResponse = {
   message?: string;
 }
 
+ type PersonalBestSuccessResponse = {
+  max_weight: number;
+
+};
+
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
@@ -48,5 +53,6 @@ export type {
     UserResponse,
     UserDeleteResponse,
     UploadResponse,
-    ExerciseApiResponse
+    ExerciseApiResponse,
+    PersonalBestSuccessResponse
 };

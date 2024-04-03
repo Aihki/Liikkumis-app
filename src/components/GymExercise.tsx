@@ -19,6 +19,7 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   const [exerciseName, setExerciseName] = useState<string>('');
   const [exerciseWeight, setExerciseWeight] = useState<{ label: string; value: number; } | null>(null);
   const [exerciseReps, setExerciseReps] = useState<number | null>(null);
+  const [exerciseSets, setExerciseSets] = useState<number | null>(null);
 
   const addAnExercise = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -26,6 +27,7 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
     try {
       const exerciseWeightValue = exerciseWeight ? exerciseWeight.value : 0;
       const exerciseRepsValue = exerciseReps !== null ? exerciseReps : 0;
+      const exerciseSetsValue = exerciseSets !== null ? exerciseSets : 0;
 
       const exercises = {
         user_id: user.user_id,
@@ -33,8 +35,9 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
         exercise_name: exerciseName,
         exercise_weight: exerciseWeightValue,
         exercise_reps: exerciseRepsValue,
+        exercise_sets: exerciseSetsValue,
         exercise_duration: 0,
-        exercise_distance: '0',
+        exercise_distance: 0,
       };
 
       await addExercise(user.user_id, exercises, token);
@@ -78,7 +81,7 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
 
 
   const repOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25].map(num => ({ label: `${num} reps`, value: num }));
-
+  const setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: `${num} sets`, value: num }));
   return (
     <View className="flex items-center pt-5 gap-3">
       <Dropdown
@@ -112,6 +115,18 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
       placeholder="Select Rep Count"
       value={repOptions.find(option => option.value === exerciseReps) || null}
       onChange={(item) => setExerciseReps(item.value)}
+      style={styles.dropdown}
+      selectedTextStyle={styles.selectedText}
+      placeholderStyle={styles.placeholderText}
+      />
+      <Dropdown
+      mode="default"
+      data={setOptions}
+      labelField="label"
+      valueField="value"
+      placeholder="Set Count"
+      value={repOptions.find(option => option.value === exerciseSets) || null}
+      onChange={(item) => setExerciseSets(item.value)}
       style={styles.dropdown}
       selectedTextStyle={styles.selectedText}
       placeholderStyle={styles.placeholderText}

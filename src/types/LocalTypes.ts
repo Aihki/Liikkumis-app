@@ -28,7 +28,10 @@ export type RootStackParamList = {
     workoutInfo: UserWorkout;
     refresh?: boolean;
   };
-  EditExerciseScreen: {exerciseId: number; refresh?: boolean};
+  ExerciseInfoScreen: {
+    exerciseId: number;
+    refresh?: boolean;
+  };
 };
 
 export type ExerciseProps = {

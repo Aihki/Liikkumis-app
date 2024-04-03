@@ -12,9 +12,9 @@ import Exercise from '../views/Exercise';
 import { RootStackParamList } from '../types/LocalTypes';
 import WorkoutDetails from '../components/WorkoutDetails';
 import AddExerciseScreen from '../components/AddExerciseScreen';
-import EditExerciseScreen from '../components/EditExerciseScreen';
 import EditWorkoutScreen from '../components/EditWorkoutScreen';
 import AddWorkoutScreen from '../components/AddWorkoutScreen';
+import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -54,7 +54,7 @@ const StackNavigator = () => {
           <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
           <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
           <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
-          <stack.Screen name="EditExerciseScreen" component={EditExerciseScreen} />
+          <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
         </>
       ) : (
         <stack.Screen name="Login" component={Login} />
