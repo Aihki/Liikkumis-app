@@ -28,8 +28,6 @@ const stack = createNativeStackNavigator<RootStackParamList>();
 const TabNavigator = () => {
   const { user } = useUserContext();
 
-  const { user } = useUserContext();
-
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>

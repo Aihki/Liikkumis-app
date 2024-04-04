@@ -23,6 +23,8 @@ export type RootStackParamList = {
     refresh?: boolean;
   };
 
+  ProfilePic: undefined;
+
   EditWorkoutScreen: {workoutId: number; refresh?: boolean};
 
   AddExerciseScreen: {
