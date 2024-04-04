@@ -39,7 +39,7 @@ const CardioExerciseInfo = ({ exercise }: { exercise: Exercise }) => {
   return (
     <View className='items-center p-5'>
       <Text className='text-base text-black mb-2.5'>Intensity:</Text>
-      <View className='w-full h-5 bg-gray-300 rounded overflow-hidden mb-2.5'>
+      <View className='w-full h-5 bg-gray-300 rounded-lg overflow-hidden mb-2.5'>
         <Animated.View style={{ width: widthInterpolation, backgroundColor: intensity.color, height: '100%', borderRadius: 9999 }} />
       </View>
       <Text style={{ color: intensity.color, fontWeight: 'bold', fontSize: 16 }}>

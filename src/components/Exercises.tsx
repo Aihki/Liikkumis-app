@@ -127,7 +127,7 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
         />
         ) : (
             <View className="items-center">
-                <Text className="text-lg text-gray-500 pt-5 ">No Exercises added.</Text>
+                <Text className="text-lg text-gray-500 pt-40 ">No Exercises added.</Text>
             </View>
         )}
     </View>
