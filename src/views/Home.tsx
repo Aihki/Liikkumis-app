@@ -1,4 +1,5 @@
-import {FlatList, View} from 'react-native';
+import React from 'react';
+import {FlatList} from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 
