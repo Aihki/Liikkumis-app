@@ -1,5 +1,6 @@
 import * as FileSystem from 'expo-file-system';
 import {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import {fetchData} from '../lib/utils';
 import {Credentials} from '../types/LocalTypes';
 import {
@@ -16,9 +17,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage'; // Import 
 
 const useUserProgress = () => {
   const getUserProgress = async (id: number) => {
+  const getUserProgress = async (id: number) => {
     return await fetchData<UserProgress[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + id,
     );
+  };
   };
 
   const postProgress = async (progress: UserProgress) => {
@@ -35,6 +38,8 @@ const useUserProgress = () => {
     );
   };
   const putProgress = async (progress: UserProgress) => {
+  };
+  const putProgress = async (progress: UserProgress) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
@@ -46,6 +51,7 @@ const useUserProgress = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + progress.user_id,
       options,
     );
+  };
   };
   return {getUserProgress, postProgress, putProgress};
 };
@@ -86,11 +92,9 @@ const useExcersise = () => {
   };
   const putSpecificExercise = async (id: number, exercises: Exercise) => {
     const options: RequestInit = {
-      method: 'PUT',
       headers: {
-        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(exercises),
     };
     return await fetchData<MessageResponse>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER +
@@ -121,6 +125,7 @@ const useExcersise = () => {
       options,
     );
   };
+  };
 
   const addExercise = async (id: number, exercises: Omit<Exercise, "exercise_id" | "created_at">, token: string) => {
     const options: RequestInit = {
@@ -128,13 +133,15 @@ const useExcersise = () => {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
+        Authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(exercises),
+      body: JSON.stringify(excersise),
     };
     return await fetchData<Exercise[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id,
       options,
     );
+  };
   };
 
   const deleteExercise = async (id: number, exerciseId: number, token: string) => {
@@ -188,6 +195,7 @@ const useUserFoodDiary = () => {
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/fooddiary/' + id,
     );
   };
+  const postFoodDiary = async (id: number, foodDiary: FoodDiary) => {
   const postFoodDiary = async (id: number, foodDiary: FoodDiary) => {
     const options: RequestInit = {
       method: 'POST',
@@ -335,7 +343,31 @@ const useUser = () => {
       options,
     );
   };
+  const getUserByToken = async (token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<UserResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/token',
+      options,
+    );
+  };
 
+  const postUser = async (user: Record<string, string>) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    };
+    await fetchData<UserResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/',
+      options,
+    );
+  };
   const postUser = async (user: Record<string, string>) => {
     const options: RequestInit = {
       method: 'POST',
@@ -381,6 +413,30 @@ const useAuthentication = () => {
   return {postLogin};
 };
 
+const useProfileUpdate = () => {
+  const fetchProfilePic = async (id: number) => {
+  return await fetchData<User[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/user/picture/' + id,
+    );
+  }
+
+  const postPicture = async (id:number ,picture: string, token: string) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({picture}),
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/user/picture/'+ id,
+      options,
+    );
+  };
+  return {fetchProfilePic, postPicture};
+};
+
 const useFile = () => {
   const postFile = async (file: File, token: string) => {
     const formData = new FormData();
@@ -402,6 +458,8 @@ const useFile = () => {
     imageUri: string,
     token: string,
   ): Promise<UploadResponse> => {
+    console.log('imageUri', imageUri)
+    console.log('token', token)
     const fileResult = await FileSystem.uploadAsync(
       process.env.EXPO_PUBLIC_UPLOAD_SERVER + '/upload',
       imageUri,
@@ -427,4 +485,5 @@ export {
   useUserFoodDiary,
   useUserProgress,
   useExcersise,
+  useProfileUpdate,
 };

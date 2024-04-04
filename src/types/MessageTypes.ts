@@ -36,9 +36,7 @@ type ExerciseApiResponse = {
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
-    filename: string;
-    media_type: string;
-    filesize: number;
+    user_profile_pic: string;
   };
 };
 

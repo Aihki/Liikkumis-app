@@ -1,6 +1,5 @@
-import {Text} from '@rneui/themed';
 import {useEffect, useState} from 'react';
-import {Keyboard, TouchableOpacity} from 'react-native';
+import {Keyboard, TouchableOpacity, View, Text} from 'react-native';
 import LoginForm from '../components/LoginFrom';
 import RegisterForm from '../components/RegFrom';
 import {useUserContext} from '../hooks/ContextHooks';
@@ -27,12 +26,14 @@ const Login = () => {
       ) : (
         <RegisterForm handletoggle={handleToggle} />
       )}
-      <Text>
-  {!toggleReg ? 'Dont have a account yet? ' : 'Have account already'}
-  <Text onPress={handleToggle} style={{color: 'blue'}}>
-    {!toggleReg ? 'Register here!' : 'Login'}
-  </Text>
-</Text>
+      <View className='flex items-center justify-center pt-2'>
+        <Text>
+          {!toggleReg ? 'Dont have a account yet? ' : 'Have account already? '}
+          <Text onPress={handleToggle} className='color-sky-600'>
+            {!toggleReg ? 'Register here!' : 'Login'}
+          </Text>
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, Card, Input} from '@rneui/themed';
-import {Alert} from 'react-native';
+import {Alert, Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {useUser} from '../hooks/apiHooks';
 
@@ -39,7 +38,14 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
   };
 
   return (
-    <Card>
+    <>
+      <View className='h-1/2 w-full'>
+      <Image className='h-full w-full absolute' source={require('../assets/merkkari.png')} />
+    </View>
+    <View className='w-full flex items-center'>
+    <Text className='text-3xl text-black font-bold text-center tracking-wider'>Register</Text>
+      </View>
+    <View className='flex items-center mx-4 space-y-4'>
       <Controller
         control={control}
         rules={{
@@ -54,13 +60,12 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
+          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl'
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
-            errorMessage={errors.username?.message}
           />
         )}
         name="username"
@@ -80,13 +85,12 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
+          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
             placeholder="Password"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            errorMessage={errors.password?.message}
           />
         )}
         name="password"
@@ -104,13 +108,12 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
+          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
             placeholder="Confirm Passowrd"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            errorMessage={errors.confirmPassword?.message}
           />
         )}
         name="confirmPassword"
@@ -134,23 +137,28 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <Input
+          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
             placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
-            errorMessage={errors.email?.message}
             autoCapitalize="none"
           />
         )}
         name="email"
       />
-      <Button
-        title="Register"
-        onPress={handleSubmit(doRegister)}
-        buttonStyle={{backgroundColor: 'green'}}
-      />
-    </Card>
+      <View className="flex items-center justify-center">
+        <TouchableOpacity
+          className=" bg-blue-500 p-2 rounded-lg w-1/2"
+          onPress={handleSubmit(doRegister)}
+        >
+          <Text className="text-white font-bold text-lg text-center">
+            Register
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    </>
   );
 };
 

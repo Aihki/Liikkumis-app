@@ -16,6 +16,8 @@ import AddExerciseScreen from '../components/AddExerciseScreen';
 import EditWorkoutScreen from '../components/EditWorkoutScreen';
 import AddWorkoutScreen from '../components/AddWorkoutScreen';
 import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
+import ProfilePic from '../components/ProfilePic';
+
 
 
 
@@ -26,23 +28,26 @@ const stack = createNativeStackNavigator<RootStackParamList>();
 const TabNavigator = () => {
   const { user } = useUserContext();
 
+  const { user } = useUserContext();
+
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="FoodDiary" component={FoodDiary} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
+      <Tab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
       {user && (
         <>
-          <Tab.Screen name="FoodDiary" component={FoodDiary} />
-          <Tab.Screen name="Exercise" component={Exercise} />
+          <Tab.Screen name="FoodDiary" component={FoodDiary} options={{headerShown: false}}/>
+          <Tab.Screen name="Exercise" component={Exercise}  options={{headerShown: false}}/>
         </>
       )}
     </Tab.Navigator>
   );
 };
 
+
 const StackNavigator = () => {
   const {user} = useUserContext();
+
 
   return (
     <stack.Navigator>
@@ -58,9 +63,16 @@ const StackNavigator = () => {
           <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
           <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
           <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
-        </>
+          <stack.Screen name="ProfilePic" component={ProfilePic} />
+          <stack.Screen
+            name="Tabs"
+            component={TabNavigator}
+            options={{ headerShown: false }}
+          />
+
+          </>
       ) : (
-        <stack.Screen name="Login" component={Login} />
+        <stack.Screen name="Login" component={Login} options={{headerShown: false}} />
       )}
     </stack.Navigator>
   );
