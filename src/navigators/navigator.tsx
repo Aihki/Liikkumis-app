@@ -18,11 +18,6 @@ import AddWorkoutScreen from '../components/AddWorkoutScreen';
 import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
 
 
-export type RootStackParamList = {
-  FoodDiary: undefined;
-  FoodDetailScreen: undefined;
-  // Define other screens here
-};
 
 const Tab = createBottomTabNavigator();
 const stack = createNativeStackNavigator<RootStackParamList>();

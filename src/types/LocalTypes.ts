@@ -13,6 +13,8 @@ export type RootStackParamList = {
   Home: undefined;
   Tabs: undefined;
   Login: undefined;
+  FoodDiary: undefined;
+  FoodDetailScreen: undefined;
   AddWorkoutScreen: {onWorkoutAdded: () => void};
 
   WorkoutDetails: {
