@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../types/LocalTypes";
-import { useExcersise } from "../hooks/apiHooks";
+
 import { useUserContext } from "../hooks/ContextHooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
@@ -8,13 +8,14 @@ import { Text, View } from "react-native";
 import CardioExerciseInfo from "./CardioExerciseInfo";
 import BodyWeightExerciseInfo from "./BodyWeightExerciseInfo";
 import GymExerciseInfo from "./GymExerciseInfo";
+import { useExercise } from "../hooks/apiHooks";
 
 const ExerciseInfoScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'ExerciseInfoScreen'>>();
   const { exerciseId } = route.params;
   const { user } = useUserContext();
 
-  const { getUserSpecificExercises } = useExcersise();
+  const { getUserSpecificExercises } = useExercise();
 
   const [exercise, setExercise] = useState<any | null>(null);
 

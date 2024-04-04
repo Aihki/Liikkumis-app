@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Button } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Button, SafeAreaView } from 'react-native';
 import { useUserFoodDiary } from '../hooks/apiHooks'; // Adjust the import path as needed
 import { useUserContext } from '../hooks/ContextHooks'; // Adjust the import path as needed
 import { FoodDiary as FoodDiaryType} from '../types/DBTypes'; // Adjust the import path as needed
@@ -37,7 +37,7 @@ const FoodDiary = () => {
       food_diary_notes: newMeal.notes,
       food_diary_ingredients: newMeal.ingredients,
       food_diary_calories: 0,
-      createdAt: new Date(),
+      created_at: new Date(),
     };
 
     const response = await postFoodDiary(user.user_id, newEntry);
@@ -82,46 +82,50 @@ const FoodDiary = () => {
   // ... UI code to display the food diary entries and handle user input
 
   return (
-    <ScrollView className="flex-1 bg-gray-100">
-      <View className="p-4">
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, meal: text })}
-          value={newMeal.meal}
-          placeholder="Meal Name"
-        />
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, notes: text })}
-          value={newMeal.notes}
-          placeholder="Notes"
-          multiline
-        />
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, ingredients: text })}
-          value={newMeal.ingredients}
-          placeholder="Ingredients"
-          multiline
-        />
-        <Button title="Add Meal" onPress={handleAddMeal} color="#4ade80" />
-      </View>
-      {foodDiaryEntries.map((entry) => (
-        <View className="relative m-4 p-4 bg-white rounded-lg shadow" key={entry.foodDiary_id}>
-          <TouchableOpacity
-            className="absolute top-0 right-0 p-2"
-            onPress={() => handleDeleteMeal(entry.foodDiary_id!)}
-          >
-            <Text>
-              <Text className="text-red-500">X</Text>
-            </Text>
-          </TouchableOpacity>
-          <Text className="text-lg font-bold mb-2">{entry.food_diary_meal}</Text>
-          <Text className="mb-1">Notes: {entry.food_diary_notes}</Text>
-          <Text>Ingredients: {entry.food_diary_ingredients}</Text>
+
+      <ScrollView className="flex-1 bg-gray-100">
+        <SafeAreaView>
+        <View className="p-4">
+          <TextInput
+            className="border border-gray-300 p-2 rounded mb-4"
+            onChangeText={(text) => setNewMeal({ ...newMeal, meal: text })}
+            value={newMeal.meal}
+            placeholder="Meal Name"
+          />
+          <TextInput
+            className="border border-gray-300 p-2 rounded mb-4"
+            onChangeText={(text) => setNewMeal({ ...newMeal, notes: text })}
+            value={newMeal.notes}
+            placeholder="Notes"
+            multiline
+          />
+          <TextInput
+            className="border border-gray-300 p-2 rounded mb-4"
+            onChangeText={(text) => setNewMeal({ ...newMeal, ingredients: text })}
+            value={newMeal.ingredients}
+            placeholder="Ingredients"
+            multiline
+          />
+          <Button title="Add Meal" onPress={handleAddMeal} color="#4ade80" />
         </View>
-      ))}
-    </ScrollView>
+        {foodDiaryEntries.map((entry) => (
+          <View className="relative m-4 p-4 bg-white rounded-lg shadow" key={entry.foodDiary_id}>
+            <TouchableOpacity
+              className="absolute top-0 right-0 p-2"
+              onPress={() => handleDeleteMeal(entry.foodDiary_id!)}
+            >
+              <Text>
+                <Text className="text-red-500">X</Text>
+              </Text>
+            </TouchableOpacity>
+            <Text className="text-lg font-bold mb-2">{entry.food_diary_meal}</Text>
+            <Text className="mb-1">Notes: {entry.food_diary_notes}</Text>
+            <Text>Ingredients: {entry.food_diary_ingredients}</Text>
+          </View>
+        ))}
+        </SafeAreaView>
+      </ScrollView>
+
   );
 }
 

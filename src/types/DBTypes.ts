@@ -32,7 +32,7 @@ type UserWorkout = {
   workout_date: string;
   workout_name: string;
   workout_description: string;
-  created_at: Date;
+  created_at?: Date;
 };
 
 type Exercise = {

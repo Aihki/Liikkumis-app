@@ -62,11 +62,7 @@ const StackNavigator = () => {
           <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
           <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
           <stack.Screen name="ProfilePic" component={ProfilePic} />
-          <stack.Screen
-            name="Tabs"
-            component={TabNavigator}
-            options={{ headerShown: false }}
-          />
+          
 
           </>
       ) : (

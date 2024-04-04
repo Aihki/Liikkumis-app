@@ -1,17 +1,17 @@
 import { Text } from "react-native"
 import { View } from "react-native"
 import { Exercise } from "../types/DBTypes"
-import { useExcersise } from "../hooks/apiHooks"
 import { useUserContext } from "../hooks/ContextHooks"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect, useState } from "react"
 import { PersonalBestSuccessResponse } from "../types/MessageTypes"
+import { useExercise } from "../hooks/apiHooks"
 
 const GymExerciseInfo = ({exercise}: {exercise: Exercise}) => {
 
   const { exercise_name, exercise_weight } = exercise;
 
-  const { getPersonalBestByExerciseName } = useExcersise();
+  const { getPersonalBestByExerciseName } = useExercise();
   const { user } = useUserContext();
 
   const [personalBest , setPersonalBest] = useState<PersonalBestSuccessResponse | null>(null);

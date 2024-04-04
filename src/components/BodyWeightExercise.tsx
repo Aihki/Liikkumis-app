@@ -2,16 +2,17 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
 import { UserWorkout } from "../types/DBTypes"
 import { ExerciseProps, RootStackParamList } from "../types/LocalTypes"
 import { useUserContext } from "../hooks/ContextHooks";
-import { useExcersise } from "../hooks/apiHooks";
+
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dropdown } from "react-native-element-dropdown";
+import { useExercise } from "../hooks/apiHooks";
 
 const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
   const { user } = useUserContext();
-  const { addExercise } = useExcersise();
+  const { addExercise } = useExercise();
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 

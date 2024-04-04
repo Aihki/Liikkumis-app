@@ -88,11 +88,10 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 <View className="p-5 z-10">
                   <Text className="text-xl font-bold mb-2">{truncateText(item.workout_name, 22)}</Text>
                   <Text className="text-gray-800 mb-1">Date: {item.workout_date?.toString().split('T')[0]}</Text>
-                  <Text className="text-gray-400">Created at: {new Date(item.created_at).toISOString().split('T')[0]}</Text>
+                  <Text className="text-gray-400">Created at: {item.created_at ? new Date(item.created_at).toISOString().split('T')[0] : ''}</Text>
                 </View>
                 <Image source={workoutTypeImages[item.workout_type]} className="w-[45%] h-full  mr-4 absolute -right-5 rounded-t-xl" />
                 <View className="absolute -bottom-10 -right-20 bg-white h-[97%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2] "/>
-
               </View>
             </Pressable>
           )}

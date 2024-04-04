@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import AddWorkout from '../components/AddWorkout';
 import Workouts from '../components/Workouts';
 
@@ -11,14 +11,16 @@ const Exercise = () => {
     setUpdateWorkouts(prevState => !prevState); // Toggle to trigger useEffect
   };
 
-  
+
 
   return (
-    <View>
-      <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />
+    <SafeAreaView>
+      <View>
+        <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />
 
-      <Workouts updateWorkouts={updateWorkouts} />
-    </View>
+        <Workouts updateWorkouts={updateWorkouts} />
+      </View>
+    </SafeAreaView>
   );
 };
 

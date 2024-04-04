@@ -6,13 +6,14 @@ import { useState } from "react";
 import { ExerciseProps, RootStackParamList } from "../types/LocalTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import { useExcersise } from "../hooks/apiHooks";
+
 import { Dropdown } from "react-native-element-dropdown";
+import { useExercise } from "../hooks/apiHooks";
 
 
 const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   const { user } = useUserContext();
-  const { addExercise } = useExcersise();
+  const { addExercise } = useExercise();
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
