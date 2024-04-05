@@ -22,12 +22,13 @@ const AddWorkout: React.FC<AddWorkoutProps> = ({ onWorkoutAdded }) => {
     <View className='relative'>
       <TouchableOpacity
         onPress={navigateToAddworkout}
-        className='absolute right-4 top-3 w-10 h-10 justify-center items-center bg-white border-2 border-blue-400 rounded-full z-10'
+        className='absolute right-4 top-3 w-10 h-10 flex justify-center items-center bg-blue-500 rounded-full shadow-lg z-10'
+        activeOpacity={0.7}
       >
         <FontAwesome
             name="plus"
-            size={20}
-            color={blue500}
+            size={24}
+            color="#FFFFFF"
         />
       </TouchableOpacity>
     </View>

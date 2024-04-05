@@ -262,7 +262,7 @@ const useWorkouts = () => {
   };
 
   const postWorkout = async (
-    workout: Omit<UserWorkout, 'created_at' | 'user_workout_id'>,
+    workout: Omit<UserWorkout, 'created_at' | 'user_workout_id' | 'workout_status'>,
     token: string,
   ) => {
     const options: RequestInit = {
@@ -278,7 +278,7 @@ const useWorkouts = () => {
       options,
     );
   };
-  const putWorkout = async (workout:  Omit<UserWorkout, 'created_at'>, token: string) => {
+  const putWorkout = async (workout:  Omit<UserWorkout, 'created_at' | 'workout_status'>, token: string) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
@@ -309,7 +309,31 @@ const useWorkouts = () => {
       options,
     );
   };
-  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout};
+  const setWorkoutStatusToCompleted = async (workout_id: number, token: string) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/' + workout_id,
+      options,
+    );
+  }
+  const getCompletedWorkouts = async (id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<UserWorkout[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/' + id,
+      options,
+    );
+  };
+
+  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts};
 };
 
 const useUser = () => {

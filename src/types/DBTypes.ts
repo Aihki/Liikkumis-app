@@ -26,6 +26,7 @@ type FoodDiary = {
 type UserWorkout = {
   user_workout_id: number;
   user_id: number;
+  workout_status: string;
   workout_type: string;
   workout_date: string;
   workout_name: string;

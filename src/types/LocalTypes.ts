@@ -21,6 +21,8 @@ export type RootStackParamList = {
     refresh?: boolean;
   };
 
+  WorkoutHistoryScreen: { userId: number; refresh?: boolean};
+
   EditWorkoutScreen: {workoutId: number; refresh?: boolean};
 
   AddExerciseScreen: {
