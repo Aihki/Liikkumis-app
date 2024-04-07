@@ -3,7 +3,7 @@ import {Alert, FlatList, TouchableOpacity, View} from "react-native"
 import {Exercise} from "../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../hooks/ContextHooks";
-import {useExcersise} from "../hooks/apiHooks";
+import {useExcersise, useWorkouts} from "../hooks/apiHooks";
 import {Text} from "react-native";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -19,10 +19,16 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [userExercises, setuserExercises] = useState<Exercise[] | []>([]);
+  const [workoutStatus, setWorkoutStatus] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   const { user } = useUserContext();
   const { getUsersExcersisesByWorkoutId, deleteExercise } = useExcersise();
+  const { getWorkoutStatus } = useWorkouts();
+
 
   const getExercisesByWorkoutId = async () => {
+    setIsLoading(true);
     const token = await AsyncStorage.getItem('token');
     if (!token || !user) return;
 
@@ -36,11 +42,26 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
           created_at: new Date(exercise.created_at),
         }));
         setuserExercises(processedExercises);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  const getWorkoutStatusByWorkoutId = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !user) return;
+
+    try {
+      const workoutStatus = await getWorkoutStatus(user.user_id, workoutId, token);
+      setWorkoutStatus(workoutStatus.workoutCompleted);
+      console.log(workoutStatus.workoutCompleted);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   const deleteExerciseWhithEId = async (userId: number, exerciseId: number) => {
     const token = await AsyncStorage.getItem('token');
@@ -63,9 +84,11 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
 
   useFocusEffect(
     useCallback(() => {
+      getWorkoutStatusByWorkoutId();
       getExercisesByWorkoutId();
     }, [])
   );
+
 
 
   return (
@@ -82,7 +105,8 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
               }}
             >
               <View className="bg-white p-4 mb-4 rounded-lg shadow">
-                <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
+                {!isLoading && !workoutStatus && (
+                  <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
                   <FontAwesome
                     name="times"
                     size={18}
@@ -90,6 +114,8 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
                     onPress={() => ExerciseWarning(item.exercise_id)}
                   />
                 </TouchableOpacity>
+                )}
+
                 {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
                   // Gym
                   <>

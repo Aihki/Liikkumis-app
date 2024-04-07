@@ -9,6 +9,7 @@ import {
   PersonalBestSuccessResponse,
   UploadResponse,
   UserResponse,
+  WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
 import {Exercise, FoodDiary, UserProgress, UserWorkout} from '../types/DBTypes';
@@ -332,8 +333,19 @@ const useWorkouts = () => {
       options,
     );
   };
+  const getWorkoutStatus = async (id: number, workout_id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<WorkoutStatusResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/status/' + id + '/' + workout_id,
+      options,
+    );
+  };
 
-  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts};
+  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts, getWorkoutStatus};
 };
 
 const useUser = () => {

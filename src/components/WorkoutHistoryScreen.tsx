@@ -12,7 +12,7 @@ import gymImage2 from '../../assets/images/gym-exercise-2.jpg'
 import cardioImage from '../../assets/images/cardio-exercise-2.jpg'
 
 type WorkoutTypeImages = {
-  [key: string]: any; // Add this line
+  [key: string]: any;
   'Cardio': ImageSourcePropType;
   'Gym': ImageSourcePropType;
   'Body Weight': ImageSourcePropType;
@@ -39,6 +39,8 @@ const WorkoutHistoryScreen = () => {
     }
     return text;
   };
+
+  
 
   const getWorkouts =  async () => {
     const token = await AsyncStorage.getItem('token');
