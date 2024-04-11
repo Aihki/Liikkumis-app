@@ -15,6 +15,8 @@ export type RootStackParamList = {
   Login: undefined;
   AddWorkoutScreen: {onWorkoutAdded: () => void};
 
+  AdminScreen: { refresh?: boolean };
+
   WorkoutDetails: {
     workoutId: number;
     workoutInfo?: UserWorkout;

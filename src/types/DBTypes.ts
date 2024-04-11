@@ -72,12 +72,17 @@ type UserProgress = {
   progress_circumference_calves_l: number;
 };
 
-type UserWithLevel = Omit<User, 'user_level_id'> &
-  Pick<UserLevel, 'level_name'>;
+type UserWithLevel = Omit<User, 'user_level_id'> & {
+  user_level: UserLevel | null;
+};
 
-type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
+type UserWithNoPassword = Omit<User, 'password'> & {
+  user_level: UserLevel | null;
+};
 
-type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_name'>;
+type TokenContent = Pick<User, 'user_id'> & {
+  user_level: UserLevel | null;
+};
 
 // for upload server
 type FileInfo = {

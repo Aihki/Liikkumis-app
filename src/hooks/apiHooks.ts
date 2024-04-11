@@ -12,7 +12,7 @@ import {
   WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Exercise, FoodDiary, UserProgress, UserWorkout} from '../types/DBTypes';
+import {Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
 
 const useUserProgress = () => {
   const getUserProgress = async (id: number) => {
@@ -345,7 +345,18 @@ const useWorkouts = () => {
     );
   };
 
-  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts, getWorkoutStatus};
+  const getCompletedWorkoutsCount = async () => {
+    return await fetchData<{count: number}>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/count',
+    );
+  };
+  const getMostPopularWorkoutType = async (): Promise<Array<{ workout_type: string; count: number }>> => {
+    return await fetchData<Array<{ workout_type: string; count: number }>>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/popular/type',
+    );
+  };
+
+  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts, getWorkoutStatus, getCompletedWorkoutsCount, getMostPopularWorkoutType};
 };
 
 const useUser = () => {
@@ -386,7 +397,33 @@ const useUser = () => {
       process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/email/' + email,
     );
   };
-  return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable};
+
+  const getUsers = async () => {
+    return await fetchData<User[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/users',
+    );
+  };
+
+  const getUserCount = async () => {
+    return await fetchData<{count: number}>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/users/count',
+    );
+  };
+
+  const deleteUserAsAdmin = async (id: number, token: string) => {
+    const options: RequestInit = {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/' + id,
+      options,
+    );
+  };
+
+  return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable, getUsers, getUserCount, deleteUserAsAdmin};
 };
 
 const useAuthentication = () => {
