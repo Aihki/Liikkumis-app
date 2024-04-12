@@ -12,6 +12,7 @@ import {
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
 import {Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserProgress = () => {
   const getUserProgress = async (id: number) => {
@@ -377,7 +378,7 @@ const useUser = () => {
     );
   };
 
-  const getEmailAvailability = async (email: string) => {
+  const getEmailAvailable = async (email: string) => {
     return await fetchData<{available: boolean}>(
       `${process.env.EXPO_PUBLIC_AUTH_SERVER}/users/email/${email}`,
     );

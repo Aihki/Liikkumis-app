@@ -3,13 +3,13 @@ import {Alert, FlatList, TouchableOpacity, View} from "react-native"
 import {Exercise} from "../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../hooks/ContextHooks";
-import {useExcersise, useWorkouts} from "../hooks/apiHooks";
+import {useExercise, useWorkouts} from "../hooks/apiHooks";
 import {Text} from "react-native";
 import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../types/LocalTypes";
-import { useExercise } from "../hooks/apiHooks";
+
 
 type AddExerciseProps =  {
   workoutId: number;
@@ -24,7 +24,7 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const { user } = useUserContext();
-  const { getUsersExcersisesByWorkoutId, deleteExercise } = useExcersise();
+  const { getUsersExercisesByWorkoutId, deleteExercise } = useExercise();
   const { getWorkoutStatus } = useWorkouts();
 
 
