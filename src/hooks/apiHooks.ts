@@ -20,8 +20,14 @@ const useUserProgress = () => {
     );
   };
 
-  const postProgress = async (progress: UserProgress) => {
-    const options = {
+  const getUserProgressByDate = async (id: number, date: string) => {
+    return await fetchData<UserProgress[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + id + '/' + date,
+    );
+  };
+
+  const postProgress = async (progress: Omit<UserProgress, 'progress_id' | 'created_at'>, userId:number) => {
+    const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +35,7 @@ const useUserProgress = () => {
       body: JSON.stringify(progress),
     };
     return await fetchData<MessageResponse>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/progress/`,
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + userId,
       options,
     );
   };
@@ -47,8 +53,7 @@ const useUserProgress = () => {
       options,
     );
   };
-
-  return {getUserProgress, postProgress, putProgress};
+  return {getUserProgress, postProgress, putProgress, getUserProgressByDate};
 };
 
 const useExercise = () => {

@@ -39,8 +39,8 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
 
   return (
     <>
-      <View className='h-1/2 w-full'>
-      <Image className='h-full w-full absolute' source={require('../assets/merkkari.png')} />
+      <View className='h-1/2 w-min'>
+      <Image className='h-full w-full absolute' source={require('../assets/testi_logo.png')} resizeMode='contain' />
     </View>
     <View className='w-full flex items-center'>
     <Text className='text-3xl text-black font-bold text-center tracking-wider'>Register</Text>

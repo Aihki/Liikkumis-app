@@ -17,6 +17,8 @@ import EditWorkoutScreen from '../components/EditWorkoutScreen';
 import AddWorkoutScreen from '../components/AddWorkoutScreen';
 import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
 import ProfilePic from '../components/ProfilePic';
+import addProgress from '../components/AddProgress';
+import CompareProgress from '../components/CompareProgress';
 
 
 
@@ -62,8 +64,8 @@ const StackNavigator = () => {
           <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
           <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
           <stack.Screen name="ProfilePic" component={ProfilePic} />
-          
-
+          <stack.Screen name="AddProgress" component={addProgress} />
+          <stack.Screen name="CompareProgress" component={CompareProgress} />
           </>
       ) : (
         <stack.Screen name="Login" component={Login} options={{headerShown: false}} />
