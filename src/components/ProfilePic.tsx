@@ -5,11 +5,20 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import {Alert, Image, Keyboard, SafeAreaView, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Image,
+  Keyboard,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFile, useProfileUpdate} from '../hooks/apiHooks';
 import {useUpdateContext} from '../hooks/UpdateHooks';
-import { useUserContext } from '../hooks/ContextHooks';
+import {useUserContext} from '../hooks/ContextHooks';
 
 const ChangeProfilePic = () => {
   const [image, setImage] =
@@ -18,15 +27,12 @@ const ChangeProfilePic = () => {
   const {postPicture} = useProfileUpdate();
   const {user} = useUserContext();
 
-
   const {update, setUpdate} = useUpdateContext();
   const navigation: NavigationProp<ParamListBase> = useNavigation();
-
 
   const resetForm = () => {
     setImage(null);
   };
-
 
   const doUpload = async () => {
     if (!image) {
@@ -39,7 +45,11 @@ const ChangeProfilePic = () => {
         return;
       }
       const fileResponse = await postExpoFile(image.assets![0].uri, token);
-      const pictureResponse = await postPicture(user?.user_id, fileResponse.data.user_profile_pic, token);
+      const pictureResponse = await postPicture(
+        user?.user_id,
+        fileResponse.data.user_profile_pic,
+        token,
+      );
       setUpdate(!update);
       Alert.alert('Profile picture updated successfully');
       navigation.navigate('Profile');
@@ -48,7 +58,6 @@ const ChangeProfilePic = () => {
       Alert.alert('Error', (error as Error).message);
     }
   };
-
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -72,42 +81,35 @@ const ChangeProfilePic = () => {
     return unsubscribe;
   }, []);
 
-
   return (
+    <>
+    <View className='bg-white shadow-lg h-[50%] rounded-lg p-4 m-2'>
+      <View className='flex items-center justify-center m-5'>
+        <Text className='text-2xl'>Profile picture</Text>
+        <TouchableOpacity onPress={pickImage}>
+          <Image
+            className='w-36 h-36 rounded-full'
+            source={{
+              uri: image
+                ? image.assets![0].uri
+                : 'https://via.placeholder.com/150?text=Choose+media',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+      <View className='flex items-center justify-center'>
+        <TouchableOpacity
+          onPress={doUpload}
+          className='bg-blue-500 p-2 rounded-lg w-1/2'
+        >
+          <Text className='text-white font-bold text-lg text-center'>
+            Upload
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    </>
 
-    <TouchableOpacity
-      onPress={() => Keyboard.dismiss()}
-      style={{flex: 1}}
-      activeOpacity={1}
-    >
-  <SafeAreaView>
-      <ScrollView>
-        <View className='flex items-center justify-center m-5'>
-        <Text className='text-xl'>Profile picture</Text>
-            <TouchableOpacity onPress={pickImage}>
-            <Image
-             className='w-36 h-36 rounded-full'
-              source={{
-                uri: image
-                  ?  image.assets![0].uri
-                  : 'https://via.placeholder.com/150?text=Choose+media',
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-        <View className='flex items-center justify-center'>
-          <TouchableOpacity
-            onPress={doUpload}
-            className='bg-blue-500 p-2 rounded-lg w-1/2'
-          >
-            <Text className='text-white font-bold text-lg text-center'>
-              Upload
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-    </TouchableOpacity>
   );
 };
 

@@ -12,6 +12,19 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
   const {getUserByToken} = useUser();
 
 
+   // Add reloadUser function
+   const handleReloadUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (token) {
+        const userResponse = await getUserByToken(token);
+        setUser(userResponse.user);
+      }
+    } catch (e) {
+      console.log((e as Error).message);
+    }
+  };
+
   // login, logout and autologin functions are here instead of components
   const handleLogin = async (credentials: Credentials) => {
     try {
@@ -56,7 +69,7 @@ const UserProvider = ({children}: {children: React.ReactNode}) => {
 
   return (
     <UserContext.Provider
-      value={{user, handleLogin, handleLogout, handleAutoLogin}}
+      value={{user, handleLogin, handleLogout, handleAutoLogin, handleReloadUser}}
     >
       {children}
     </UserContext.Provider>

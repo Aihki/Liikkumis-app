@@ -8,6 +8,8 @@ import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
 import ProfilePic from '../components/ProfilePic';
+import addProgress from '../components/AddProgress';
+import CompareProgress from '../components/CompareProgress';
 
 
 
@@ -44,6 +46,8 @@ const StackNavigator = () => {
           component={TabNavigator}
           options={{ headerShown: false }} />
           <stack.Screen name="ProfilePic" component={ProfilePic} />
+          <stack.Screen name="AddProgress" component={addProgress} />
+          <stack.Screen name="CompareProgress" component={CompareProgress} />
           </>
       ) : (
         <stack.Screen name="Login" component={Login} options={{headerShown: false}} />

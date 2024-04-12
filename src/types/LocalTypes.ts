@@ -7,4 +7,12 @@ export type AuthContextType = {
   handleLogin: (credentials: Credentials) => void;
   handleLogout: () => void;
   handleAutoLogin: () => void;
+  handleReloadUser: () => void;
+};
+
+
+export type RootStackParamList = {
+  CompareProgress: undefined;
+  AddProgress: undefined;
+  ProfilePic: undefined;
 };
