@@ -33,6 +33,10 @@ type ExerciseApiResponse = {
 
 };
 
+type WorkoutStatusResponse = {
+  workoutCompleted: boolean;
+}
+
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
@@ -52,5 +56,6 @@ export type {
     UserDeleteResponse,
     UploadResponse,
     ExerciseApiResponse,
-    PersonalBestSuccessResponse
+    PersonalBestSuccessResponse,
+    WorkoutStatusResponse
 };

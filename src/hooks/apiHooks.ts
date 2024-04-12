@@ -8,10 +8,10 @@ import {
   PersonalBestSuccessResponse,
   UploadResponse,
   UserResponse,
+  WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Exercise, FoodDiary, UserProgress, UserWorkout} from '../types/DBTypes';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
 
 const useUserProgress = () => {
   const getUserProgress = async (id: number) => {
@@ -250,8 +250,11 @@ const useWorkouts = () => {
     );
   };
 
-  const postWorkout = async (workout: Omit<UserWorkout, 'created_at' | 'user_workout_id'>, token: string) => {
-    const options = {
+  const postWorkout = async (
+    workout: Omit<UserWorkout, 'created_at' | 'user_workout_id' | 'workout_status'>,
+    token: string,
+  ) => {
+    const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -264,9 +267,8 @@ const useWorkouts = () => {
       options,
     );
   };
-
-  const putWorkout = async (workout: UserWorkout, token: string) => {
-    const options = {
+  const putWorkout = async (workout:  Omit<UserWorkout, 'created_at' | 'workout_status'>, token: string) => {
+    const options: RequestInit = {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -293,8 +295,53 @@ const useWorkouts = () => {
       options,
     );
   };
+  const setWorkoutStatusToCompleted = async (workout_id: number, token: string) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/' + workout_id,
+      options,
+    );
+  }
+  const getCompletedWorkouts = async (id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<UserWorkout[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/' + id,
+      options,
+    );
+  };
+  const getWorkoutStatus = async (id: number, workout_id: number, token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<WorkoutStatusResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/status/' + id + '/' + workout_id,
+      options,
+    );
+  };
 
-  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout};
+  const getCompletedWorkoutsCount = async () => {
+    return await fetchData<{count: number}>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/count',
+    );
+  };
+  const getMostPopularWorkoutType = async (): Promise<Array<{ workout_type: string; count: number }>> => {
+    return await fetchData<Array<{ workout_type: string; count: number }>>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/popular/type',
+    );
+  };
+
+  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts, getWorkoutStatus, getCompletedWorkoutsCount, getMostPopularWorkoutType};
 };
 
 const useUser = () => {
@@ -336,7 +383,32 @@ const useUser = () => {
     );
   };
 
-  return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailability};
+  const getUsers = async () => {
+    return await fetchData<User[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/users',
+    );
+  };
+
+  const getUserCount = async () => {
+    return await fetchData<{count: number}>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/users/count',
+    );
+  };
+
+  const deleteUserAsAdmin = async (id: number, token: string) => {
+    const options: RequestInit = {
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_AUTH_SERVER + '/users/' + id,
+      options,
+    );
+  };
+
+  return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable, getUsers, getUserCount, deleteUserAsAdmin};
 };
 
 const useAuthentication = () => {

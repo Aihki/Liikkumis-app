@@ -1,6 +1,6 @@
 import {User, UserWithNoPassword, UserWorkout} from './DBTypes';
 export type Credentials = Pick<User, 'username' | 'password'>;
-/* export { Credentials }; */
+
 
 export type AuthContextType = {
   user: UserWithNoPassword | null;
@@ -10,13 +10,6 @@ export type AuthContextType = {
   handleReloadUser: () => void;
 };
 
-
-export type RootStackParamList = {
-  CompareProgress: undefined;
-  AddProgress: undefined;
-  ProfilePic: undefined;
-};
-
 export type RootStackParamList = {
   Home: undefined;
   Tabs: undefined;
@@ -24,6 +17,11 @@ export type RootStackParamList = {
   FoodDiary: undefined;
   FoodDetailScreen: undefined;
   AddWorkoutScreen: {onWorkoutAdded: () => void};
+  CompareProgress: undefined;
+  AddProgress: undefined;
+  ProfilePic: undefined;
+
+  AdminScreen: { refresh?: boolean };
 
   WorkoutDetails: {
     workoutId: number;
@@ -31,7 +29,7 @@ export type RootStackParamList = {
     refresh?: boolean;
   };
 
-  ProfilePic: undefined;
+  WorkoutHistoryScreen: { userId: number; refresh?: boolean};
 
   EditWorkoutScreen: {workoutId: number; refresh?: boolean};
 
@@ -45,6 +43,7 @@ export type RootStackParamList = {
     refresh?: boolean;
   };
 };
+
 
 export type ExerciseProps = {
   workout: UserWorkout;

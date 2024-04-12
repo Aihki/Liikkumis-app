@@ -1,51 +1,37 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useUserContext } from "../hooks/ContextHooks"
+import { FlatList, Image, ImageSourcePropType, Pressable, Text, View } from "react-native"
 import { useWorkouts } from "../hooks/apiHooks"
-import { UserWithNoPassword, UserWorkout } from "../types/DBTypes";
-import React, { useEffect, useState } from "react";
-import { FlatList, Image, ImageSourcePropType, Pressable, Text, TouchableOpacity, View } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useUserContext } from "../hooks/ContextHooks";
+import { UserWorkout } from "../types/DBTypes";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/LocalTypes";
 import gymImage from '../../assets/images/gym-exercise.jpg'
 import gymImage2 from '../../assets/images/gym-exercise-2.jpg'
 import cardioImage from '../../assets/images/cardio-exercise-2.jpg'
-import { useFocusEffect } from '@react-navigation/native';
-
-type WorkoutsProps = {
-  updateWorkouts: boolean;
-}
 
 type WorkoutTypeImages = {
-  [key: string]: any; // Add this line
+  [key: string]: any;
   'Cardio': ImageSourcePropType;
   'Gym': ImageSourcePropType;
   'Body Weight': ImageSourcePropType;
 };
 
-const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
+
+
+const WorkoutHistoryScreen = () => {
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { getUserWorkouts } = useWorkouts()
+  const { getCompletedWorkouts } = useWorkouts();
   const { user } = useUserContext();
-  const [workouts, setWorkouts] = useState<UserWorkout[] | null >(null)
+
+  const [ workouts, setWorkouts ] = useState<UserWorkout[] | []>([]);
   const [pressedId, setPressedId] = useState(null);
 
   const handlePressIn = (id: any) => setPressedId(id);
   const handlePressOut = () => setPressedId(null);
-
-
-  const getUserWorkoutsById = async (user: UserWithNoPassword) => {
-    const token =  await AsyncStorage.getItem('token');
-    if (!token || !user) return
-    try {
-      const getWorkouts = await getUserWorkouts(user.user_id, token)
-      setWorkouts(getWorkouts);
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
@@ -54,29 +40,19 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     return text;
   };
 
-  const navigateToWorkoutHistory = () => {
-    if (typeof user?.user_id !== 'number') return;
-    navigation.navigate('WorkoutHistoryScreen', { userId: user.user_id });
-  };
+  
 
-  useFocusEffect(
-    React.useCallback(() => {
-      if (!user) return;
+  const getWorkouts =  async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !user) return;
+    try {
+      const completedWorkouts = await getCompletedWorkouts(user.user_id, token);
 
-      const fetchWorkouts = async () => {
-        const token = await AsyncStorage.getItem('token');
-        if (!token || !user) return;
-        try {
-          const getWorkouts = await getUserWorkouts(user.user_id, token);
-          setWorkouts(getWorkouts);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-
-      fetchWorkouts();
-    }, [user])
-  );
+      setWorkouts(completedWorkouts);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const workoutTypeImages: WorkoutTypeImages = {
     'Gym': gymImage,
@@ -84,10 +60,12 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     'Body Weight': gymImage2,
   };
 
+  useEffect(() => { getWorkouts(); }, [])
   console.log(workouts);
+
   return (
     <View className=" pt-4 h-[92%]">
-      <Text className="w-full text-center font-medium text-[24px] pb-4">Current Workouts</Text>
+      <Text className="w-full text-center font-medium text-[24px] pb-4">Workout History</Text>
       <View className=" border border-gray-300 border-b-[1px] w-full opacity-50"/>
       <View className="px-3">
       {workouts !== null && workouts.length > 0 ? (
@@ -110,7 +88,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 <View className="p-5 py-4 z-10">
                   <Text className="text-xl font-bold mb-2">{truncateText(item.workout_name, 22)}</Text>
                   <Text className="text-gray-800 mb-1">Date: {item.workout_date?.toString().split('T')[0]}</Text>
-                  <Text className="text-gray-400">Created at: {item.created_at ? new Date(item.created_at).toISOString().split('T')[0] : ''}</Text>
+                  <Text className="text-gray-400">Created at: {new Date(item.created_at).toISOString().split('T')[0]}</Text>
                 </View>
                 <Image source={workoutTypeImages[item.workout_type]} className="w-[46%] h-full  mr-4 absolute -right-16 rounded-r-xl" />
                 <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2] "/>
@@ -126,15 +104,8 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
         </View>
       )}
       </View>
-      <View className=" shadow-lg  flex items-center justify-center pt-1">
-        <TouchableOpacity
-          onPress={() => navigateToWorkoutHistory()}
-          className='px-4 py-2 bg-blue-500 rounded-xl w-[90%]'>
-          <Text className='text-white text-[20px] font-medium text-center'>Workout History</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   )
 }
 
-export default Workouts
+export default WorkoutHistoryScreen

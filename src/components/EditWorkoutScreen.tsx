@@ -66,7 +66,7 @@ const EditWorkoutScreen = () => {
   if (!token || !user) return;
   try {
     await deleteWorkout(user.user_id, workoutId, token);
-    navigation.navigate('Home');
+    navigation.navigate('Exercise');
   } catch (error) {
     console.error(error);
   }

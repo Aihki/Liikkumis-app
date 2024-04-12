@@ -28,6 +28,7 @@ type FoodDiary = {
 type UserWorkout = {
   user_workout_id: number;
   user_id: number;
+  workout_status: string;
   workout_type: string;
   workout_date: string;
   workout_name: string;
@@ -73,12 +74,17 @@ type UserProgress = {
   progress_circumference_calves_l: number;
 };
 
-type UserWithLevel = Omit<User, 'user_level_id'> &
-  Pick<UserLevel, 'level_name'>;
+type UserWithLevel = Omit<User, 'user_level_id'> & {
+  user_level: UserLevel | null;
+};
 
-type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
+type UserWithNoPassword = Omit<User, 'password'> & {
+  user_level: UserLevel | null;
+};
 
-type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_name'>;
+type TokenContent = Pick<User, 'user_id'> & {
+  user_level: UserLevel | null;
+};
 
 // for upload server
 type FileInfo = {

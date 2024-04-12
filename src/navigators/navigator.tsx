@@ -16,11 +16,11 @@ import AddExerciseScreen from '../components/AddExerciseScreen';
 import EditWorkoutScreen from '../components/EditWorkoutScreen';
 import AddWorkoutScreen from '../components/AddWorkoutScreen';
 import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
+import WorkoutHistoryScreen from '../components/WorkoutHistoryScreen';
+import AdminScreen from '../components/AdminScreen';
 import ProfilePic from '../components/ProfilePic';
 import addProgress from '../components/AddProgress';
 import CompareProgress from '../components/CompareProgress';
-
-
 
 
 const Tab = createBottomTabNavigator();
@@ -30,6 +30,13 @@ const stack = createNativeStackNavigator<RootStackParamList>();
 const TabNavigator = () => {
   const { user } = useUserContext();
 
+
+  // If user is an admin, return null because we don't want to render tabs for admin
+  if (user?.user_level_id === 1) {
+    return null;
+  }
+
+  // For non-admin users, return the usual TabNavigator with tabs
   return (
     <Tab.Navigator>
       <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
@@ -46,27 +53,34 @@ const TabNavigator = () => {
 
 
 const StackNavigator = () => {
-  const {user} = useUserContext();
-
+  const { user } = useUserContext();
 
   return (
     <stack.Navigator>
       {user ? (
-        <>
-          <stack.Screen
-            name="Tabs"
-            component={TabNavigator}
-            options={{ headerShown: false }}
-          />
-          <stack.Screen name="AddWorkoutScreen" component={AddWorkoutScreen} />
-          <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
-          <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
-          <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
-          <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
-          <stack.Screen name="ProfilePic" component={ProfilePic} />
-          <stack.Screen name="AddProgress" component={addProgress} />
-          <stack.Screen name="CompareProgress" component={CompareProgress} />
+        user?.user_level_id == 1 ? (
+
+
+          <>
+            <stack.Screen name="AdminScreen" component={AdminScreen} options={{ headerShown: false }} />
+            {/* You can add more admin-specific screens here */}
           </>
+        ) : (
+
+          <>
+            <stack.Screen
+              name="Tabs"
+              component={TabNavigator}
+              options={{ headerShown: false }}
+            />
+            <stack.Screen name="AddWorkoutScreen" component={AddWorkoutScreen} />
+            <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
+            <stack.Screen name="WorkoutHistoryScreen" component={WorkoutHistoryScreen} />
+            <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
+            <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
+            <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
+          </>
+        )
       ) : (
         <stack.Screen name="Login" component={Login} options={{headerShown: false}} />
       )}
