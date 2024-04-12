@@ -55,7 +55,7 @@ type PersonalBest = {
   max_weight: number;
   record_date: Date;
   created_at: Date;
-}
+};
 
 type UserProgress = {
   progress_id: number;
@@ -73,7 +73,8 @@ type UserProgress = {
   progress_circumference_calves_l: number;
 };
 
-type UserWithLevel = Omit<User, 'user_level_id'> & Pick<UserLevel, 'level_name'>;
+type UserWithLevel = Omit<User, 'user_level_id'> &
+  Pick<UserLevel, 'level_name'>;
 
 type UserWithNoPassword = Omit<UserWithLevel, 'password'>;
 
@@ -81,7 +82,7 @@ type TokenContent = Pick<User, 'user_id'> & Pick<UserLevel, 'level_name'>;
 
 // for upload server
 type FileInfo = {
-  filename: string;
+  user_profile_pic: string;
   user_id: number;
 };
 

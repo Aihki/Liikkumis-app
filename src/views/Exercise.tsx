@@ -14,7 +14,7 @@ const Exercise = () => {
 
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{paddingTop: 20}}>
       <View>
         <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />
 

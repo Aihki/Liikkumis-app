@@ -359,7 +359,7 @@ const useAuthentication = () => {
 const useProfileUpdate = () => {
   const fetchProfilePic = async (id: number) => {
     return await fetchData<UserResponse>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/user/picture/${id}`,
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/users/picture/${id}`,
     );
   };
 
@@ -373,7 +373,7 @@ const useProfileUpdate = () => {
       body: JSON.stringify({picture}),
     };
     return await fetchData<MessageResponse>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/user/picture/${id}`,
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/users/picture/${id}`,
       options,
     );
   };

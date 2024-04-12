@@ -25,7 +25,7 @@ const ChangeProfilePic = () => {
     useState<ImagePicker.ImagePickerSuccessResult | null>(null);
   const {postExpoFile} = useFile();
   const {postPicture} = useProfileUpdate();
-  const {user} = useUserContext();
+  const { user } = useUserContext();
 
   const {update, setUpdate} = useUpdateContext();
   const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -86,16 +86,19 @@ const ChangeProfilePic = () => {
     <View className='bg-white shadow-lg h-[50%] rounded-lg p-4 m-2'>
       <View className='flex items-center justify-center m-5'>
         <Text className='text-2xl'>Profile picture</Text>
-        <TouchableOpacity onPress={pickImage}>
+        {user && (
+          <TouchableOpacity onPress={pickImage}>
           <Image
             className='w-36 h-36 rounded-full'
             source={{
               uri: image
                 ? image.assets![0].uri
-                : 'https://via.placeholder.com/150?text=Choose+media',
+                : 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic,
             }}
           />
         </TouchableOpacity>
+        )}
+
       </View>
       <View className='flex items-center justify-center'>
         <TouchableOpacity

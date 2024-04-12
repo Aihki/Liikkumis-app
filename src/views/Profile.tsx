@@ -39,18 +39,19 @@ const Profile = () => {
             <View className="flex items-center">
               <Image
                 source={{
-                  uri:
-                  ('http://localhost:3002/uploads/' + user?.user_profile_pic) ||
-                  'https://via.placeholder.com/150',
+                  uri: user?.user_profile_pic
+                    ? 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic
+                    : 'https://via.placeholder.com/150',
                 }}
                 resizeMode="cover"
                 className="w-36 h-36 rounded-full -mt-14"
               />
             </View>
-            <View className="flex items-center justify-center">
-              <Text className="text-xl">{user?.username}</Text>
-            </View>
+
           </TouchableOpacity>
+          <View className="flex items-center justify-center">
+            <Text className="text-xl">{user?.username}</Text>
+          </View>
           <View className="flex items-center justify-center">
             <Text className="text-2xl font-bold">Progress</Text>
           </View>
