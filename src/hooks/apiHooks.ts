@@ -11,7 +11,7 @@ import {
   WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
+import {Challenge, Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserProgress = () => {
@@ -488,6 +488,112 @@ const useFile = () => {
   return {postFile, postExpoFile};
 };
 
+const useChallenge = () => {
+  const getChallenges = async () => {
+    return await fetchData<Challenge[]>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge`,
+    );
+  };
+
+  const getChallengeByChallengeId = async (id: number) => {
+    return await fetchData<Challenge>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/${id}`,
+    );
+  };
+
+
+  const getChallengeByUserId = async (id: number) => {
+    return await fetchData<Challenge>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/user/${id}`,
+    );
+  };
+
+  const postChallenge = async (challenge: Omit<Challenge, "challenge_id"> , token: string) => {
+    const options: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(challenge),
+    };
+    return await fetchData<MessageResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge`,
+      options,
+    );
+  };
+
+  const putChallenge = async (challenge: Challenge, token: string) => {
+    const options: RequestInit = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(challenge),
+    };
+    return await fetchData<MessageResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/${challenge.challenge_id}`,
+      options,
+    );
+  };
+
+  const deleteChallenge = async (challenge_id: number, token: string) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/${challenge_id}`,
+      options,
+    );
+  };
+
+  const joinChallenge = async (challenge_id: number, user_id: number, token: string) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({user_id}),
+    };
+    return await fetchData<{success: boolean}>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/${challenge_id}/join`,
+      options,
+    );
+  };
+
+  const leaveChallenge = async (challenge_id: number, user_id: number, token: string) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/leave/${challenge_id}/${user_id}`,
+      options,
+    );
+  };
+
+  const checkIfUserIsInChallenge = async (challenge_id: number, user_id: number, token: string) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await fetchData<{success: boolean, hasJoined: boolean}>(`${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/check/${challenge_id}/${user_id}`, options);
+  };
+
+  return {getChallenges, getChallengeByChallengeId, getChallengeByUserId, postChallenge, putChallenge, deleteChallenge, joinChallenge, leaveChallenge, checkIfUserIsInChallenge};
+}
+
+
 export {
   useUser,
   useAuthentication,
@@ -497,4 +603,5 @@ export {
   useUserProgress,
   useExercise,
   useProfileUpdate,
+  useChallenge
 };

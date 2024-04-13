@@ -58,6 +58,42 @@ type PersonalBest = {
   created_at: Date;
 };
 
+type Challenge = {
+  challenge_id: number;
+  challenge_name: string;
+  description: string;
+  start_date: Date;
+  end_date: Date;
+  target_type: 'Distance' | 'Weight' | 'Time' | 'Repetition';
+  target_value: number;
+  active: boolean;
+};
+
+type UserChallenge = {
+  user_challenge_id: number;
+  user_id: number;
+  challenge_id: number;
+  start_date: Date;
+  progress: number;
+  completed: boolean;
+  completion_date: Date | null;
+};
+
+type Achievement = {
+  achievement_id: number;
+  title: string;
+  description: string;
+  criterion: 'CompleteChallenge' | 'ReachTarget';
+  criterion_detail: string;
+};
+
+type UserAchievement = {
+  user_achievement_id: number;
+  user_id: number;
+  achievement_id: number;
+  achieved_on: Date;
+};
+
 type UserProgress = {
   progress_id: number;
   user_id: number;
@@ -99,6 +135,10 @@ export type {
   UserWorkout,
   Exercise,
   PersonalBest,
+  Challenge,
+  UserChallenge,
+  Achievement,
+  UserAchievement,
   UserProgress,
   UserWithLevel,
   UserWithNoPassword,

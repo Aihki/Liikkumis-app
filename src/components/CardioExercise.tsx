@@ -1,8 +1,8 @@
-import { Text, TouchableOpacity, View, StyleSheet } from "react-native"
+import { Text, TouchableOpacity, View, StyleSheet, TextInput } from "react-native"
 import { UserWorkout } from "../types/DBTypes"
 import { ExerciseProps, RootStackParamList } from "../types/LocalTypes"
 import { useUserContext } from "../hooks/ContextHooks";
-
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
@@ -21,6 +21,8 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
   const [exerciseDistance, setExerciseDistance] = useState<number | null>(null);
   const [isDurationBased, setIsDurationBased] = useState(false);
   const [isDistanceBased, setIsDistanceBased] = useState(false);
+  const [customExercise, setCustomExercise] = useState<string>('');
+  const [showCustomInput, setShowCustomInput] = useState<boolean>(false);
 
   const addAnExercise = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -54,6 +56,7 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
   };
 
   const options = [
+    { label: 'Add Custom Exercise...', value: 'custom' },
     { label: 'Running', value: 'Running', isDistanceBased: true },
     { label: 'Cycling', value: 'Cycling', isDistanceBased: true },
     { label: 'Swimming', value: 'Swimming', isDistanceBased: false },
@@ -69,20 +72,52 @@ const CardioExercise = ({ workout, workoutId }: ExerciseProps) => {
 
   return (
     <View className="flex items-center pt-5">
-      <Dropdown
+      {!showCustomInput ? (
+        <Dropdown
         data={options}
         labelField="label"
         valueField="value"
         placeholder="Exercise Name"
         value={exerciseName}
         onChange={(item) => {
-          setExerciseName(item.value)
-          setIsDistanceBased(item.isDistanceBased || false);
+          if (item.value === 'custom') {
+            setShowCustomInput(true);
+          } else {
+            setShowCustomInput(false);
+            setExerciseName(item.value)
+            setIsDistanceBased(item.isDistanceBased || false);
+          }
         }}
         style={styles.dropdown}
         selectedTextStyle={styles.selectedText}
         placeholderStyle={styles.placeholderText}
       />
+      ) : null}
+      {showCustomInput ? (
+        <>
+          <TextInput
+            placeholder="Enter Custom Exercise Name"
+            style={styles.customExerciseInput}
+            value={customExercise}
+            onChangeText={(text) => {
+              setCustomExercise(text);
+              setExerciseName(text);
+              }}
+          />
+          <TouchableOpacity
+            style={{ position: 'absolute',top: 35, right: 31}}
+            onPress={() => {
+              setShowCustomInput(!showCustomInput)
+            }}
+          >
+            <FontAwesome
+                name="angle-down"
+                size={20}
+                color="gray"
+            />
+          </TouchableOpacity>
+        </>
+      ) : null}
       {isDistanceBased ? (
         <View className="flex items-center w-full gap-3 pt-3">
           <Dropdown
@@ -154,6 +189,18 @@ const styles = StyleSheet.create({
   placeholderText: {
     fontSize: 16,
     color: 'gray',
+  },
+  customExerciseInput: {
+    position: 'relative',
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginLeft: 2,
+    height: 50,
+    width: '90%',
+    fontSize: 16,
   },
 });
 

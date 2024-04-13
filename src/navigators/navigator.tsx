@@ -21,6 +21,8 @@ import AdminScreen from '../components/AdminScreen';
 import ProfilePic from '../components/ProfilePic';
 import addProgress from '../components/AddProgress';
 import CompareProgress from '../components/CompareProgress';
+import Challenges from '../components/Challenges';
+import ChallengeDetails from '../components/ChallengeDetails';
 
 
 const Tab = createBottomTabNavigator();
@@ -82,6 +84,8 @@ const StackNavigator = () => {
             <stack.Screen name="ProfilePic" component={ProfilePic} />
             <stack.Screen name="AddProgress" component={addProgress} />
             <stack.Screen name="CompareProgress" component={CompareProgress} />
+            <stack.Screen name="Challenges" component={Challenges} />
+            <stack.Screen name="ChallengeDetails" component={ChallengeDetails} />
           </>
         )
       ) : (

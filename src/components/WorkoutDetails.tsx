@@ -119,7 +119,7 @@ return (
               <View className="absolute right-5">
                 <Pressable onPress={handleCheckMark}>
                   <LottieView
-                    source={require('../../assets/cmark3.json')}
+                    source={require('../assets/cmark3.json')}
                     ref={checkmRef}
                     loop={false}
                     style={{

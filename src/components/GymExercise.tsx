@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ExerciseProps, RootStackParamList } from "../types/LocalTypes";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Dropdown } from "react-native-element-dropdown";
 import { useExercise } from "../hooks/apiHooks";
 
@@ -21,6 +21,9 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   const [exerciseWeight, setExerciseWeight] = useState<{ label: string; value: number; } | null>(null);
   const [exerciseReps, setExerciseReps] = useState<number | null>(null);
   const [exerciseSets, setExerciseSets] = useState<number | null>(null);
+  const [customExercise, setCustomExercise] = useState<string>('');
+  const [showCustomInput, setShowCustomInput] = useState<boolean>(false);
+
 
   const addAnExercise = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -44,6 +47,7 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
       await addExercise(user.user_id, exercises, token);
 
       setExerciseName('');
+      setCustomExercise('');
       setExerciseWeight(null);
       setExerciseReps(null);
 
@@ -54,6 +58,7 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   };
 
   const options = [
+    { label: 'Add Custom Exercise...', value: 'custom' },
     { label: 'Bench Press', value: 'Bench Press' },
     { label: 'Squat Rack Squats', value: 'Squat Rack Squats' },
     { label: 'Deadlift', value: 'Deadlift' },
@@ -85,17 +90,52 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   const setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: `${num} sets`, value: num }));
   return (
     <View className="flex items-center pt-5 gap-3">
-      <Dropdown
+      {!showCustomInput ? (
+        <Dropdown
         data={options}
         labelField="label"
         valueField="value"
         placeholder="Exercise Name"
         value={exerciseName}
-        onChange={(item) => setExerciseName(item.value)}
+        onChange={(item) => {
+          if (item.value === 'custom') {
+            setShowCustomInput(true);
+          } else {
+            setShowCustomInput(false);
+            setExerciseName(item.value);
+          }
+        }}
         style={styles.dropdown}
         selectedTextStyle={styles.selectedText}
         placeholderStyle={styles.placeholderText}
       />
+      ) : null}
+
+      {showCustomInput ? (
+        <>
+          <TextInput
+            placeholder="Enter Custom Exercise Name"
+            style={styles.customExerciseInput}
+            value={customExercise}
+            onChangeText={(text) => {
+            setCustomExercise(text);
+            setExerciseName(text);
+            }}
+          />
+          <TouchableOpacity
+            style={{ position: 'absolute',top: 45, right: 30}}
+            onPress={() => {
+              setShowCustomInput(!showCustomInput)
+            }}
+          >
+            <FontAwesome
+                name="angle-down"
+                size={20}
+                color="gray"
+            />
+          </TouchableOpacity>
+        </>
+      ) : null}
       <Dropdown
         mode="default"
         data={weightOptions}
@@ -150,7 +190,7 @@ const styles = StyleSheet.create({
     borderColor: '#D1D5DB',
     borderRadius: 8,
     paddingHorizontal: 8,
-    height: 50, // Adjust the height as needed
+    height: 50,
     width: '90%',
   },
   selectedText: {
@@ -160,6 +200,19 @@ const styles = StyleSheet.create({
   placeholderText: {
     fontSize: 16,
     color: 'gray',
+  },
+  customExerciseInput: {
+    position: 'relative',
+    backgroundColor: '#F3F4F6',
+    borderWidth: 1,
+    borderColor: '#D1D5DB',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginLeft: 11,
+    height: 50,
+    width: '90%',
+    fontSize: 16,
+    marginTop: 12,
   },
 });
 
