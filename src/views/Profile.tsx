@@ -8,8 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Motivational from '../components/Motivational';
-import UserProgressList from '../components/UserProgress';
+import Motivational from '../components/profile/Motivational';
+import UserProgressList from '../components/user/UserProgress';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/LocalTypes';
 import React, { useEffect } from 'react';

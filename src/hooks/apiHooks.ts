@@ -11,7 +11,7 @@ import {
   WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Challenge, Exercise, FoodDiary, User, UserProgress, UserWorkout} from '../types/DBTypes';
+import {Challenge, CombinedChallenge, Exercise, FoodDiary, User, UserChallenge, UserProgress, UserWorkout} from '../types/DBTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserProgress = () => {
@@ -502,9 +502,10 @@ const useChallenge = () => {
   };
 
 
+
   const getChallengeByUserId = async (id: number) => {
-    return await fetchData<Challenge>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/user/${id}`,
+    return await fetchData<CombinedChallenge[]>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/user/${id}`,
     );
   };
 
@@ -590,7 +591,22 @@ const useChallenge = () => {
     return await fetchData<{success: boolean, hasJoined: boolean}>(`${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/check/${challenge_id}/${user_id}`, options);
   };
 
-  return {getChallenges, getChallengeByChallengeId, getChallengeByUserId, postChallenge, putChallenge, deleteChallenge, joinChallenge, leaveChallenge, checkIfUserIsInChallenge};
+  const updateChallengeProgress = async (challenge_id: number, user_id: number, progress: number, token: string) => {
+    const options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({progress}),
+    };
+    return await fetchData<MessageResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/user/${user_id}/${challenge_id}/progress`,
+      options,
+    );
+  };
+
+  return {getChallenges, getChallengeByChallengeId, getChallengeByUserId, postChallenge, putChallenge, deleteChallenge, joinChallenge, leaveChallenge, checkIfUserIsInChallenge, updateChallengeProgress};
 }
 
 

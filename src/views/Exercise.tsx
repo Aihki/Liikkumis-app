@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View } from 'react-native';
-import AddWorkout from '../components/AddWorkout';
-import Workouts from '../components/Workouts';
+import AddWorkout from '../components/workout/AddWorkout';
+import Workouts from '../components/workout/Workouts';
 
 
 const Exercise = () => {

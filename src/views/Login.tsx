@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Keyboard, TouchableOpacity, View, Text} from 'react-native';
-import LoginForm from '../components/LoginFrom';
-import RegisterForm from '../components/RegFrom';
+import LoginForm from '../components/form/LoginFrom';
+import RegisterForm from '../components/form/RegFrom';
 import {useUserContext} from '../hooks/ContextHooks';
 
 const Login = () => {

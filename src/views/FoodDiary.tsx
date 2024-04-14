@@ -95,7 +95,7 @@ const FoodDiary = () => {
   // ... UI code to display the food diary entries and handle user input
 
   return (
-    <ScrollView className="flex-1 bg-gray-100">
+    <ScrollView className="flex-1 bg-gray-100 pt-10">
       <View className="p-4">
         <TextInput
           className="border border-gray-300 p-2 rounded mb-4"

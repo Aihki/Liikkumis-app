@@ -11,18 +11,19 @@ import Exercise from '../views/Exercise';
 
 
 import { RootStackParamList } from '../types/LocalTypes';
-import WorkoutDetails from '../components/WorkoutDetails';
-import AddExerciseScreen from '../components/AddExerciseScreen';
-import EditWorkoutScreen from '../components/EditWorkoutScreen';
-import AddWorkoutScreen from '../components/AddWorkoutScreen';
-import ExerciseInfoScreen from '../components/ExerciseInfoScreen';
-import WorkoutHistoryScreen from '../components/WorkoutHistoryScreen';
-import AdminScreen from '../components/AdminScreen';
-import ProfilePic from '../components/ProfilePic';
-import addProgress from '../components/AddProgress';
-import CompareProgress from '../components/CompareProgress';
-import Challenges from '../components/Challenges';
-import ChallengeDetails from '../components/ChallengeDetails';
+import WorkoutDetails from '../components/workout/WorkoutDetails';
+import AddExerciseScreen from '../components/workout/AddExerciseScreen';
+import EditWorkoutScreen from '../components/workout/EditWorkoutScreen';
+import AddWorkoutScreen from '../components/workout/AddWorkoutScreen';
+import ExerciseInfoScreen from '../components/workout/ExerciseInfoScreen';
+import WorkoutHistoryScreen from '../components/workout/WorkoutHistoryScreen';
+import AdminScreen from '../components/admin/AdminScreen';
+import ProfilePic from '../components/profile/ProfilePic';
+import addProgress from '../components/profile/AddProgress';
+import CompareProgress from '../components/profile/CompareProgress';
+import Challenges from '../components/challenge/Challenges';
+import ChallengeDetails from '../components/challenge/ChallengeDetails';
+import YourChallenges from '../components/challenge/YourChallenges';
 
 
 const Tab = createBottomTabNavigator();
@@ -86,6 +87,7 @@ const StackNavigator = () => {
             <stack.Screen name="CompareProgress" component={CompareProgress} />
             <stack.Screen name="Challenges" component={Challenges} />
             <stack.Screen name="ChallengeDetails" component={ChallengeDetails} />
+            <stack.Screen name="YourChallenges" component={YourChallenges} />
           </>
         )
       ) : (

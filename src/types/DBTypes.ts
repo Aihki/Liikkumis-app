@@ -110,6 +110,8 @@ type UserProgress = {
   progress_circumference_calves_l: number;
 };
 
+type CombinedChallenge = Challenge & UserChallenge;
+
 type UserWithLevel = Omit<User, 'user_level_id'> & {
   user_level: UserLevel | null;
 };
@@ -144,4 +146,5 @@ export type {
   UserWithNoPassword,
   TokenContent,
   FileInfo,
+  CombinedChallenge,
 };

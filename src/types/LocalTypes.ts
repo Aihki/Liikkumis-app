@@ -49,6 +49,11 @@ export type RootStackParamList = {
     challengeId: number;
     refresh?: boolean;
   };
+
+  YourChallenges: {
+    userId: number;
+    refresh?: boolean;
+  };
 };
 
 
