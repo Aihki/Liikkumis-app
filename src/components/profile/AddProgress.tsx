@@ -3,11 +3,11 @@ import React, {useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUserContext} from '../hooks/ContextHooks';
-import {useUserProgress} from '../hooks/apiHooks';
-import {UserProgress} from '../types/DBTypes';
 import {useNavigation} from '@react-navigation/native';
 import Toast, {BaseToastProps, ErrorToast} from 'react-native-toast-message';
+import { useUserContext } from '../../hooks/ContextHooks';
+import { useUserProgress } from '../../hooks/apiHooks';
+import { UserProgress } from '../../types/DBTypes';
 
 const AddProgress = () => {
   const {user} = useUserContext();
