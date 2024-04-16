@@ -146,7 +146,7 @@ const WorkoutDetails = () => {
                   onPress={navigateToEditWorkout}
                   className="mt-2 py-2 px-4 border border-blue-500 bg-white rounded-lg"
                 >
-                  <Text className="text-blue-500 text-center">Edit Workout</Text>
+                  <Text className="text-blue-500 text-center">Edit Workout Info</Text>
                 </TouchableOpacity>
               </View>
 

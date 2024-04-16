@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useState} from "react"
-import {Alert, FlatList, TouchableOpacity, View} from "react-native"
+import {Alert, FlatList, Image, Pressable, TouchableOpacity, View} from "react-native"
 import {Exercise} from "../../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -9,6 +9,32 @@ import {useFocusEffect, useNavigation} from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../types/LocalTypes";
+import BenchPressImage from '../../assets/images/cardio-exercise.jpg'
+
+
+type ExerciseImageMap = {
+  [key: string]: any;
+}
+
+
+const exerciseImages: ExerciseImageMap = {
+  'Bench Press': require('../../assets/images/bench-press.jpg'),
+  'Squat Rack Squats': require('../../assets/images/squat-rack.jpg'),
+  'Deadlift': require('../../assets/images/deadlift.jpg'),
+  'Leg Press': require('../../assets/images/legpress.jpg'),
+  'Bicep Curls': require('../../assets/images/bicep-curl.jpg'),
+  'Tricep Extensions': require('../../assets/images/tricep-ext.jpg'),
+  'Shoulder Press': require('../../assets/images/shoulder-press.jpg'),
+  'Dumbbell Lunges': require('../../assets/images/dlunges.jpg'),
+  'Chest Fly Machine': require('../../assets/images/cfmachine.jpg'),
+  'Lat Pulldowns': require('../../assets/images/latpulldown.jpg'),
+  'Seated Cable Row': require('../../assets/images/seated-cable-row.jpg'),
+  'Leg Curl Machine': require('../../assets/images/leg-curl-machine.jpg'),
+  'Leg Extension Machine': require('../../assets/images/leg-extension.jpg'),
+  'Cable Bicep Curl': require('../../assets/images/cable-curls.png'),
+}
+
+exerciseImages['default'] = require('../../assets/images/gym-exercise-2.jpg');
 
 
 type AddExerciseProps =  {
@@ -98,56 +124,55 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
           data={userExercises}
           keyExtractor={(item) => item.exercise_id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
+            <Pressable
               onPress={() => {
                 navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true  })
               }}
             >
-              <View className="bg-white p-4 mb-4 rounded-lg shadow">
+              <View className="bg-white  mb-4 rounded-lg shadow relative overflow-hidden">
                 {!isLoading && !workoutStatus && (
+
                   <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
-                  <FontAwesome
-                    name="times"
-                    size={18}
-                    color="black"
-                    onPress={() => ExerciseWarning(item.exercise_id)}
-                  />
                 </TouchableOpacity>
                 )}
-
+                <Image
+                  source={exerciseImages[item.exercise_name] || exerciseImages['default']}
+                  className="absolute w-[169px] h-full top-0 right-0 "
+                  resizeMode="cover"
+                />
+                <View className="absolute -bottom-24 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
                 {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
                   // Gym
-                  <>
+                  <View className="py-3 pl-5 z-10">
                     <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                     <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} kg</Text>
                     <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} rep</Text>
                     <Text className="text-base text-gray-600 mb-2">{item.exercise_sets} sets</Text>
-                  </>
+                  </View>
                 ) : item.exercise_weight === 0 && item.exercise_distance === 0 && item.exercise_duration > 0 ? (
                   // Body weight with duration
-                  <>
+                  <View className="py-3 pl-5 z-10">
                     <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                     <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration}</Text>
-                  </>
+                  </View>
                 ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
                   // Cardio
-                  <>
+                  <View className="py-3 pl-5 z-10">
 
                     <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                     <Text className="text-base text-gray-600 mb-1">{item.exercise_distance} km</Text>
                     <Text className="text-base text-gray-600 mb-1">{item.exercise_duration} minutes</Text>
-                  </>
+                  </View>
                 ) : (
                   // Body weight with reps
-                  <>
+                  <View className="py-3 pl-5 z-10">
                     <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                     <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
                     <Text className="text-base text-gray-600 mb-1">Sets: {item.exercise_sets}</Text>
-                  </>
+                  </View>
                 )}
-
               </View>
-            </TouchableOpacity>
+            </Pressable>
           )}
         />
         ) : (

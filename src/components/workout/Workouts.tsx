@@ -94,7 +94,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => setIsOpen(!isOpen)}
               />
           {isOpen && (
-            <View className="bg-gray-100 p-3 pb-2 z-10 absolute top-full right-0 w-full shadow-md">
+            <View className="bg-stone-100 p-3 pb-2 z-10 absolute top-full right-0 w-full shadow-md">
                 <TouchableOpacity onPress={() => navigateToWorkoutHistory()} className="relative border-b w-full border-gray-200">
                   <FontAwesome
                     name="history"
