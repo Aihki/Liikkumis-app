@@ -22,6 +22,7 @@ const useUserProgress = () => {
   };
 
   const getUserProgressByDate = async (id: number, date: string) => {
+    console.log('date', date)
     return await fetchData<UserProgress[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + id + '/' + date,
     );

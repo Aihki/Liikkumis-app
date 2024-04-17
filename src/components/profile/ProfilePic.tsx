@@ -8,9 +8,6 @@ import * as ImagePicker from 'expo-image-picker';
 import {
   Alert,
   Image,
-  Keyboard,
-  SafeAreaView,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -93,7 +90,9 @@ const ChangeProfilePic = () => {
             source={{
               uri: image
                 ? image.assets![0].uri
-                : 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic,
+                : (user.user_profile_pic
+                  ? 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic
+                  : 'https://via.placeholder.com/150'),
             }}
           />
         </TouchableOpacity>
@@ -106,7 +105,7 @@ const ChangeProfilePic = () => {
           className='bg-blue-500 p-2 rounded-lg w-1/2'
         >
           <Text className='text-white font-bold text-lg text-center'>
-            Upload
+            update
           </Text>
         </TouchableOpacity>
       </View>

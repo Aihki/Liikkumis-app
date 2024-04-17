@@ -1,5 +1,5 @@
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,7 +13,8 @@ const AddProgress = () => {
   const {user} = useUserContext();
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const {postProgress} = useUserProgress();
+  const {postProgress, getUserProgress} =
+    useUserProgress();
   const navigation = useNavigation();
   const [formState, setFormState] = useState<Partial<UserProgress>>({
     progress_height: 0,
@@ -28,21 +29,50 @@ const AddProgress = () => {
     progress_circumference_calves_l: 0,
   });
 
-  const handleChange = (field: string, value: string) => {
-    if (isNaN(Number(value))) {
-      Toast.show({
-        type: 'error',
-        text1: 'Invalid Input',
-        text2: 'Please enter a valid number.',
-      });
-      return;
-    }
-    const numberValue = Number(value);
+  useEffect(() => {
+    const fetchUserProgress = async () => {
+      if (!user) {
+        console.log('User not found.');
+        return;
+      }
 
-    setFormState({
-      ...formState,
-      [field]: numberValue !== 0 ? numberValue : null,
-    });
+      const userProgress = await getUserProgress(user.user_id);
+      if (userProgress) {
+        setFormState(userProgress[0]);
+      } else {
+        setFormState({
+          progress_height: 0,
+          progress_weight: 0,
+          progress_circumference_chest: 0,
+          progress_circumference_waist: 0,
+          progress_circumference_thigh_r: 0,
+          progress_circumference_thigh_l: 0,
+          progress_circumference_bicep_r: 0,
+          progress_circumference_bicep_l: 0,
+          progress_circumference_calves_r: 0,
+          progress_circumference_calves_l: 0,
+        });
+      }
+    };
+
+    fetchUserProgress();
+  }, []);
+
+  const handleChange = (field: string, value: string | Date) => {
+    if (field === 'date') {
+      setFormState((prevState) => ({...prevState, [field]: value}));
+    } else {
+      if (isNaN(Number(value))) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Input',
+          text2: 'Please enter a valid number.',
+        });
+        return;
+      }
+      const numberValue = Number(value);
+      setFormState((prevState) => ({...prevState, [field]: numberValue}));
+    }
   };
 
   const addProgress = async () => {
@@ -86,13 +116,14 @@ const AddProgress = () => {
       );
 
       if (hasZeroValue) {
+        console.log('Progress values cannot be zero.');
         Toast.show({
           type: 'error',
           text1: 'Invalid Input',
-          text2: 'Progress values cannot letter.',
+          text2: 'Progress values cannot letter or zero.',
         });
+        return;
       }
-
       await postProgress(progressData, user.user_id);
       navigation.goBack();
     } catch (error) {
