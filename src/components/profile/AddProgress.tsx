@@ -5,16 +5,16 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 import Toast, {BaseToastProps, ErrorToast} from 'react-native-toast-message';
-import { useUserContext } from '../../hooks/ContextHooks';
-import { useUserProgress } from '../../hooks/apiHooks';
-import { UserProgress } from '../../types/DBTypes';
+import {useUserContext} from '../../hooks/ContextHooks';
+import {useUserProgress} from '../../hooks/apiHooks';
+import {UserProgress} from '../../types/DBTypes';
+import TooltipButton from './ProgressGuide';
 
 const AddProgress = () => {
   const {user} = useUserContext();
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const {postProgress, getUserProgress} =
-    useUserProgress();
+  const {postProgress, getUserProgress} = useUserProgress();
   const navigation = useNavigation();
   const [formState, setFormState] = useState<Partial<UserProgress>>({
     progress_height: 0,
@@ -177,7 +177,10 @@ const AddProgress = () => {
             value={formState.progress_weight?.toString()}
             onChangeText={(value) => handleChange('progress_weight', value)}
           />
-          <Text className="text-left">Bicep left</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text>Bicep left</Text>
+            <TooltipButton guideName="Bicep" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -187,7 +190,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_bicep_l', value)
             }
           />
-          <Text className="text-left">Bicep right</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text>Bicep right</Text>
+            <TooltipButton guideName="Bicep" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -197,7 +203,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_bicep_r', value)
             }
           />
-          <Text className="text-left">Calves left</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text>Calves left</Text>
+            <TooltipButton guideName="Calves" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -207,7 +216,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_calves_l', value)
             }
           />
-          <Text>Calves Right</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text>Calves Right</Text>
+            <TooltipButton guideName="Calves" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -219,7 +231,10 @@ const AddProgress = () => {
           />
         </View>
         <View className="flex-1 justify-center m-2">
-          <Text className="text-left">Chest</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text>Chest</Text>
+            <TooltipButton guideName="Chest" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -229,7 +244,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_chest', value)
             }
           />
-          <Text className="text-left">Waist</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text className="text-left">Waist</Text>
+            <TooltipButton guideName="Waist" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -239,7 +257,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_waist', value)
             }
           />
-          <Text className="text-left">Thigh left</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text className="text-left">Thigh left</Text>
+            <TooltipButton guideName="Thigh" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -249,7 +270,10 @@ const AddProgress = () => {
               handleChange('progress_circumference_thigh_l', value)
             }
           />
-          <Text className="text-left">Thigh Right</Text>
+          <View className="flex flex-row justify-between items-center w-[55%]">
+            <Text className="text-left">Thigh Right</Text>
+            <TooltipButton guideName="Thigh" />
+          </View>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
