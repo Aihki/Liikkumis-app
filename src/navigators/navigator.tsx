@@ -8,8 +8,6 @@ import Login from '../views/Login';
 import {useUserContext} from '../hooks/ContextHooks';
 import FoodDiary from '../views/FoodDiary';
 import Exercise from '../views/Exercise';
-
-
 import { RootStackParamList } from '../types/LocalTypes';
 import WorkoutDetails from '../components/workout/WorkoutDetails';
 import AddExerciseScreen from '../components/workout/AddExerciseScreen';
@@ -24,6 +22,8 @@ import CompareProgress from '../components/profile/CompareProgress';
 import Challenges from '../components/challenge/Challenges';
 import ChallengeDetails from '../components/challenge/ChallengeDetails';
 import YourChallenges from '../components/challenge/YourChallenges';
+import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+
 
 
 const Tab = createBottomTabNavigator();
@@ -41,16 +41,52 @@ const TabNavigator = () => {
 
   // For non-admin users, return the usual TabNavigator with tabs
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} options={{headerShown: false}}/>
-      <Tab.Screen name="Profile" component={Profile} options={{headerShown: false}} />
-      {user && (
-        <>
-          <Tab.Screen name="FoodDiary" component={FoodDiary} options={{headerShown: false}}/>
-          <Tab.Screen name="Exercise" component={Exercise}  options={{headerShown: false}}/>
-        </>
-      )}
-    </Tab.Navigator>
+<Tab.Navigator>
+  <Tab.Screen
+    name="Home"
+    component={Home}
+    options={{
+      headerShown: false,
+      tabBarIcon: ({ focused, color, size }) => (
+        <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
+      ),
+    }}
+  />
+  <Tab.Screen
+    name="Profile"
+    component={Profile}
+    options={{
+      headerShown: false,
+      tabBarIcon: ({ focused, color, size }) => (
+        <Ionicons name={focused ? 'person' : 'person-outline'} size={size} color={color} />
+      ),
+    }}
+  />
+  {user && (
+    <>
+      <Tab.Screen
+        name="FoodDiary"
+        component={FoodDiary}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <MaterialCommunityIcons name="food-variant" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Exercise"
+        component={Exercise}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => (
+            <MaterialIcons name="fitness-center" size={size} color={color} />
+          ),
+        }}
+      />
+    </>
+  )}
+</Tab.Navigator>
   );
 };
 

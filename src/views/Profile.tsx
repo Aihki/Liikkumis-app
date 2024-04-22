@@ -52,12 +52,12 @@ const Profile = () => {
           <View className="flex items-center justify-center">
             <Text className="text-xl">{user?.username}</Text>
           </View>
-          <View className="flex items-center justify-center">
+       {/*    <View className="flex items-center justify-center">
             <Text className="text-2xl font-bold">Progress</Text>
           </View>
           <View className="flex items-center justify-center mb-5">
             <UserProgressList user_id={user?.user_id || 0} />
-          </View>
+          </View> */}
           <TouchableOpacity
             onPress={handleLogout}
             className="bg-red-500 p-2 rounded-lg w-1/2 self-center m-1.5"
@@ -71,7 +71,7 @@ const Profile = () => {
             className="bg-green-500 p-2 rounded-lg w-1/2 self-center m-1.5"
           >
             <Text className="text-white font-bold text-lg text-center">
-              Add Progress
+              Add/update Progress
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
