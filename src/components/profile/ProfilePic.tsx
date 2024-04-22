@@ -92,7 +92,7 @@ const ChangeProfilePic = () => {
                 ? image.assets![0].uri
                 : (user.user_profile_pic
                   ? 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic
-                  : 'https://via.placeholder.com/150'),
+                  : 'https://via.placeholder.com/640x360/808080/FFFFFF?text=click+to+choose+picture'),
             }}
           />
         </TouchableOpacity>
