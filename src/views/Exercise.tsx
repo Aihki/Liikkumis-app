@@ -8,7 +8,7 @@ const Exercise = () => {
   const [updateWorkouts, setUpdateWorkouts] = useState(false);
 
   const triggerWorkoutsUpdate = () => {
-    setUpdateWorkouts(prevState => !prevState); // Toggle to trigger useEffect
+    setUpdateWorkouts(prevState => !prevState);
   };
 
 
@@ -17,7 +17,6 @@ const Exercise = () => {
     <SafeAreaView style={{paddingTop: 20}}>
       <View>
         <AddWorkout onWorkoutAdded={triggerWorkoutsUpdate} />
-
         <Workouts updateWorkouts={updateWorkouts} />
       </View>
     </SafeAreaView>

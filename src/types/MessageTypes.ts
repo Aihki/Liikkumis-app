@@ -37,6 +37,14 @@ type WorkoutStatusResponse = {
   workoutCompleted: boolean;
 }
 
+type PersonalBestCompareResponse = {
+  average_max_weight: number;
+  exercise_name: string;
+  max_weight: number;
+  percentage_above_average: number;
+  user_id: number;
+}
+
 // for upload server
 type UploadResponse = MessageResponse & {
   data: {
@@ -57,5 +65,6 @@ export type {
     UploadResponse,
     ExerciseApiResponse,
     PersonalBestSuccessResponse,
-    WorkoutStatusResponse
+    WorkoutStatusResponse,
+    PersonalBestCompareResponse
 };

@@ -10,6 +10,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {RootStackParamList} from "../../types/LocalTypes";
 import BenchPressImage from '../../assets/images/cardio-exercise.jpg'
+import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 
 
 type ExerciseImageMap = {
@@ -107,6 +108,17 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
     ]);
   };
 
+  const renderRightActions = (exerciseId: number) => (progress, dragX) => {
+    return (
+      <TouchableOpacity
+        className="w-[105px] h-[88%] bg-red-500 items-center justify-center rounded-r-xl"
+        onPress={() => ExerciseWarning(exerciseId)}
+      >
+        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Delete</Text>
+      </TouchableOpacity>
+    );
+  };
+
   useFocusEffect(
     useCallback(() => {
       getWorkoutStatusByWorkoutId();
@@ -117,70 +129,75 @@ const Exercises: React.FC<AddExerciseProps> = ({ workoutId }) => {
 
 
   return (
-    <View className="px-4 pb-2 h-[92%]">
-      <Text className="w-full text-center  text-[22px] pb-3">Exercises</Text>
+    <GestureHandlerRootView className="px-4 pb-2 h-[92%]">
+      <View className="w-full py-[2px] bg-[#efeeee] border border-gray-50 mb-[12px] shadow-sm shadow-black rounded-[8px]">
+        <Text className="w-full text-center justify-center  text-[22px] py-[3px] font-medium text-[#2A2A2A]">Exercises</Text>
+      </View>
       {userExercises && userExercises.length > 0 ? (
         <FlatList
           data={userExercises}
           keyExtractor={(item) => item.exercise_id.toString()}
           renderItem={({ item }) => (
-            <Pressable
-              onPress={() => {
-                navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true  })
-              }}
-            >
-              <View className="bg-white  mb-4 rounded-lg shadow relative overflow-hidden">
-                {!isLoading && !workoutStatus && (
+            <Swipeable renderRightActions={renderRightActions(item.exercise_id)}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true  })
+                }}
+              >
+                <View className="bg-white  mb-4 rounded-lg shadow relative overflow-hidden min-h-[140px]">
+                  {!isLoading && !workoutStatus && (
 
-                  <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
-                </TouchableOpacity>
-                )}
-                <Image
-                  source={exerciseImages[item.exercise_name] || exerciseImages['default']}
-                  className="absolute w-[169px] h-full top-0 right-0 "
-                  resizeMode="cover"
-                />
-                <View className="absolute -bottom-24 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
-                {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
-                  // Gym
-                  <View className="py-3 pl-5 z-10">
-                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
-                    <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} kg</Text>
-                    <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} rep</Text>
-                    <Text className="text-base text-gray-600 mb-2">{item.exercise_sets} sets</Text>
-                  </View>
-                ) : item.exercise_weight === 0 && item.exercise_distance === 0 && item.exercise_duration > 0 ? (
-                  // Body weight with duration
-                  <View className="py-3 pl-5 z-10">
-                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
-                    <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration}</Text>
-                  </View>
-                ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
-                  // Cardio
-                  <View className="py-3 pl-5 z-10">
+                    <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
+                  </TouchableOpacity>
+                  )}
+                  <Image
+                    source={exerciseImages[item.exercise_name] || exerciseImages['default']}
+                    className="absolute w-[169px] h-full top-0 right-0 "
+                    resizeMode="cover"
+                  />
+                  <View className="absolute -bottom-24 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
+                  {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
+                    // Gym
+                    <View className="py-3 pl-5 z-10">
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} kg</Text>
+                      <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} rep</Text>
+                      <Text className="text-base text-gray-600 mb-2">{item.exercise_sets} sets</Text>
+                    </View>
+                  ) : item.exercise_weight === 0 && item.exercise_distance === 0 && item.exercise_duration > 0 ? (
+                    // Body weight with duration
+                    <View className="py-3 pl-5 z-10">
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration}</Text>
+                    </View>
+                  ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
+                    // Cardio
+                    <View className="py-3 pl-5 z-10">
 
-                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
-                    <Text className="text-base text-gray-600 mb-1">{item.exercise_distance} km</Text>
-                    <Text className="text-base text-gray-600 mb-1">{item.exercise_duration} minutes</Text>
-                  </View>
-                ) : (
-                  // Body weight with reps
-                  <View className="py-3 pl-5 z-10">
-                    <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
-                    <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
-                    <Text className="text-base text-gray-600 mb-1">Sets: {item.exercise_sets}</Text>
-                  </View>
-                )}
-              </View>
-            </Pressable>
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-base text-gray-600 mb-1">{item.exercise_distance} km</Text>
+                      <Text className="text-base text-gray-600 mb-1">{item.exercise_duration} minutes</Text>
+                    </View>
+                  ) : (
+                    // Body weight with reps
+                    <View className="py-3 pl-5 z-10">
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
+                      <Text className="text-base text-gray-600 mb-1">Sets: {item.exercise_sets}</Text>
+                    </View>
+                  )}
+                </View>
+                </Pressable>
+              </Swipeable>
           )}
+
         />
         ) : (
             <View className="items-center">
                 <Text className="text-lg text-gray-500 pt-40 ">No Exercises added.</Text>
             </View>
         )}
-    </View>
+    </GestureHandlerRootView>
   )
 }
 

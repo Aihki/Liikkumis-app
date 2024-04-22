@@ -5,6 +5,7 @@ import {
   ExerciseApiResponse,
   LoginResponse,
   MessageResponse,
+  PersonalBestCompareResponse,
   PersonalBestSuccessResponse,
   UploadResponse,
   UserResponse,
@@ -145,17 +146,34 @@ const useExercise = () => {
     );
   };
 
-  const getPersonalBestByExerciseName = async (id: number, exerciseName: string, token: string) => {
-    const options = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    return await fetchData<PersonalBestSuccessResponse>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${id}/personal-best/${exerciseName}`,
-      options,
-    );
+
+
+
+const getPersonalBestByExerciseName = async (id: number, exerciseName: string, token: string): Promise<PersonalBestSuccessResponse> => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
+
+  return await fetchData<PersonalBestSuccessResponse>(
+    `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${id}/personal-best/${exerciseName}`,
+    options,
+  );
+};
+
+const comparePersonalBest = async (userId: number, exerciseName: string, token: string): Promise<any> => { // Consider defining a type for the response
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  return await fetchData<PersonalBestCompareResponse>(
+    `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${userId}/compare-pb/${exerciseName}`,
+    options
+  );
+};
 
   return {
     getUserExercises,
@@ -165,7 +183,8 @@ const useExercise = () => {
     getUsersExercisesByWorkoutId,
     addExercise,
     deleteExercise,
-    getPersonalBestByExerciseName
+    getPersonalBestByExerciseName,
+    comparePersonalBest
   };
 };
 

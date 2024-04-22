@@ -3,7 +3,7 @@ import { useUserContext } from "../../hooks/ContextHooks"
 import { useWorkouts } from "../../hooks/apiHooks"
 import { UserWithNoPassword, UserWorkout } from "../../types/DBTypes";
 import React, { useEffect, useState } from "react";
-import { FlatList, Image, ImageSourcePropType, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/LocalTypes";
@@ -12,6 +12,8 @@ import gymImage2 from '../../assets/images/gym-exercise-2.jpg'
 import cardioImage from '../../assets/images/cardio-exercise-2.jpg'
 import { useFocusEffect } from '@react-navigation/native';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
+
 
 type WorkoutsProps = {
   updateWorkouts: boolean;
@@ -19,7 +21,7 @@ type WorkoutsProps = {
 
 const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { getUserWorkouts } = useWorkouts();
+  const { getUserWorkouts, deleteWorkout } = useWorkouts();
   const { user } = useUserContext();
   const [workouts, setWorkouts] = useState<UserWorkout[] | null >(null)
   const [filteredWorkouts, setFilteredWorkouts] = useState<UserWorkout[] | null >(null);
@@ -81,9 +83,47 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     setIsOpen(false);
   };
 
+  const deleteUserWorkout =  async (workoutId: number) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token || !user) return
+      await deleteWorkout(user.user_id, workoutId, token)
+      const updatedWorkouts = workouts?.filter(workout => workout.user_workout_id !== workoutId);
+      const updatedFilteredWorkouts = filteredWorkouts?.filter(workout => workout.user_workout_id !== workoutId);
+    setWorkouts(updatedWorkouts);
+    setFilteredWorkouts(updatedFilteredWorkouts);
+    } catch (error) {
+      console.log('error could not delete workout')
+    }
+  };
+
+  const workoutWarning = async (workoutId: number) => {
+    if (!user) return;
+    Alert.alert("Delete Exercise", "Are you sure you want to delete this exercise?", [
+      { text: "Cancel", style: "cancel" },
+      { text: "Delete", onPress: () => deleteUserWorkout(workoutId)},
+    ]);
+  };
+
+  const renderRightActions = (workoutId: number) => (progress, dragX) => {
+    const trans = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    });
+    return (
+      <TouchableOpacity
+        className="w-[100px] h-[96%] bg-red-500 items-center justify-center border-right rounded-r-lg"
+        onPress={() => workoutWarning(workoutId)}
+      >
+        <Text className="text-white font-medium text-[18px]">Delete</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
-      <View className="pt-10 h-[93%]">
+      <GestureHandlerRootView className="pt-10 h-[93%]">
         <View className="relative">
           <Text className="w-full text-center font-medium text-[24px] pb-4">Current Workouts</Text>
           <FontAwesome
@@ -147,6 +187,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
             keyExtractor={(item) => item.user_workout_id.toString()}
             contentContainerStyle={{ paddingBottom: 5 }}
             renderItem={({ item }) => (
+              <Swipeable renderRightActions={renderRightActions(item.user_workout_id)}>
               <Pressable
                 onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id, refresh: true })}
                 className={`mb-1 overflow-hidden rounded-lg shadow-lg relative`}
@@ -161,10 +202,11 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                   <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
                 </View>
               </Pressable>
+              </Swipeable>
             )}
           />
         </View>
-      </View>
+      </GestureHandlerRootView>
     </>
   );
 };

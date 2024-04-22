@@ -118,15 +118,18 @@ const WorkoutDetails = () => {
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
   }
 
+
   return (
       <>
         {workoutInfo ? (
           <>
             <View>
-              <View className="p-5 bg-white rounded-xl shadow-md relative">
-                <Text className="text-xl font-bold">{workoutInfo.workout_name}</Text>
-                <Text className="text-gray-700">{workoutInfo.workout_description}</Text>
-                <Text className="text-gray-500">{formatDate(workoutInfo.workout_date)}</Text>
+              <View className="px-4 pb-3 pt-2 bg-white border-b border-gray-200 shadow-lg relative">
+                <View className="ml-[4px]">
+                  <Text className="text-xl font-bold">{workoutInfo.workout_name}</Text>
+                  <Text className="text-gray-700">{workoutInfo.workout_description}</Text>
+                  <Text className="text-gray-500">{formatDate(workoutInfo.workout_date)}</Text>
+                </View>
                 <View className="absolute right-5">
                   <Pressable onPress={handleCheckMark}>
                     <LottieView
@@ -144,13 +147,13 @@ const WorkoutDetails = () => {
                 </View>
                 <TouchableOpacity
                   onPress={navigateToEditWorkout}
-                  className="mt-2 py-2 px-4 border border-blue-500 bg-white rounded-lg"
+                  className="mt-3 py-2 px-4 border-[2px] border-blue-400 bg-white rounded-lg"
                 >
-                  <Text className="text-blue-500 text-center">Edit Workout Info</Text>
+                  <Text className="text-blue-500 text-[15px] text-center">Edit Workout Info</Text>
                 </TouchableOpacity>
               </View>
 
-              <View className="w-full  relative h-[75%] pt-4">
+              <View className="w-full  relative h-[75%] pt-3">
               <Exercises workoutId={workoutId} />
               </View>
               {!checked &&

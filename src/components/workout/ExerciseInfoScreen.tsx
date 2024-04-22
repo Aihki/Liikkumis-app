@@ -45,9 +45,7 @@ const ExerciseInfoScreen = () => {
                   <Text className="text-base text-gray-600 mb-0.5">Reps: {exercise.exercise_reps} reps</Text>
                   <Text className="text-base text-gray-600 mb-2">Sets: {exercise.exercise_sets} sets</Text>
                 </View>
-                <View className="flex p-5 m-3 bg-white rounded-xl item-center">
-                  <GymExerciseInfo exercise={exercise} />
-                </View>
+                <GymExerciseInfo exercise={exercise} />
               </>
             ) : exercise.exercise_weight === 0 && exercise.exercise_distance === 0 && exercise.exercise_duration > 0 ? (
               // Body weight with duration
@@ -63,9 +61,7 @@ const ExerciseInfoScreen = () => {
                   <Text className="text-base text-gray-600 mb-0.5">Distance: {exercise.exercise_distance} km</Text>
                   <Text className="text-base text-gray-600 mb-2">Duration: {exercise.exercise_duration} minutes</Text>
                 </View>
-                <View className="flex p-5 m-3 bg-white rounded-xl item-center">
-                  <CardioExerciseInfo exercise={exercise} />
-                </View>
+                <CardioExerciseInfo exercise={exercise} />
               </>
             ) : (
               // Body weight with reps
@@ -75,9 +71,7 @@ const ExerciseInfoScreen = () => {
                   <Text className="text-base text-gray-600 mb-0.5">Reps: {exercise.exercise_reps}</Text>
                   <Text className="text-base text-gray-600 mb-2">Sets: {exercise.exercise_sets}</Text>
                 </View>
-                <View className="flex p-5 m-3 bg-white rounded-xl item-center">
-                  <BodyWeightExerciseInfo exercise={exercise} />
-                </View>
+                <BodyWeightExerciseInfo exercise={exercise} />
               </>
             )}
           </>
