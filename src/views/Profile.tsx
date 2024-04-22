@@ -13,6 +13,7 @@ import UserProgressList from '../components/user/UserProgress';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../types/LocalTypes';
 import React, { useEffect } from 'react';
+import PersonalBestC from '../components/profile/PersonalBest';
 
 
 const Profile = () => {
@@ -50,7 +51,7 @@ const Profile = () => {
 
           </TouchableOpacity>
           <View className="flex items-center justify-center">
-            <Text className="text-xl">{user?.username}</Text>
+            <Text className="text-xl text-[24px] pt-[5px]">{user?.username}</Text>
           </View>
        {/*    <View className="flex items-center justify-center">
             <Text className="text-2xl font-bold">Progress</Text>
@@ -58,14 +59,9 @@ const Profile = () => {
           <View className="flex items-center justify-center mb-5">
             <UserProgressList user_id={user?.user_id || 0} />
           </View> */}
-          <TouchableOpacity
-            onPress={handleLogout}
-            className="bg-red-500 p-2 rounded-lg w-1/2 self-center m-1.5"
-          >
-            <Text className="text-white font-bold text-lg text-center">
-              Logout
-            </Text>
-          </TouchableOpacity>
+
+          <PersonalBestC />
+
           <TouchableOpacity
             onPress={() => navigation.navigate('AddProgress')}
             className="bg-green-500 p-2 rounded-lg w-1/2 self-center m-1.5"
@@ -80,6 +76,14 @@ const Profile = () => {
           >
             <Text className="text-white font-bold text-lg text-center">
               Compare Progress
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleLogout}
+            className="bg-red-500 p-2 rounded-lg w-1/2 self-center m-1.5"
+          >
+            <Text className="text-white font-bold text-lg text-center">
+              Logout
             </Text>
           </TouchableOpacity>
         </ScrollView>

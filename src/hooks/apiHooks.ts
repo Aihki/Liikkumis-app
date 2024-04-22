@@ -12,7 +12,7 @@ import {
   WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Challenge, CombinedChallenge, Exercise, FoodDiary, User, UserChallenge, UserProgress, UserWorkout} from '../types/DBTypes';
+import {Challenge, CombinedChallenge, Exercise, FoodDiary, PersonalBest, User, UserChallenge, UserProgress, UserWorkout} from '../types/DBTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserProgress = () => {
@@ -175,6 +175,15 @@ const comparePersonalBest = async (userId: number, exerciseName: string, token: 
   );
 };
 
+const getPersonalBestForProfile = async (userId: number, token: string) => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  return await fetchData<PersonalBest[]>( process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + userId + '/profile/personal-best', options);
+}
+
   return {
     getUserExercises,
     getUserSpecificExercises,
@@ -184,7 +193,8 @@ const comparePersonalBest = async (userId: number, exerciseName: string, token: 
     addExercise,
     deleteExercise,
     getPersonalBestByExerciseName,
-    comparePersonalBest
+    comparePersonalBest,
+    getPersonalBestForProfile
   };
 };
 
