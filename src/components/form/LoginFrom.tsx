@@ -24,10 +24,10 @@ const LoginForm = () => {
   return (
     <>
     <View className='h-1/2 w-full'>
-    <Image className='h-full w-full absolute' source={require('../../assets/images/testi_logo.png')} resizeMode='contain' />
+    <Image className='h-full w-full absolute' source={require('../../assets/images/logo.png')} resizeMode='contain' />
     </View>
     <View className='w-full flex items-center P-3'>
-    <Text className='text-3xl text-black font-bold text-center tracking-wider'>Login</Text>
+    <Text className='text-3xl text-black font-bold text-center tracking-wider p-3'>Login</Text>
       </View>
     <View className='flex items-center mx-4 space-y-4'>
       <Controller

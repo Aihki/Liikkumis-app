@@ -6,12 +6,12 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 
 
 const guideTexts = {
-  Chest: "Mittaa noin nännin korkeudelta",
-  Waist: "Mittaa noin vatsan leveimmältä kohdalta. usein navan alta.",
-  Pelvis: "Mittaa lantion leveimmältä kohdalta",
-  Thigh: "Mittaa reiden paksuimmasta kohdasta",
-  Bicep: "Mittaa noin käsivartesi yläosan leveimmältä kohdalta.",
-  Calves: "Mittaa pohkeen leveimmältä kohdalta",
+  Chest: "Measure from about nipple height.",
+  Waist: "Measure around the widest part of the abdomen, often below the navel.",
+  Pelvis: "Measure at the widest point of the pelvis.",
+  Thigh: "Measure from the thickest part of the thigh.",
+  Bicep: "Measure around the widest point at the top of your arm.",
+  Calves: "Measure at the widest point of the calf.",
 };
 
 const styles = StyleSheet.create({
