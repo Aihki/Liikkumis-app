@@ -8,8 +8,6 @@ interface AddWorkoutProps {
   onWorkoutAdded: () => void;
 }
 
-const blue500 = '#3B82F6';
-
 const AddWorkout: React.FC<AddWorkoutProps> = ({ onWorkoutAdded }) => {
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -22,7 +20,7 @@ const AddWorkout: React.FC<AddWorkoutProps> = ({ onWorkoutAdded }) => {
     <View className='relative'>
       <TouchableOpacity
         onPress={navigateToAddworkout}
-        className='absolute right-4 top-9 w-10 h-10 flex justify-center items-center bg-blue-500 rounded-full shadow-lg z-10'
+        className='absolute right-4 top-9 w-11 h-11 flex justify-center items-center bg-[#4ade80]  rounded-full shadow-lg z-10'
         activeOpacity={0.7}
       >
         <FontAwesome

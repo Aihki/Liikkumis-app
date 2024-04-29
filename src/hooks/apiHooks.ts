@@ -146,7 +146,19 @@ const useExercise = () => {
     );
   };
 
-
+  const markExerciseAsDone = async (id: number, exerciseId: number, token: string) => {
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await fetchData<MessageResponse>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/done/' + exerciseId,
+      options
+    )
+  };
 
 
 const getPersonalBestByExerciseName = async (id: number, exerciseName: string, token: string): Promise<PersonalBestSuccessResponse> => {
@@ -192,6 +204,7 @@ const getPersonalBestForProfile = async (userId: number, token: string) => {
     getUsersExercisesByWorkoutId,
     addExercise,
     deleteExercise,
+    markExerciseAsDone,
     getPersonalBestByExerciseName,
     comparePersonalBest,
     getPersonalBestForProfile

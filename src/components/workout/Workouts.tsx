@@ -12,6 +12,7 @@ import gymImage2 from '../../assets/images/gym-exercise-2.jpg'
 import cardioImage from '../../assets/images/cardio-exercise-2.jpg'
 import { useFocusEffect } from '@react-navigation/native';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { FontAwesome6 } from '@expo/vector-icons';
 import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -172,17 +173,18 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
             />
           </View>
           <View className="flex flex-row space-x-5 justify-center pb-2">
-            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-blue-200 border-blue-500' : 'bg-gray-100 border-blue-300'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
               <Text className="text-[15px]">Gym</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-blue-200 border-blue-500' : 'bg-gray-100 border-blue-300'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
               <Text className="text-[15px]">Body Weight</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-blue-200 border-blue-500' : 'bg-gray-100 border-blue-300'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
               <Text className="text-[15px]">Cardio</Text>
             </TouchableOpacity>
           </View>
-          <FlatList
+          {filteredWorkouts ? (
+            <FlatList
             data={filteredWorkouts}
             keyExtractor={(item) => item.user_workout_id.toString()}
             contentContainerStyle={{ paddingBottom: 5 }}
@@ -205,6 +207,25 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
               </Swipeable>
             )}
           />
+          ) : (
+            <View className="flex items-center justify-center gap-2 h-full pb-[200px]">
+              <FontAwesome6
+                name="dumbbell"
+                size={44}
+                color="black"
+                style={{}}
+              />
+              <View className="relative">
+                <Text className="text-center text-[19px]">
+                  No active workouts found. Add a workout by clicking the
+                </Text>
+                <View className="absolute right-[21%] top-[20%] translate-y-[-50%]">
+                  <Text className="font-extrabold text-[38px]"> + </Text>
+                </View>
+              </View>
+            </View>
+          )}
+
         </View>
       </GestureHandlerRootView>
     </>

@@ -44,6 +44,7 @@ type Exercise = {
   exercise_weight: number;
   exercise_reps: number;
   exercise_sets: number;
+  exercise_completed?: number
   exercise_duration: number;
   exercise_distance: number;
   created_at: Date;
