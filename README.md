@@ -7,9 +7,9 @@ LiikkumisApp on käyttäjää tukeva urheilu aplikaatio. Käyttäjä pystyy seur
 
 
 ## apidocs
-[upload-server]()
-[auth-server]()
-[training-server]()
+* [upload-server]()
+* [auth-server]()
+* [training-server]()
 
 ## Toimminnallisuudet
 
