@@ -95,46 +95,38 @@ const FoodDiary = () => {
   // ... UI code to display the food diary entries and handle user input
 
   return (
-    <ScrollView className="flex-1 bg-gray-100 pt-10">
-      <View className="p-4">
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, meal: text })}
-          value={newMeal.meal}
-          placeholder="Meal Name"
-        />
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, notes: text })}
-          value={newMeal.notes}
-          placeholder="Notes"
-          multiline
-        />
-        <TextInput
-          className="border border-gray-300 p-2 rounded mb-4"
-          onChangeText={(text) => setNewMeal({ ...newMeal, ingredients: text })}
-          value={newMeal.ingredients}
-          placeholder="Ingredients"
-          multiline
-        />
-        <Button title="Add Meal" onPress={handleAddMeal} color="#4ade80" />
-      </View>
-      {foodDiaryEntries.map((entry) => (
-        <View className="relative m-4 p-4 bg-white rounded-lg shadow" key={entry.foodDiary_id}>
-          <TouchableOpacity
-            className="absolute top-0 right-0 p-2"
-            onPress={() => handleDeleteMeal(entry.foodDiary_id!)}
-          >
-            <Text>
-              <Text className="text-red-500">X</Text>
-            </Text>
-          </TouchableOpacity>
-          <Text className="text-lg font-bold mb-2">{entry.food_diary_meal}</Text>
-          <Text className="mb-1">Notes: {entry.food_diary_notes}</Text>
-          <Text>Ingredients:{'\n'}{entry.food_diary_ingredients}</Text>
-        </View>
-      ))}
-    </ScrollView>
+ <ScrollView className="flex-1 bg-gray-100 pt-10">
+    <View className="p-4">
+      <Text className="text-lg font-bold mb-4">Meal Name</Text>
+      <TextInput
+        className="border border-gray-300 p-2 rounded mb-4"
+        onChangeText={(text) => setNewMeal({ ...newMeal, meal: text })}
+        value={newMeal.meal}
+        placeholder="e.g. Breakfast, or Meal 1"
+      />
+      <Text className="text-lg font-bold mb-4">Notes</Text>
+      <TextInput
+        className="border border-gray-300 p-2 rounded mb-4"
+        onChangeText={(text) => setNewMeal({ ...newMeal, notes: text })}
+        value={newMeal.notes}
+        placeholder="Any notes about the meal"
+        multiline
+      />
+      <Text className="text-lg font-bold mb-4">Ingredients</Text>
+      <TextInput
+        className="border border-gray-300 p-2 rounded mb-4"
+        onChangeText={(text) => setNewMeal({ ...newMeal, ingredients: text })}
+        value={newMeal.ingredients}
+        placeholder="e.g. 200g chicken, 100g rice"
+        multiline
+      />
+      <View className="bg-blue-500 rounded-xl">
+  <TouchableOpacity onPress={handleAddMeal} >
+    <Text className="text-white text-center p-2 font-semibold">Add Meal</Text>
+    </TouchableOpacity>
+</View>
+    </View>
+  </ScrollView>
   );
 }
 
