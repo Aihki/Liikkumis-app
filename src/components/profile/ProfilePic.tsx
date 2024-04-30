@@ -105,7 +105,7 @@ const ChangeProfilePic = () => {
           className='bg-blue-500 p-2 rounded-lg w-1/2'
         >
           <Text className='text-white font-bold text-lg text-center'>
-            update
+            update profile picture
           </Text>
         </TouchableOpacity>
       </View>

@@ -165,17 +165,25 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Height"
-            value={formState.progress_height?.toString()}
-            onChangeText={(value) => handleChange('progress_height', value)}
+            placeholder="Height (cm)"
+            value={
+              formState.progress_height
+                ? formState.progress_height.toString() + ' cm'
+                : ''
+            }
+            onChangeText={(value) =>
+              handleChange('progress_height', value.replace(' cm', ''))
+            }
           />
           <Text className="text-left">Weight</Text>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Weight"
-            value={formState.progress_weight?.toString()}
-            onChangeText={(value) => handleChange('progress_weight', value)}
+            placeholder="Weight (kg)"
+            value={formState.progress_weight ? formState.progress_weight.toString() + ' kg' : ''}
+            onChangeText={(value) =>
+              handleChange('progress_weight', value.replace(' kg', ''))
+            }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text>Bicep left</Text>
@@ -184,10 +192,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Bicep Left"
-            value={formState.progress_circumference_bicep_l?.toString()}
+            placeholder="Bicep Left (cm)"
+            value={formState.progress_circumference_bicep_l? formState.progress_circumference_bicep_l?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_bicep_l', value)
+              handleChange('progress_circumference_bicep_l', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -197,10 +205,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Bicep Right"
-            value={formState.progress_circumference_bicep_r?.toString()}
+            placeholder="Bicep Right (cm)"
+            value={formState.progress_circumference_bicep_r ? formState.progress_circumference_bicep_r?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_bicep_r', value)
+              handleChange('progress_circumference_bicep_r', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -210,10 +218,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Calves Left"
-            value={formState.progress_circumference_calves_l?.toString()}
+            placeholder="Calves Left (cm)"
+            value={formState.progress_circumference_calves_l ? formState.progress_circumference_calves_l?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_calves_l', value)
+              handleChange('progress_circumference_calves_l', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -223,10 +231,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Calves Right"
-            value={formState.progress_circumference_calves_r?.toString()}
+            placeholder="Calves Right (cm)"
+            value={formState.progress_circumference_calves_r ? formState.progress_circumference_calves_r?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_calves_r', value)
+              handleChange('progress_circumference_calves_r', value.replace(' cm', ''))
             }
           />
         </View>
@@ -238,10 +246,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Chest"
-            value={formState.progress_circumference_chest?.toString()}
+            placeholder="Chest (cm)"
+            value={formState.progress_circumference_chest ? formState.progress_circumference_chest?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_chest', value)
+              handleChange('progress_circumference_chest', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -251,10 +259,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Waist"
-            value={formState.progress_circumference_waist?.toString()}
+            placeholder="Waist (cm)"
+            value={formState.progress_circumference_waist ? formState.progress_circumference_waist?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_waist', value)
+              handleChange('progress_circumference_waist', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -264,10 +272,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Thigh Left"
-            value={formState.progress_circumference_thigh_l?.toString()}
+            placeholder="Thigh Left (cm)"
+            value={formState.progress_circumference_thigh_l ? formState.progress_circumference_thigh_l?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_thigh_l', value)
+              handleChange('progress_circumference_thigh_l', value.replace(' cm', ''))
             }
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
@@ -277,10 +285,10 @@ const AddProgress = () => {
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Thigh Right"
-            value={formState.progress_circumference_thigh_r?.toString()}
+            placeholder="Thigh Right (cm)"
+            value={formState.progress_circumference_thigh_r ? formState.progress_circumference_thigh_r?.toString() + ' cm' : ''}
             onChangeText={(value) =>
-              handleChange('progress_circumference_thigh_r', value)
+              handleChange('progress_circumference_thigh_r', value.replace(' cm', ''))
             }
           />
           <Text className="text-left">Date</Text>
