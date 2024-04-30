@@ -177,15 +177,20 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
     );
   };
 
-  const renderRightActions = (exerciseId: number) => (progress, dragX) => {
-    return (
-      <TouchableOpacity
-        className="w-[105px] h-[88%] bg-green-500 items-center justify-center rounded-r-xl relative"
-        onPress={() => markExerciseAsD(exerciseId)}
-      >
-        <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Done</Text>
-      </TouchableOpacity>
-    );
+  const renderRightActions = (exerciseId: number, exerciseCompleted: boolean) => (progress, dragX) => {
+    if (exerciseCompleted) {
+
+      return null;
+    } else {
+      return (
+        <TouchableOpacity
+          className="w-[105px] h-[88%] bg-green-500 items-center justify-center rounded-r-xl"
+          onPress={() => markExerciseAsD(exerciseId)}
+        >
+          <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Done</Text>
+        </TouchableOpacity>
+      );
+    }
   };
 
   useFocusEffect(
@@ -214,11 +219,12 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                 }
               }}
               renderLeftActions={renderLeftActions(item.exercise_id)}
-              renderRightActions={renderRightActions(item.exercise_id)}
+              renderRightActions={renderRightActions(item.exercise_id, item.exercise_completed === 1)}
+              overshootRight={item.exercise_completed !== 1}
             >
               <Pressable
                 onPress={() => {
-                  navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true  })
+                  navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true })
                 }}
               >
                 <View className={`${item.exercise_completed == 1 ? ('border border-green-300 bg-green-50') : ('bg-white')}   mb-4 rounded-lg shadow relative overflow-hidden min-h-[140px]`}>
@@ -238,7 +244,8 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                     <View className="py-3 pl-5 z-10">
                       <Text>{item.exercise_completed ? (
                           <FontAwesome name="check" size={20} color="#4CAF50"/>
-                        ) : null}</Text>
+                        ) : null}
+                      </Text>
                       <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                       <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} kg</Text>
                       <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} rep</Text>
@@ -247,13 +254,20 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                   ) : item.exercise_weight === 0 && item.exercise_distance === 0 && item.exercise_duration > 0 ? (
                     // Body weight with duration
                     <View className="py-3 pl-5 z-10">
+                      <Text>{item.exercise_completed ? (
+                          <FontAwesome name="check" size={20} color="#4CAF50"/>
+                        ) : null}
+                      </Text>
                       <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                       <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration}</Text>
                     </View>
                   ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
                     // Cardio
                     <View className="py-3 pl-5 z-10">
-
+                      <Text>{item.exercise_completed ? (
+                          <FontAwesome name="check" size={20} color="#4CAF50"/>
+                        ) : null}
+                      </Text>
                       <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                       <Text className="text-base text-gray-600 mb-1">{item.exercise_distance} km</Text>
                       <Text className="text-base text-gray-600 mb-1">{item.exercise_duration} minutes</Text>
@@ -261,6 +275,10 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                   ) : (
                     // Body weight with reps
                     <View className="py-3 pl-5 z-10">
+                      <Text>{item.exercise_completed ? (
+                          <FontAwesome name="check" size={20} color="#4CAF50"/>
+                        ) : null}
+                      </Text>
                       <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
                       <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
                       <Text className="text-base text-gray-600 mb-1">Sets: {item.exercise_sets}</Text>

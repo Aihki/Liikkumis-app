@@ -11,6 +11,7 @@ import React, {useEffect, useRef, useState} from "react";
 import LottieView from 'lottie-react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { set } from "react-hook-form";
 
 
 
@@ -20,12 +21,14 @@ const WorkoutDetails = () => {
   const { user } = useUserContext();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const { getUserWorkoutByWorkoutId } = useWorkouts();
+  const { getUserWorkoutByWorkoutId, getCompletedExercisesCountWhitWorkoutId } = useWorkouts();
   const { getUsersExercisesByWorkoutId } = useExercise();
   const [workoutInfo, setWorkoutInfo] = useState<UserWorkout | null>(null);
   const [checked , setChecked] = useState(false);
   const [userExercises, setUserExercises] = useState<Exercise[]>([]);
   const [allExercisesCompleted, setAllExercisesCompleted] = useState(false);
+  const [completedExercises, setCompletedExercises] = useState<{count: Number} | null>(null);
+  const [showCompletedMessage, setShowCompletedMessage] = useState(false);
 
   const { setWorkoutStatusToCompleted } = useWorkouts();
 
@@ -79,6 +82,19 @@ const WorkoutDetails = () => {
     }
   }
 
+  const getCompletedExerciseCount = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !user) return;
+    try {
+      const response = await getCompletedExercisesCountWhitWorkoutId(workoutId, user.user_id, token)
+      console.log(response);
+      setCompletedExercises(response)
+
+    } catch (error) {
+
+    }
+  }
+
   const onExerciseCompleted = (exerciseId: number) => {
     const updatedExercises = userExercises.map(exercise => {
       if (exercise.exercise_id === exerciseId) {
@@ -127,12 +143,8 @@ const WorkoutDetails = () => {
             onPress: async () => {
               try {
                 await setWorkoutStatusToC(workoutId);
+                setShowCompletedMessage(true)
                 setChecked(true);
-                // No need for the animation reference anymore
-                // Navigate back after a brief pause for the user to see the update
-                setTimeout(() => {
-                  navigation.goBack();
-                }, 500); // Reduced time since there's no animation
               } catch (error) {
                 console.error("Failed to update workout status: ", error);
               }
@@ -148,6 +160,7 @@ const WorkoutDetails = () => {
       const fetchData = async () => {
         await getWorkout();
         await getExercisesByWorkoutId();
+        await getCompletedExerciseCount()
       };
 
       fetchData();
@@ -156,7 +169,7 @@ const WorkoutDetails = () => {
 
 
       };
-    }, [user?.user_id, workoutId]) 
+    }, [user?.user_id, workoutId, showCompletedMessage])
   );
 
   useEffect(() => {
@@ -208,6 +221,57 @@ const WorkoutDetails = () => {
               <View className="w-full  relative h-[80%]">
               <Exercises workoutId={workoutId} onExerciseCompleted={onExerciseCompleted} onExerciseDeleted={onExerciseDeleted} />
               </View>
+              {workoutInfo.workout_status == 'completed' && showCompletedMessage ? (
+                  <View className="relative">
+                    <LottieView
+                      source={require('../../assets/animations/trophy.json')}
+                      autoPlay
+                      loop={false}
+                      style={{
+                        width: 250,
+                        height: 250,
+                        position: 'absolute',
+                        top: -606,
+                        right: 76,
+                        zIndex: 100
+                      }}
+                    />
+                    <View className="bg-white border-[4px] border-yellow-500 z-100 px-5 py-9 pb-5 w-[85%]  absolute bottom-[125px] left-[8%] rounded-xl">
+                      <Text className="text-center text-black font-bold text-[20px]">
+                        Congratulations on completing your workout!
+                      </Text>
+                      <View className="bg-yellow-50 px-3 py-1 rounded-lg shadow-md mx-4 mt-7 border border-yellow-300">
+                        <Text className="text-center text-gray-700 font-bold text-lg">
+                          Workout Type: {workoutInfo.workout_type}
+                        </Text>
+                      </View>
+                      <View className="bg-yellow-50 px-3 py-1 rounded-lg shadow-md mx-4 my-4 mt-2 border border-yellow-300">
+                        <Text className="text-center text-gray-700 font-bold text-lg">
+                          Completed Exercises: {completedExercises ? completedExercises.count.toString() : '0'}
+                        </Text>
+                      </View>
+                      <View className="flex flex-row gap-1 pt-4">
+                        <Pressable
+                          onPress={() => {
+                            navigation.navigate('Home')
+                            setShowCompletedMessage(false);
+                          }}
+                          className="bg-[#4ade80] py-2 rounded-lg mt-4 w-[50%]"
+                        >
+                          <Text className="text-white text-lg font-bold text-center">Home</Text>
+                        </Pressable>
+                        <Pressable
+                          onPress={() => {
+                            setShowCompletedMessage(false);
+                          }}
+                          className="bg-[#4ade80] py-2 rounded-lg mt-4 w-[50%]"
+                        >
+                          <Text className="text-white text-lg font-bold text-center">Review</Text>
+                        </Pressable>
+                      </View>
+                    </View>
+                  </View>
+              ) : null}
               {!checked  ?
               (
                 <>

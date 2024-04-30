@@ -70,13 +70,13 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
   ];
 
   return (
-    <View className='flex flex-col items-center w-full pt-3 gap-3'>
-      <Text className='text-[22px] pb-1'>Add New Workout</Text>
+    <View className='flex flex-col items-center w-full pt-3 '>
+      <Text className='text-[22px] pt-2 pb-4 '>Add New Workout</Text>
       <TextInput
         placeholder="Workout Name"
         value={workout_name}
         onChangeText={setWorkoutName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl '
+        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg mb-4 '
       />
       <Dropdown
         data={options}
@@ -97,10 +97,10 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
           multiline
           numberOfLines={5}
           textAlignVertical="top"
-          className='p-2 border-gray-300 bg-gray-100 border rounded-xl  '
+          className='p-2 border-gray-300 bg-gray-100 border rounded-lg  mb-4'
         />
       <Text
-        className={`absolute right-2 bottom-2 ${
+        className={`absolute right-2 bottom-5 ${
           workout_description.length > 175
             ? workout_description.length >= 200
               ? 'text-red-500'
@@ -112,12 +112,14 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
     </Text>
   </View>
       <View className='flex w-full items-center justify-center  flex-row'>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-400 w-[45%]'>
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-300 w-[45%]'>
         <Text className='text-center'>Select Workout Date</Text>
       </TouchableOpacity>
-      <Text
-        className='w-[45%] text-center border-gray-400 border-y border-r p-2  bg-gray-200'
-      >{workoutDate.toISOString().split('T')[0]}</Text>
+      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-300 w-[45%]'>
+      <Text className='text-center'>
+        {workoutDate.toISOString().split('T')[0]}
+      </Text>
+      </TouchableOpacity>
       </View>
       {showDatePicker && (
         <DateTimePicker
@@ -129,9 +131,9 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
       )}
       <TouchableOpacity
         onPress={addWorkoutHandler}
-        className='px-4 py-2 bg-blue-500 rounded-xl'
+        className='px-4 py-2 bg-[#4ade80] rounded-lg mt-4 w-[91%]'
       >
-        <Text className='text-white text-[20px] font-medium'>Add Workout</Text>
+        <Text className='text-white text-[20px] text-center font-medium'>Add Workout</Text>
     </TouchableOpacity>
     </View>
   )
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
     borderColor: '#D1D5DB',
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginBottom: 17,
     height: 50,
     width: '90%',
   },

@@ -126,7 +126,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     <>
       <GestureHandlerRootView className="pt-10 h-[93%]">
         <View className="relative">
-          <Text className="w-full text-center font-medium text-[24px] pb-4">Current Workouts</Text>
+          <Text className="w-full text-center font-medium text-[24px] pb-4">Active Workouts</Text>
           <FontAwesome
                 name={isOpen ? 'times' : 'bars'}
                 size={23}
@@ -194,7 +194,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id, refresh: true })}
                 className={`mb-1 overflow-hidden rounded-lg shadow-lg relative`}
               >
-                <View className="bg-white rounded-lg relative overflow-hidden">
+                <View className="bg-white rounded-lg relative overflow-hidden m-[3px]">
                   <View className="p-5 py-4 z-10">
                     <Text className="text-xl font-bold mb-2">{item.workout_name}</Text>
                     <Text className="text-gray-500">{formatDate(item.workout_date)}</Text>

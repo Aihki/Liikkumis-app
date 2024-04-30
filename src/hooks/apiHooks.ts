@@ -12,7 +12,17 @@ import {
   WorkoutStatusResponse,
 } from '../types/MessageTypes';
 import {useUpdateContext} from './UpdateHooks';
-import {Challenge, CombinedChallenge, Exercise, FoodDiary, PersonalBest, User, UserChallenge, UserProgress, UserWorkout} from '../types/DBTypes';
+import {
+  Challenge,
+  CombinedChallenge,
+  Exercise,
+  FoodDiary,
+  PersonalBest,
+  User,
+  UserChallenge,
+  UserProgress,
+  UserWorkout,
+} from '../types/DBTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const useUserProgress = () => {
@@ -23,13 +33,16 @@ const useUserProgress = () => {
   };
 
   const getUserProgressByDate = async (id: number, date: string) => {
-    console.log('date', date)
+    console.log('date', date);
     return await fetchData<UserProgress[]>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/progress/' + id + '/' + date,
     );
   };
 
-  const postProgress = async (progress: Omit<UserProgress, 'progress_id' | 'created_at'>, userId:number) => {
+  const postProgress = async (
+    progress: Omit<UserProgress, 'progress_id' | 'created_at'>,
+    userId: number,
+  ) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
@@ -78,7 +91,11 @@ const useExercise = () => {
     );
   };
 
-  const getUserSpecificExercises = async (id: number, exerciseId: number, token: string) => {
+  const getUserSpecificExercises = async (
+    id: number,
+    exerciseId: number,
+    token: string,
+  ) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -90,7 +107,11 @@ const useExercise = () => {
     );
   };
 
-  const putSpecificExercise = async (id: number, exercises: Exercise, token: string) => {
+  const putSpecificExercise = async (
+    id: number,
+    exercises: Exercise,
+    token: string,
+  ) => {
     const options = {
       method: 'PUT',
       headers: {
@@ -105,7 +126,11 @@ const useExercise = () => {
     );
   };
 
-  const getUsersExercisesByWorkoutId = async (user_id: number, user_workout_id: number, token: string) => {
+  const getUsersExercisesByWorkoutId = async (
+    user_id: number,
+    user_workout_id: number,
+    token: string,
+  ) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -117,7 +142,11 @@ const useExercise = () => {
     );
   };
 
-  const addExercise = async (id: number, exercise: Omit<Exercise, 'exercise_id' | 'created_at'>, token: string) => {
+  const addExercise = async (
+    id: number,
+    exercise: Omit<Exercise, 'exercise_id' | 'created_at'>,
+    token: string,
+  ) => {
     const options = {
       method: 'POST',
       headers: {
@@ -132,7 +161,11 @@ const useExercise = () => {
     );
   };
 
-  const deleteExercise = async (id: number, exerciseId: number, token: string) => {
+  const deleteExercise = async (
+    id: number,
+    exerciseId: number,
+    token: string,
+  ) => {
     const options = {
       method: 'DELETE',
       headers: {
@@ -146,7 +179,11 @@ const useExercise = () => {
     );
   };
 
-  const markExerciseAsDone = async (id: number, exerciseId: number, token: string) => {
+  const markExerciseAsDone = async (
+    id: number,
+    exerciseId: number,
+    token: string,
+  ) => {
     const options = {
       method: 'PATCH',
       headers: {
@@ -155,46 +192,64 @@ const useExercise = () => {
       },
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/done/' + exerciseId,
-      options
-    )
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/exercises/' +
+        id +
+        '/done/' +
+        exerciseId,
+      options,
+    );
   };
 
+  const getPersonalBestByExerciseName = async (
+    id: number,
+    exerciseName: string,
+    token: string,
+  ): Promise<PersonalBestSuccessResponse> => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-const getPersonalBestByExerciseName = async (id: number, exerciseName: string, token: string): Promise<PersonalBestSuccessResponse> => {
-  const options = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    return await fetchData<PersonalBestSuccessResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${id}/personal-best/${exerciseName}`,
+      options,
+    );
   };
 
-  return await fetchData<PersonalBestSuccessResponse>(
-    `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${id}/personal-best/${exerciseName}`,
-    options,
-  );
-};
+  const comparePersonalBest = async (
+    userId: number,
+    exerciseName: string,
+    token: string,
+  ): Promise<any> => {
+    // Consider defining a type for the response
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-const comparePersonalBest = async (userId: number, exerciseName: string, token: string): Promise<any> => { // Consider defining a type for the response
-  const options = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    return await fetchData<PersonalBestCompareResponse>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${userId}/compare-pb/${exerciseName}`,
+      options,
+    );
   };
 
-  return await fetchData<PersonalBestCompareResponse>(
-    `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/exercises/${userId}/compare-pb/${exerciseName}`,
-    options
-  );
-};
-
-const getPersonalBestForProfile = async (userId: number, token: string) => {
-  const options = {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-  return await fetchData<PersonalBest[]>( process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + userId + '/profile/personal-best', options);
-}
+  const getPersonalBestForProfile = async (userId: number, token: string) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return await fetchData<PersonalBest[]>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/exercises/' +
+        userId +
+        '/profile/personal-best',
+      options,
+    );
+  };
 
   return {
     getUserExercises,
@@ -207,7 +262,7 @@ const getPersonalBestForProfile = async (userId: number, token: string) => {
     markExerciseAsDone,
     getPersonalBestByExerciseName,
     comparePersonalBest,
-    getPersonalBestForProfile
+    getPersonalBestForProfile,
   };
 };
 
@@ -232,7 +287,7 @@ const useUserFoodDiary = () => {
     );
   };
 
-  const putFoodDiary = async (id:number, foodDiary: FoodDiary) => {
+  const putFoodDiary = async (id: number, foodDiary: FoodDiary) => {
     const options = {
       method: 'PUT',
       headers: {
@@ -251,7 +306,7 @@ const useUserFoodDiary = () => {
     const options = {
       method: 'DELETE',
       headers: {
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(token ? {Authorization: `Bearer ${token}`} : {}),
       },
     };
     return await fetchData<MessageResponse>(
@@ -277,12 +332,16 @@ const useWorkouts = () => {
       },
     };
     return await fetchData<UserWorkout[]>(
-      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/workouts/${id}`,
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/workouts/user/${id}`,
       options,
     );
   };
 
-  const getUserWorkoutByWorkoutId = async (id: number, workout_id: number, token: string) => {
+  const getUserWorkoutByWorkoutId = async (
+    id: number,
+    workout_id: number,
+    token: string,
+  ) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -295,7 +354,10 @@ const useWorkouts = () => {
   };
 
   const postWorkout = async (
-    workout: Omit<UserWorkout, 'created_at' | 'user_workout_id' | 'workout_status'>,
+    workout: Omit<
+      UserWorkout,
+      'created_at' | 'user_workout_id' | 'workout_status'
+    >,
     token: string,
   ) => {
     const options: RequestInit = {
@@ -311,7 +373,10 @@ const useWorkouts = () => {
       options,
     );
   };
-  const putWorkout = async (workout:  Omit<UserWorkout, 'created_at' | 'workout_status'>, token: string) => {
+  const putWorkout = async (
+    workout: Omit<UserWorkout, 'created_at' | 'workout_status'>,
+    token: string,
+  ) => {
     const options: RequestInit = {
       method: 'PUT',
       headers: {
@@ -326,7 +391,11 @@ const useWorkouts = () => {
     );
   };
 
-  const deleteWorkout = async (id: number, workout_id: number, token: string) => {
+  const deleteWorkout = async (
+    id: number,
+    workout_id: number,
+    token: string,
+  ) => {
     const options = {
       method: 'DELETE',
       headers: {
@@ -339,7 +408,10 @@ const useWorkouts = () => {
       options,
     );
   };
-  const setWorkoutStatusToCompleted = async (workout_id: number, token: string) => {
+  const setWorkoutStatusToCompleted = async (
+    workout_id: number,
+    token: string,
+  ) => {
     const options = {
       method: 'PUT',
       headers: {
@@ -347,10 +419,12 @@ const useWorkouts = () => {
       },
     };
     return await fetchData<MessageResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/' + workout_id,
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/workouts/completed/' +
+        workout_id,
       options,
     );
-  }
+  };
   const getCompletedWorkouts = async (id: number, token: string) => {
     const options: RequestInit = {
       headers: {
@@ -362,30 +436,83 @@ const useWorkouts = () => {
       options,
     );
   };
-  const getWorkoutStatus = async (id: number, workout_id: number, token: string) => {
+  const getWorkoutStatus = async (
+    id: number,
+    workout_id: number,
+    token: string,
+  ) => {
     const options: RequestInit = {
       headers: {
         Authorization: 'Bearer ' + token,
       },
     };
     return await fetchData<WorkoutStatusResponse>(
-      process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/status/' + id + '/' + workout_id,
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/workouts/status/' +
+        id +
+        '/' +
+        workout_id,
       options,
     );
   };
 
-  const getCompletedWorkoutsCount = async () => {
+  const getCompletedWorkoutsCount = async (token: string) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
     return await fetchData<{count: number}>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/completed/count',
     );
   };
-  const getMostPopularWorkoutType = async (): Promise<Array<{ workout_type: string; count: number }>> => {
-    return await fetchData<Array<{ workout_type: string; count: number }>>(
+  const getMostPopularWorkoutType = async (
+    token: string,
+  ): Promise<Array<{workout_type: string; count: number}>> => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<Array<{workout_type: string; count: number}>>(
       process.env.EXPO_PUBLIC_TRAINING_SERVER + '/workouts/popular/type',
     );
   };
 
-  return {getWorkouts, getUserWorkouts, getUserWorkoutByWorkoutId, postWorkout, putWorkout, deleteWorkout, setWorkoutStatusToCompleted, getCompletedWorkouts, getWorkoutStatus, getCompletedWorkoutsCount, getMostPopularWorkoutType};
+  const getCompletedExercisesCountWhitWorkoutId = async (
+    workoutId: number,
+    userId: number,
+    token: string,
+  ) => {
+    const options: RequestInit = {
+      headers: {
+        Authorization: 'Bearer ' + token,
+      },
+    };
+    return await fetchData<{count: number}>(
+      process.env.EXPO_PUBLIC_TRAINING_SERVER +
+        '/workouts/' +
+        workoutId +
+        '/user/' +
+        userId +
+        '/exercises/completed/count',
+    );
+  };
+
+  return {
+    getWorkouts,
+    getUserWorkouts,
+    getUserWorkoutByWorkoutId,
+    postWorkout,
+    putWorkout,
+    deleteWorkout,
+    setWorkoutStatusToCompleted,
+    getCompletedWorkouts,
+    getWorkoutStatus,
+    getCompletedWorkoutsCount,
+    getMostPopularWorkoutType,
+    getCompletedExercisesCountWhitWorkoutId,
+  };
 };
 
 const useUser = () => {
@@ -452,7 +579,15 @@ const useUser = () => {
     );
   };
 
-  return {getUserByToken, postUser, getUsernameAvailability, getEmailAvailable, getUsers, getUserCount, deleteUserAsAdmin};
+  return {
+    getUserByToken,
+    postUser,
+    getUsernameAvailability,
+    getEmailAvailable,
+    getUsers,
+    getUserCount,
+    deleteUserAsAdmin,
+  };
 };
 
 const useAuthentication = () => {
@@ -479,7 +614,7 @@ const useProfileUpdate = () => {
     );
   };
 
-  const postPicture = async (id:number ,picture: string, token: string) => {
+  const postPicture = async (id: number, picture: string, token: string) => {
     const options = {
       method: 'POST',
       headers: {
@@ -544,15 +679,16 @@ const useChallenge = () => {
     );
   };
 
-
-
   const getChallengeByUserId = async (id: number) => {
     return await fetchData<CombinedChallenge[]>(
       `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/user/${id}`,
     );
   };
 
-  const postChallenge = async (challenge: Omit<Challenge, "challenge_id"> , token: string) => {
+  const postChallenge = async (
+    challenge: Omit<Challenge, 'challenge_id'>,
+    token: string,
+  ) => {
     const options: RequestInit = {
       method: 'POST',
       headers: {
@@ -596,7 +732,11 @@ const useChallenge = () => {
     );
   };
 
-  const joinChallenge = async (challenge_id: number, user_id: number, token: string) => {
+  const joinChallenge = async (
+    challenge_id: number,
+    user_id: number,
+    token: string,
+  ) => {
     const options = {
       method: 'POST',
       headers: {
@@ -611,7 +751,11 @@ const useChallenge = () => {
     );
   };
 
-  const leaveChallenge = async (challenge_id: number, user_id: number, token: string) => {
+  const leaveChallenge = async (
+    challenge_id: number,
+    user_id: number,
+    token: string,
+  ) => {
     const options = {
       method: 'DELETE',
       headers: {
@@ -625,16 +769,28 @@ const useChallenge = () => {
     );
   };
 
-  const checkIfUserIsInChallenge = async (challenge_id: number, user_id: number, token: string) => {
+  const checkIfUserIsInChallenge = async (
+    challenge_id: number,
+    user_id: number,
+    token: string,
+  ) => {
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
-    return await fetchData<{success: boolean, hasJoined: boolean}>(`${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/check/${challenge_id}/${user_id}`, options);
+    return await fetchData<{success: boolean; hasJoined: boolean}>(
+      `${process.env.EXPO_PUBLIC_TRAINING_SERVER}/challenge/check/${challenge_id}/${user_id}`,
+      options,
+    );
   };
 
-  const updateChallengeProgress = async (challenge_id: number, user_id: number, progress: number, token: string) => {
+  const updateChallengeProgress = async (
+    challenge_id: number,
+    user_id: number,
+    progress: number,
+    token: string,
+  ) => {
     const options = {
       method: 'PUT',
       headers: {
@@ -649,9 +805,19 @@ const useChallenge = () => {
     );
   };
 
-  return {getChallenges, getChallengeByChallengeId, getChallengeByUserId, postChallenge, putChallenge, deleteChallenge, joinChallenge, leaveChallenge, checkIfUserIsInChallenge, updateChallengeProgress};
-}
-
+  return {
+    getChallenges,
+    getChallengeByChallengeId,
+    getChallengeByUserId,
+    postChallenge,
+    putChallenge,
+    deleteChallenge,
+    joinChallenge,
+    leaveChallenge,
+    checkIfUserIsInChallenge,
+    updateChallengeProgress,
+  };
+};
 
 export {
   useUser,
@@ -662,5 +828,5 @@ export {
   useUserProgress,
   useExercise,
   useProfileUpdate,
-  useChallenge
+  useChallenge,
 };

@@ -78,43 +78,43 @@ const EditWorkoutScreen = () => {
 
 
   return (
-    <View className='flex flex-col items-center w-full pt-3 gap-3'>
+    <View className='flex flex-col items-center w-full pt-5'>
       <Text className='text-[22px] pb-1'>Edit Workout</Text>
       <TextInput
         placeholder={workoutInfo?.workout_name}
         value={workout_name}
         onChangeText={setWorkoutName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-xl'
+        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg  mt-3 mb-4'
       />
       <View className='relative w-[90%]'>
         <TextInput
           placeholder="Workout Description"
           value={workout_description}
-          onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))} // Limit to 200 characters
+          onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))}
           multiline
           numberOfLines={5}
           textAlignVertical="top"
-          className='p-2 border-gray-300 bg-gray-100 border rounded-xl '
+          className='p-2 border-gray-300 bg-gray-100 border rounded-lg '
         />
         <Text
           className={`absolute right-2 bottom-2 ${
             workout_description.length > 175
               ? workout_description.length >= 200
-                ? 'text-red-500' // If input is 200 or more characters, text color is red
-                : 'text-orange-500' // If input is more than 175 but less than 200, text color is orange
-              : 'text-gray-600' // Otherwise, text color is normal
+                ? 'text-red-500'
+                : 'text-orange-500'
+              : 'text-gray-600'
           }`}
-        >
-        {workout_description.length} / 200
-      </Text>
-    </View>
-      <View className='flex w-full items-center justify-center  flex-row'>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-400 w-[45%]'>
-        <Text className='text-center'>Edit Workout Date</Text>
-      </TouchableOpacity>
-      <Text
-        className='w-[45%] text-center border-gray-400 border-y border-r p-2  bg-gray-200'
-      >{workoutDate.toISOString().split('T')[0]}</Text>
+          >
+          {workout_description.length} / 200
+        </Text>
+      </View>
+      <View className='flex w-full items-center justify-center  flex-row my-4'>
+        <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-400 w-[45%]'>
+          <Text className='text-center'>Edit Workout Date</Text>
+        </TouchableOpacity>
+        <Text
+          className='w-[45%] text-center border-gray-400 border-y border-r p-2  bg-gray-200'
+        >{workoutDate.toISOString().split('T')[0]}</Text>
       </View>
       {showDatePicker && (
         <DateTimePicker
@@ -124,18 +124,20 @@ const EditWorkoutScreen = () => {
           onChange={onDateChange}
         />
       )}
-      <TouchableOpacity
-        onPress={editWorkout}
-        className='px-4 py-2 bg-blue-500 rounded-xl w-[90%]'
-      >
-        <Text className='text-white text-[20px] font-medium text-center'>Edit Workout</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-        onPress={deleteUserWorkout}
-        className='px-4 py-2 bg-red-500 rounded-xl w-[90%]'
-      >
-        <Text className='text-white text-[20px] font-medium text-center'>Delete Workout</Text>
-    </TouchableOpacity>
+      <View className="w-full h-[100%] items-center relative">
+        <TouchableOpacity
+          onPress={editWorkout}
+          className='px-4 py-2 bg-[#4ade80] rounded-lg w-[90%]'
+        >
+          <Text className='text-white text-[20px] font-medium text-center'>Edit Workout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={deleteUserWorkout}
+            className='px-4 py-2 bg-red-500 rounded-lg w-[90%] mt-2 absolute top-[350px]'
+        >
+            <Text className='text-white text-[20px] font-medium text-center'>Delete Workout</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
