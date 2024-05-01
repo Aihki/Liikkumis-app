@@ -1,6 +1,7 @@
 // ContextHooks.ts
 import {useContext} from 'react';
 import {UserContext} from '../contexts/UserContext';
+
 //import {UpdateContext} from '../contexts/UpdateContext';
 
 
@@ -13,4 +14,6 @@ const useUserContext = () => {
   return context;
 };
 
-export {useUserContext};
+
+
+export { useUserContext };

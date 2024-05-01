@@ -120,7 +120,7 @@ const FoodDiary = () => {
         placeholder="e.g. 200g chicken, 100g rice"
         multiline
       />
-      <View className="bg-blue-500 rounded-xl">
+      <View className="bg-blue-500 rounded-md">
   <TouchableOpacity onPress={handleAddMeal} >
     <Text className="text-white text-center p-2 font-semibold">Add Meal</Text>
     </TouchableOpacity>

@@ -8,6 +8,7 @@ import { MenuProvider } from 'react-native-popup-menu';
 
 const App = () => {
   return (
+
     <MenuProvider>
     <UserProvider>
       <UpdateProvider>
@@ -15,7 +16,9 @@ const App = () => {
         <StatusBar style="auto" />
       </UpdateProvider>
     </UserProvider>
+
     </MenuProvider>
+
   );
 };
 

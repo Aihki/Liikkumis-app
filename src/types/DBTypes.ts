@@ -65,7 +65,7 @@ type Challenge = {
   description: string;
   start_date: Date;
   end_date: Date;
-  target_type: 'Distance' | 'Weight' | 'Time' | 'Repetition';
+  target_type: 'Distance' | 'Weight' | 'Time' | 'Repetition' | 'Body Weight Repetition';
   target_value: number;
   active: boolean;
 };

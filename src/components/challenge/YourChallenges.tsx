@@ -8,6 +8,28 @@ import * as Progress from 'react-native-progress';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CombinedChallenge } from "../../types/DBTypes";
 
+type ExerciseImageMap = {
+  [key: string]: any;
+}
+
+const challengeImages: ExerciseImageMap = {
+  'Bronze Running': require('../../assets/images/cardio_bronze.png'),
+  'Silver Running': require('../../assets/images/cardio_silver.png'),
+  'Gold Running': require('../../assets/images/cardio_gold.png'),
+  'Platinum Running': require('../../assets/images/cardio_platinum.png'),
+  'Bronze Strength': require('../../assets/images/gym_bronze.png'),
+  'Silver Strength': require('../../assets/images/gym_silver.png'),
+  'Gold Strength': require('../../assets/images/gym_gold.png'),
+  'Platinum Strength': require('../../assets/images/gym_platinum.png'),
+  'Bronze Bodyweight': require('../../assets/images/body_bronze.png'),
+  'Silver Bodyweight': require('../../assets/images/body_silver.png'),
+  'Gold Bodyweight': require('../../assets/images/body_gold.png'),
+  'Platinum Bodyweight': require('../../assets/images/body_platinum.png'),
+
+  'default': 'https://via.placeholder.com/640x360/000000/FFFFFF?text=+',
+};
+
+
 const YourChallenges = () => {
   const { getChallengeByUserId } = useChallenge();
   const route = useRoute<RouteProp<RootStackParamList, 'YourChallenges'>>();
@@ -38,27 +60,33 @@ const YourChallenges = () => {
 
 
 
-  const renderItem = ({ item }: { item: CombinedChallenge }) => (
+  const renderItem = ({ item }: { item: CombinedChallenge }) => {
+
+    const progressPercentage = Math.round(Math.min((item.progress / item.target_value) * 100, 100));
+
+
+
+    return (
     <TouchableOpacity onPress={() => navigation.navigate('ChallengeDetails', { challengeId: item.challenge_id })}>
-    <View className="bg-white rounded-lg shadow my-2 relatvie">
-      <View className="p-4 w-[55%]">
+    <View className={` rounded-lg shadow my-1 relative ${progressPercentage === 100 ? 'bg-green-50 border border-green-400' : 'bg-white border-red-500'}`} >
+      <View className="p-4 w-[65%] border-r border-gray-300 ">
         <Text className="text-lg font-bold">{item.challenge_name}</Text>
       </View>
-      <View className="border-t border-r border-gray-300 w-[65%]">
+      <View className={`w-[65%] border-t  ${progressPercentage === 100 ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-300'}`}>
       <Text className="text-sm text-gray-500 pl-4 pt-2">
-        Progress: {Math.min((item.progress / item.target_value) * 100, 100)}%
+        Progress: {progressPercentage}%
       </Text>
         <View className="pl-4 pb-4 pt-[5px]">
           <Progress.Bar progress={item.progress / item.target_value}  indeterminateAnimationDuration={4000}  animated={true} width={200} height={11} color="#22C55E" borderColor="#9CA3AF" />
         </View>
       </View>
       <Image
-        source={{ uri: 'https://via.placeholder.com/640x360/000000/FFFFFF?text=+' }}
-        className="w-[127px] h-full object-cover absolute right-0 top-0 rounded-r-lg"
+        source={challengeImages[item.challenge_name] || challengeImages['default']}
+          className={`w-[127px] h-full object-cover absolute right-0 top-0 rounded-r-lg  ${progressPercentage === 100 ? 'bg-green-100' : 'bg-white opacity-30'} `}
       />
   </View>
   </TouchableOpacity>
-  );
+  )};
 
   return (
     <View className="flex-1 bg-gray-100 px-4 py-2">

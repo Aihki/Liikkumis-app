@@ -66,11 +66,8 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
             const relevantChallenges = challenges.filter(challenge =>
                 challenge.target_type === 'Repetition'
             );
-            console.log(relevantChallenges, 'mitä paslasdffjsdkfjsd');
             relevantChallenges.forEach(async (challenge) => {
                 const totalReps = exerciseRepsValue * exerciseSetsValue;
-                console.log('do we get here');
-
                 await updateChallengeProgress(challenge.challenge_id, user.user_id, totalReps, token);
             });
         }

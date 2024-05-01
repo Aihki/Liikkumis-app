@@ -22,8 +22,8 @@ const UserProgressList = ({user_id}: {user_id: number}) => {
 
       fetchUserProgress();
 
-      return () => {}; // optional cleanup function
-    }, [user_id]) // dependencies
+      return () => {};
+    }, [user_id])
   );
 
 

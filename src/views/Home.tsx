@@ -33,7 +33,7 @@ const Home = ({navigation}: {navigation: NavigationProp<ParamListBase>}) => {
                     />
 
 
-<View className='bg-gray-200 p-4 rounded-lg my-4 border-2'>
+<View className='bg-gray-200 p-4 rounded-lg my-4 border-2 mx-2'>
 
       <Text className='text-base font-bold text-center my-2'>
     Here's what you can do!{'\n'}
@@ -52,7 +52,7 @@ const Home = ({navigation}: {navigation: NavigationProp<ParamListBase>}) => {
   </Text>
     </View>
                      <TouchableOpacity
-        className='className="px-4 py-2 bg-blue-500 rounded-xl w-[90%]'
+        className='className="px-4 py-2 bg-blue-500 rounded-md w-[95%]'
         onPress={() => navigation.navigate('Challenges')}
       >
 

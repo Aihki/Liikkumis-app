@@ -106,15 +106,15 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     ]);
   };
 
-  const renderRightActions = (workoutId: number) => (progress, dragX) => {
+  const renderLeftActions = (progress, dragX, workoutId: number) => {
     const trans = dragX.interpolate({
-      inputRange: [-100, 0],
-      outputRange: [1, 0],
+      inputRange: [0, 100],
+      outputRange: [0, 1],
       extrapolate: 'clamp',
     });
     return (
       <TouchableOpacity
-        className="w-[100px] h-[96%] bg-red-500 items-center justify-center border-right rounded-r-lg"
+        className="w-[100px] h-[90%] bg-red-500 items-center justify-center rounded-l-lg mt-1"
         onPress={() => workoutWarning(workoutId)}
       >
         <Text className="text-white font-medium text-[18px]">Delete</Text>
@@ -189,12 +189,14 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
             keyExtractor={(item) => item.user_workout_id.toString()}
             contentContainerStyle={{ paddingBottom: 5 }}
             renderItem={({ item }) => (
-              <Swipeable renderRightActions={renderRightActions(item.user_workout_id)}>
+              <Swipeable
+              renderLeftActions={(progress, dragX) => renderLeftActions(progress, dragX, item.user_workout_id)}
+              >
               <Pressable
                 onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id, refresh: true })}
                 className={`mb-1 overflow-hidden rounded-lg shadow-lg relative`}
               >
-                <View className="bg-white rounded-lg relative overflow-hidden m-[3px]">
+                <View className="bg-white rounded-lg relative overflow-hidden m-[3px]  min-h-[115px]">
                   <View className="p-5 py-4 z-10">
                     <Text className="text-xl font-bold mb-2">{item.workout_name}</Text>
                     <Text className="text-gray-500">{formatDate(item.workout_date)}</Text>

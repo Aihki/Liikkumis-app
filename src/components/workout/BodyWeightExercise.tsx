@@ -1,18 +1,19 @@
 import { Text, TouchableOpacity, View, StyleSheet, TextInput } from "react-native"
-import { UserWorkout } from "../../types/DBTypes"
+import { CombinedChallenge, UserWorkout } from "../../types/DBTypes"
 import { ExerciseProps, RootStackParamList } from "../../types/LocalTypes"
 import { useUserContext } from "../../hooks/ContextHooks";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dropdown } from "react-native-element-dropdown";
-import { useExercise } from "../../hooks/apiHooks";
+import { useChallenge, useExercise } from "../../hooks/apiHooks";
 
 const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
   const { user } = useUserContext();
   const { addExercise } = useExercise();
+  const { getChallengeByUserId, updateChallengeProgress } = useChallenge();
 
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
@@ -23,7 +24,20 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
   const [isDurationBased, setIsDurationBased] = useState(false);
   const [customExercise, setCustomExercise] = useState<string>('');
   const [showCustomInput, setShowCustomInput] = useState<boolean>(false);
+  const [challenges, setChallenges] = useState<CombinedChallenge[]>([]);
 
+  const getChallengesByUId = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (!token || !user?.user_id) return;
+    try {
+      const response = await getChallengeByUserId(user.user_id);
+      setChallenges(response);
+    } catch (error) {
+      console.error("Failed to fetch challenges:", error);
+    }
+  };
+
+  useEffect(() => { getChallengesByUId()}, [])
 
   const addAnExercise = async () => {
     const token = await AsyncStorage.getItem('token');
@@ -46,11 +60,26 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
 
       await addExercise(user.user_id, exercises, token);
 
-      setExerciseName('');
-      setExerciseReps(null);
-      setExerciseDuration(null);
+      if (exerciseRepsValue > 0) {
+        console.log(challenges);
+        const relevantChallenges = challenges.filter(challenge =>
+            challenge.target_type === 'Body Weight Repetition'
+        );
+        relevantChallenges.forEach(async (challenge) => {
+            const totalReps = exerciseRepsValue * exerciseSetsValue;
+            await updateChallengeProgress(challenge.challenge_id, user.user_id, totalReps, token);
+        });
+    }
 
-      navigation.navigate('WorkoutDetails', { workoutId: workoutId, refresh: true });
+    // Reset fields after submission
+    setExerciseName('');
+    setCustomExercise('');
+    setExerciseDuration(null);
+    setExerciseReps(null);
+    setExerciseSets(null);
+
+    // Navigate back to workout details
+    navigation.navigate('WorkoutDetails', { workoutId: workoutId, refresh: true });
     } catch (error) {
       console.error("Failed to add exercise:", error);
     }
@@ -61,6 +90,7 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
     { label: 'Push-Ups', value: 'Push-Ups', isDurationBased: false },
     { label: 'Squats', value: 'Squats', isDurationBased: false },
     { label: 'Lunges', value: 'Lunges', isDurationBased: false },
+    { label: 'Muscle-up', value: 'Muscle-up', isDurationBased: false },
     { label: 'Plank', value: 'Plank', isDurationBased: true },
     { label: 'Side Plank', value: 'Side Plank', isDurationBased: true },
     { label: 'Sit-Ups', value: 'Sit-Ups', isDurationBased: false },

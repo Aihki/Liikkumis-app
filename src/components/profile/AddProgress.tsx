@@ -136,7 +136,6 @@ const AddProgress = () => {
     setShowDatePicker(Platform.OS === 'ios');
     setDate(currentDate);
 
-    // Update the date field in the formState
     handleChange('date', currentDate.toISOString());
   };
 
