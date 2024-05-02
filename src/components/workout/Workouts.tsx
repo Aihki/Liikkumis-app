@@ -125,7 +125,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
   return (
     <>
       <GestureHandlerRootView className="pt-10 h-[93%]">
-        <View className="relative">
+        <View className="relative z-50">
           <Text className="w-full text-center font-medium text-[24px] pb-4">Active Workouts</Text>
           <FontAwesome
                 name={isOpen ? 'times' : 'bars'}
@@ -135,28 +135,18 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => setIsOpen(!isOpen)}
               />
           {isOpen && (
-            <View className="bg-stone-100 p-3 pb-2 z-10 absolute top-full right-0 w-full shadow-md">
-                <TouchableOpacity onPress={() => navigateToWorkoutHistory()} className="relative border-b w-full border-gray-200">
-                  <FontAwesome
-                    name="history"
-                    size={28}
-                    color="black"
-                    style={{position: "absolute", top: 11, left: 7, zIndex: 20}}
-                    onPress={() => setIsOpen(!isOpen)}
-                  />
-                  <Text className="text-black font-medium text-lg p-2 ml-10">Workout History</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigateToChallenges()} className="relative border-b w-full border-gray-200">
-                  <FontAwesome
-                      name="gamepad"
-                      size={28}
-                      color="black"
-                      style={{position: "absolute", top: 7, left: 5, zIndex: 20}}
-                      onPress={() => setIsOpen(!isOpen)}
-                  />
-                  <Text className="text-black font-medium text-lg p-2 ml-10">Challenges</Text>
-                </TouchableOpacity>
+            <View style={{ position:"absolute", width: '100%', top: 50, left: 0, zIndex: 30 }}>
+            <View style={{ zIndex: 10, backgroundColor: 'white' }}>
+              <TouchableOpacity onPress={navigateToWorkoutHistory} style={{ padding: 12, display: 'flex', flexDirection: 'row', borderBottomColor: "#ccc", borderBottomWidth: 1 }}>
+                <FontAwesome name="history" size={28} color="black" />
+                <Text className="text-[18px] font-bold ml-2">Workout History</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={navigateToChallenges} style={{ padding: 12, display: 'flex', flexDirection: 'row' }}>
+                <FontAwesome name="gamepad" size={30} color="black"/>
+                <Text className="text-[18px] font-bold ml-2">Challenges</Text>
+              </TouchableOpacity>
             </View>
+          </View>
           )}
         </View>
         <View className="border border-gray-300 border-b-[1px] w-full opacity-50"/>

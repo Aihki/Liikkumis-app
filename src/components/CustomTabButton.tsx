@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4ade80',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 30,
+    marginBottom: 55,
   },
 });
 
