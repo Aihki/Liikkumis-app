@@ -128,13 +128,13 @@ const EditWorkoutScreen = () => {
       <View className="w-full h-[100%] items-center relative">
         <TouchableOpacity
           onPress={editWorkout}
-          className='px-4 py-2 bg-[#4ade80] rounded-lg w-[90%]'
+          className='px-4 py-2 bg-indigo-500 rounded-lg w-[90%]'
         >
           <Text className='text-white text-[20px] font-medium text-center'>Edit Workout</Text>
         </TouchableOpacity>
         <TouchableOpacity
             onPress={deleteUserWorkout}
-            className='px-4 py-2 bg-red-500 rounded-lg w-[90%] mt-2 absolute top-[350px]'
+            className='px-4 py-2 bg-red-500 rounded-lg w-[90%] mt-3 '
         >
             <Text className='text-white text-[20px] font-medium text-center'>Delete Workout</Text>
         </TouchableOpacity>

@@ -65,7 +65,7 @@ const TabNavigator = () => {
             <Ionicons
               name='home'
               size={30}
-              color={focused ? '#9ef09e' : '#b3b3b3'}
+              color={focused ? '#818cf8' : '#b3b3b3'}
             />
           ),
         }}
@@ -78,7 +78,7 @@ const TabNavigator = () => {
             <Ionicons
               name='person'
               size={30}
-              color={focused ? '#9ef09e' : '#b3b3b3'}
+              color={focused ? '#818cf8' : '#b3b3b3'}
             />
           ),
         }}
@@ -107,7 +107,7 @@ const TabNavigator = () => {
                 <MaterialCommunityIcons
                   name="food-variant"
                   size={30}
-                  color={focused ? '#9ef09e' : '#b3b3b3'}
+                  color={focused ? '#818cf8' : '#b3b3b3'}
                 />
               ),
             }}
@@ -120,7 +120,7 @@ const TabNavigator = () => {
                 <MaterialIcons
                   name="fitness-center"
                   size={30}
-                  color={focused ? '#9ef09e' : '#b3b3b3'}
+                  color={focused ? '#818cf8' : '#b3b3b3'}
                 />
               ),
             }}

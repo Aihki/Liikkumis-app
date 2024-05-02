@@ -203,7 +203,7 @@ const WorkoutDetails = () => {
           <>
             <View>
               <View className="px-2 pb-3 pt-2 bg-white border-b border-gray-200 shadow-lg relative w-full">
-                <View className="border border-[#8bcba4] rounded-md p-3 items-center relative">
+                <View className="border border-[#a5b4fc] rounded-md p-3 items-center relative">
                   <Text className="text-[24px] font-bold">{workoutInfo.workout_name}</Text>
                   <Text className=" text-[16px] text-gray-600">{truncateText(workoutInfo.workout_description, 42)}</Text>
                   <Text className="text-[16px] text-gray-500">{formatDate(workoutInfo.workout_date)}</Text>
@@ -256,7 +256,7 @@ const WorkoutDetails = () => {
                             navigation.navigate('Home')
                             setShowCompletedMessage(false);
                           }}
-                          className="bg-[#4ade80] py-2 rounded-lg mt-4 w-[50%]"
+                          className="bg-cyan-700 py-2 rounded-lg mt-4 w-[50%]"
                         >
                           <Text className="text-white text-lg font-bold text-center">Home</Text>
                         </Pressable>
@@ -264,7 +264,7 @@ const WorkoutDetails = () => {
                           onPress={() => {
                             setShowCompletedMessage(false);
                           }}
-                          className="bg-[#4ade80] py-2 rounded-lg mt-4 w-[50%]"
+                          className="bg-cyan-700 py-2 rounded-lg mt-4 w-[50%]"
                         >
                           <Text className="text-white text-lg font-bold text-center">Review</Text>
                         </Pressable>
@@ -277,14 +277,14 @@ const WorkoutDetails = () => {
                 <>
                   <TouchableOpacity
                   onPress={() => navigation.navigate('AddExerciseScreen', { workoutId: workoutId, workoutInfo: workoutInfo, refresh: true  })}
-                  className={`absolute z-10 bottom-0 left-[5%] px-4 py-3 bg-[#4ade80] rounded-xl ${userExercises.length === 0 || !allExercisesCompleted ? 'w-[90%]' : 'w-[75%]'}`}
+                  className={`absolute z-10 bottom-0 left-[5%] px-4 py-3 bg-indigo-500 rounded-xl ${userExercises.length === 0 || !allExercisesCompleted ? 'w-[90%]' : 'w-[75%]'}`}
                   >
                     <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
                   </TouchableOpacity>
                   {allExercisesCompleted && userExercises.length > 0 ? (
                     <Pressable
                     onPress={handleCheckMark}
-                    className="absolute z-10 bottom-0 right-[5%] px-2 py-[5px] bg-[#4ade80] rounded-xl"
+                    className="absolute z-10 bottom-0 right-[5%] px-2 py-[5px] bg-cyan-700 rounded-xl"
                   >
                     <Ionicons name="checkmark-circle-outline" size={40} color="white" />
                   </Pressable>
@@ -292,7 +292,7 @@ const WorkoutDetails = () => {
               </>
                 ) : (
                   <View
-                    className=' absolute z-10 bottom-0 left-[5%] px-4 py-3 bg-[#23ff74] rounded-xl w-[90%]'
+                    className=' absolute z-10 bottom-0 left-[5%] px-4 py-3 bg-indigo-500 rounded-xl w-[90%]'
                     >
                       <Text className='text-white text-[20px] font-medium text-center'>Workout Completed</Text>
                   </View>

@@ -58,7 +58,7 @@ const Profile = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <View className="absolute right-8 -top-[67px]">
+            <View className="absolute right-8 -top-[65px]">
               <FontAwesome name="gear" size={32} color="black" />
             </View>
           </TouchableOpacity>
@@ -71,11 +71,11 @@ const Profile = () => {
             }}
           >
             <StatusBar hidden={modalVisible} />
-             <View className="bg-white p-3 items-center h-48">
-              <View className="w-[90%] justify-center content-center">
+             <View className="bg-white p-3 items-center h-60 border-b border-gray-100">
+              <View className="w-[90%] justify-center content-center h-full">
                 <TouchableOpacity
                   onPress={handleLogout}
-                  className="bg-red-500 p-2 rounded-mg mb-2"
+                  className="bg-red-500 p-2 rounded-md mb-2"
                 >
                   <Text className="text-white font-bold text-lg text-center">
                     Logout
@@ -84,9 +84,9 @@ const Profile = () => {
                 <TouchableOpacity
                   onPress={() => setModalVisible(!modalVisible)}
                 >
-                  <View className="bg-green-500 p-2 rounded-mg">
+                  <View className="bg-cyan-700 p-2 rounded-md">
                     <Text className="text-center text-white font-bold text-lg">
-                      close
+                      Close
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -104,7 +104,7 @@ const Profile = () => {
         <View>
           <TouchableOpacity
             onPress={() => navigation.navigate('AddProgress')}
-            className="bg-green-500 p-2 rounded-lg w-1/2 self-center m-1.5"
+            className="bg-cyan-700 p-2 rounded-lg w-1/2 self-center m-1.5"
           >
             <Text className="text-white font-bold text-lg text-center">
               Add/update Progress
@@ -112,7 +112,7 @@ const Profile = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('CompareProgress')}
-            className="bg-green-500 p-2 rounded-lg w-1/2 self-center m-1.5"
+            className="bg-cyan-700 p-2 rounded-lg w-1/2 self-center m-1.5 mb-5"
           >
             <Text className="text-white font-bold text-lg text-center">
               Compare Progress

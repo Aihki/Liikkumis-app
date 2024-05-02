@@ -208,7 +208,7 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
 
       <TouchableOpacity
           onPress={() => addAnExercise()}
-          className='px-4 py-2 bg-green-500 rounded-md w-[91%] mt-1'
+          className='px-4 py-2 bg-indigo-500 rounded-md w-[91%] mt-1'
           >
           <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
         </TouchableOpacity>

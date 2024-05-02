@@ -131,7 +131,7 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
       )}
       <TouchableOpacity
         onPress={addWorkoutHandler}
-        className='px-4 py-2 bg-[#4ade80] rounded-lg mt-4 w-[91%]'
+        className='px-4 py-2 bg-indigo-500 rounded-lg mt-4 w-[91%]'
       >
         <Text className='text-white text-[20px] text-center font-medium'>Add Workout</Text>
     </TouchableOpacity>

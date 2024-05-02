@@ -136,7 +136,7 @@ const ChallengeDetails = () => {
               </TouchableOpacity>
             ) : (
               completed ? (
-                <View className="mt-4 bg-green-500 p-2 rounded-lg">
+                <View className="mt-4 bg-green-400 p-2 rounded-lg">
                   <Text className="text-white text-center font-semibold">Challenge Completed</Text>
                 </View>
               ) : (

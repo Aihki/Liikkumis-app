@@ -52,7 +52,7 @@ const Home = ({navigation}: {navigation: NavigationProp<ParamListBase>}) => {
   </Text>
     </View>
                      <TouchableOpacity
-        className='className="px-4 py-2 bg-blue-500 rounded-md w-[95%]'
+        className='className="px-4 py-2 bg-indigo-500 rounded-md w-[95%]'
         onPress={() => navigation.navigate('Challenges')}
       >
 

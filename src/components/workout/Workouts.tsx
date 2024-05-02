@@ -135,28 +135,18 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => setIsOpen(!isOpen)}
               />
           {isOpen && (
-            <View className="bg-stone-100 p-3 pb-2 z-10 absolute top-full right-0 w-full shadow-md">
-                <TouchableOpacity onPress={() => navigateToWorkoutHistory()} className="relative border-b w-full border-gray-200">
-                  <FontAwesome
-                    name="history"
-                    size={28}
-                    color="black"
-                    style={{position: "absolute", top: 11, left: 7, zIndex: 20}}
-                    onPress={() => setIsOpen(!isOpen)}
-                  />
-                  <Text className="text-black font-medium text-lg p-2 ml-10">Workout History</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigateToChallenges()} className="relative border-b w-full border-gray-200">
-                  <FontAwesome
-                      name="gamepad"
-                      size={28}
-                      color="black"
-                      style={{position: "absolute", top: 7, left: 5, zIndex: 20}}
-                      onPress={() => setIsOpen(!isOpen)}
-                  />
-                  <Text className="text-black font-medium text-lg p-2 ml-10">Challenges</Text>
-                </TouchableOpacity>
+            <View style={{ position: 'absolute', width: '100%', top: 50, left: 0, zIndex: 30 }}>
+            <View style={{ zIndex: 10, backgroundColor: 'white' }}>
+              <TouchableOpacity onPress={navigateToWorkoutHistory} style={{ padding: 12, display: 'flex', flexDirection: 'row', borderBottomColor: "#ccc", borderBottomWidth: 1 }}>
+                <FontAwesome name="history" size={28} color="black" />
+                <Text className="text-[18px] font-bold ml-2">Workout History</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={navigateToChallenges} style={{ padding: 12, display: 'flex', flexDirection: 'row' }}>
+                <FontAwesome name="gamepad" size={30} color="black"/>
+                <Text className="text-[18px] font-bold ml-2">Challenges</Text>
+              </TouchableOpacity>
             </View>
+          </View>
           )}
         </View>
         <View className="border border-gray-300 border-b-[1px] w-full opacity-50"/>
@@ -173,13 +163,13 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
             />
           </View>
           <View className="flex flex-row space-x-5 justify-center pb-2">
-            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Gym</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Body Weight</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-green-100 border-[#4ade80]' : 'bg-gray-100 border-[#6ccf91]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Cardio</Text>
             </TouchableOpacity>
           </View>

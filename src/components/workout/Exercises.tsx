@@ -171,7 +171,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
     } else {
       return (
         <TouchableOpacity
-          className="w-[105px] h-[88%] bg-green-500 items-center justify-center rounded-r-xl"
+          className="w-[105px] h-[90%] bg-green-600 items-center justify-center rounded-r-xl"
           onPress={() => markExerciseAsD(exerciseId)}
         >
           <Text style={{ color: 'white', fontSize: 18, fontWeight: 'bold' }}>Done</Text>
@@ -223,7 +223,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
               onPress={() => setModalVisible(!modalVisible)}
               className="pt-2"
             >
-              <View className="bg-green-500 p-2 rounded-md">
+              <View className="bg-indigo-500 p-2 rounded-md">
                 <Text className="text-center text-white font-bold text-[16px]">Close</Text>
               </View>
             </TouchableOpacity>
