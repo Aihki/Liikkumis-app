@@ -43,7 +43,7 @@ const PersonalBestC = () => {
             <Text className="text-lg font-bold ml-2">{pb.exercise_name}</Text>
             <Text className="text-white text-[16px] font-bold mr-2">{pb.max_weight} KG</Text>
           </View>
-          <View className="absolute bg-green-700 w-[250px] h-[250px] top-0 -right-28 transform rotate-45 translate-x-1/2 -translate-y-1/"></View>
+          <View className="absolute bg-green-600 w-[250px] h-[250px] top-0 -right-28 transform rotate-45 translate-x-1/2 -translate-y-1/"></View>
         </View>
       )) : <Text className="text-center text-gray-500">No personal bests to display.</Text>}
     </View>

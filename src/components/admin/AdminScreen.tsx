@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/ContextHooks";
-import { RootStackParamList } from "../../types/LocalTypes";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
 import { ActivityIndicator, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import UserList from "./UserList";
 import AdminData from "./AdminData";
@@ -12,7 +9,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 const AdminScreen = () => {
   const { user, handleLogout } = useUserContext();
 
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [open, setOpen] = useState<boolean>(false);
 
   if (user?.user_level_id !== 1) {

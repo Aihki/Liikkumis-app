@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp, createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
@@ -23,7 +23,10 @@ import Challenges from '../components/challenge/Challenges';
 import ChallengeDetails from '../components/challenge/ChallengeDetails';
 import YourChallenges from '../components/challenge/YourChallenges';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-
+import { Text, View } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
+import CustomTabButton from '../components/CustomTabButton';
+import Workouts from '../components/workout/Workouts';
 
 
 const Tab = createBottomTabNavigator();
@@ -41,52 +44,90 @@ const TabNavigator = () => {
 
   // For non-admin users, return the usual TabNavigator with tabs
   return (
-<Tab.Navigator>
-  <Tab.Screen
-    name="Home"
-    component={Home}
-    options={{
-      headerShown: false,
-      tabBarIcon: ({ focused, color, size }) => (
-        <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
-      ),
-    }}
-  />
-  <Tab.Screen
-    name="Profile"
-    component={Profile}
-    options={{
-      headerShown: false,
-      tabBarIcon: ({ focused, color, size }) => (
-        <Ionicons name={focused ? 'person' : 'person-outline'} size={size} color={color} />
-      ),
-    }}
-  />
-  {user && (
-    <>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          height: 60,
+          backgroundColor: '#fff',
+          paddingBottom: 5,
+        },
+        tabBarActiveTintColor: '#9ef09e',
+        tabBarInactiveTintColor: '#d3d3d3',
+      }}
+    >
       <Tab.Screen
-        name="FoodDiary"
-        component={FoodDiary}
+        name="Home"
+        component={Home}
         options={{
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => (
-            <MaterialCommunityIcons name="food-variant" size={size} color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name='home'
+              size={30}
+              color={focused ? '#9ef09e' : '#b3b3b3'}
+            />
           ),
         }}
       />
       <Tab.Screen
-        name="Exercise"
-        component={Exercise}
+        name="Profile"
+        component={Profile}
         options={{
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => (
-            <MaterialIcons name="fitness-center" size={size} color={color} />
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name='person'
+              size={30}
+              color={focused ? '#9ef09e' : '#b3b3b3'}
+            />
           ),
         }}
       />
-    </>
-  )}
-</Tab.Navigator>
+      <Tab.Screen
+        name="AddWorkout"
+        component={View} // Empty view, since navigation is handled by the button
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Entypo name="plus" size={42} color={focused ? "#4ade80" : "grey"} />
+          ),
+          tabBarButton: (props) => (
+            <CustomTabButton {...props}>
+              <Entypo name="plus" size={42} color="white" />
+            </CustomTabButton>
+          )
+        }}
+      />
+      {user && (
+        <>
+          <Tab.Screen
+            name="FoodDiary"
+            component={FoodDiary}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <MaterialCommunityIcons
+                  name="food-variant"
+                  size={30}
+                  color={focused ? '#9ef09e' : '#b3b3b3'}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Exercise"
+            component={Exercise}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <MaterialIcons
+                  name="fitness-center"
+                  size={30}
+                  color={focused ? '#9ef09e' : '#b3b3b3'}
+                />
+              ),
+            }}
+          />
+        </>
+      )}
+    </Tab.Navigator>
   );
 };
 

@@ -93,14 +93,14 @@ const Challenges = () => {
 
     return  (
     <TouchableOpacity onPress={() => navigation.navigate('ChallengeDetails', { challengeId: item.challenge_id, completed: item.completed})}>
-      <View className={`${item.completed ? 'bg-green-100' : 'bg-white'} rounded-lg shadow my-2 relative flex-row items-center min-h-[125px] `}>
+      <View className={`${item.completed ? 'bg-green-50 border-green-400 border' : 'bg-white'} rounded-lg shadow my-2 relative flex-row items-center min-h-[125px] `}>
         <View className="flex-1 p-4">
           <Text className="text-lg font-bold">{item.challenge_name}</Text>
           <Text className="py-2">{truncateText(item.description, 65)}</Text>
         </View>
         <Image
           source={challengeImages[item.challenge_name] || challengeImages['default']}
-          className="w-[127px] h-full object-cover rounded-r-lg bg-gray-400 opacity-30"
+          className={`w-[127px] h-full object-cover rounded-r-lg ${item.completed ? 'bg-green-100 border' : 'bg-white opacity-30'}`}
         />
       </View>
     </TouchableOpacity>

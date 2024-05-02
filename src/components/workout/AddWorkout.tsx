@@ -20,7 +20,7 @@ const AddWorkout: React.FC<AddWorkoutProps> = ({ onWorkoutAdded }) => {
     <View className='relative'>
       <TouchableOpacity
         onPress={navigateToAddworkout}
-        className='absolute right-4 top-9 w-11 h-11 flex justify-center items-center bg-[#4ade80]  rounded-full shadow-lg z-10'
+        className='absolute right-4 top-9 w-11 h-11 flex justify-center items-center bg-[#4ade80]  rounded-full shadow-lg z-100'
         activeOpacity={0.7}
       >
         <FontAwesome
