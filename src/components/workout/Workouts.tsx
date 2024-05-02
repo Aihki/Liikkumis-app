@@ -135,7 +135,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => setIsOpen(!isOpen)}
               />
           {isOpen && (
-            <View style={{ position:"absolute", width: '100%', top: 50, left: 0, zIndex: 30 }}>
+            <View style={{ position:"absolute", width: '100%', top: 45, left: 0, zIndex: 30 }}>
             <View style={{ zIndex: 10, backgroundColor: 'white' }}>
               <TouchableOpacity onPress={navigateToWorkoutHistory} style={{ padding: 12, display: 'flex', flexDirection: 'row', borderBottomColor: "#ccc", borderBottomWidth: 1 }}>
                 <FontAwesome name="history" size={28} color="black" />
