@@ -33,7 +33,7 @@ const AddWorkout: React.FC<AddWorkoutProps> = ({ onWorkoutAdded }) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    zIndex: 1,
+    zIndex: 1, // Ensuring a stacking context
   },
   addButton: {
     position: 'absolute',
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
     height: 44,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#6366f1',
+    backgroundColor: '#4ade80',
     borderRadius: 22,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    zIndex: 20,
+    zIndex: 20, // High zIndex for the button
   }
 });
 
