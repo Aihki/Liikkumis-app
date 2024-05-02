@@ -47,6 +47,7 @@ export type RootStackParamList = {
 
   ChallengeDetails: {
     challengeId: number;
+    completed?: boolean;
     refresh?: boolean;
   };
 

@@ -56,6 +56,7 @@ const EditWorkoutScreen = () => {
       };
 
       await putWorkout(workout, token);
+      navigation.navigate('Exercise');
     } catch (error) {
       console.error(error);
     }

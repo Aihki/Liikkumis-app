@@ -7,9 +7,32 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Challenge } from "../../types/DBTypes";
 import { useEffect, useState } from "react";
 
+type ExerciseImageMap = {
+  [key: string]: any;
+}
+
+const challengeImages: ExerciseImageMap = {
+  'Bronze Running': require('../../assets/images/cardio_bronze.png'),
+  'Silver Running': require('../../assets/images/cardio_silver.png'),
+  'Gold Running': require('../../assets/images/cardio_gold.png'),
+  'Platinum Running': require('../../assets/images/cardio_platinum.png'),
+  'Bronze Strength': require('../../assets/images/gym_bronze.png'),
+  'Silver Strength': require('../../assets/images/gym_silver.png'),
+  'Gold Strength': require('../../assets/images/gym_gold.png'),
+  'Platinum Strength': require('../../assets/images/gym_platinum.png'),
+  'Bronze Bodyweight': require('../../assets/images/body_bronze.png'),
+  'Silver Bodyweight': require('../../assets/images/body_silver.png'),
+  'Gold Bodyweight': require('../../assets/images/body_gold.png'),
+  'Platinum Bodyweight': require('../../assets/images/body_platinum.png'),
+
+  'default': 'https://via.placeholder.com/640x360/000000/FFFFFF?text=+',
+};
+
+
 const ChallengeDetails = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'ChallengeDetails'>>();
-  const { challengeId } = route.params;
+  const { challengeId, completed } = route.params;
+
 
   const { user } = useUserContext();
 
@@ -91,6 +114,7 @@ const ChallengeDetails = () => {
 
   useEffect(() => { getChallenge(), checkIfUserJoinedChallenge(); }, []);
 
+
   return (
     <View className="flex-1 bg-gray-100  items-center">
       {challenge && (
@@ -98,7 +122,7 @@ const ChallengeDetails = () => {
 
             <Image
               className="w-full h-64 object-cover"
-              source={require('../../assets/images/cardio-exercise.jpg')}
+              source={challengeImages[challenge.challenge_name] || challengeImages['default']}
             />
 
 
@@ -111,9 +135,15 @@ const ChallengeDetails = () => {
                 <Text className="text-white text-center font-semibold">Join Challenge</Text>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity className="mt-4 bg-red-500 p-2 rounded-lg" onPress={leaveFromChallenge}>
-                <Text className="text-white text-center font-semibold">Leave Challenge</Text>
-              </TouchableOpacity>
+              completed ? (
+                <View className="mt-4 bg-green-500 p-2 rounded-lg">
+                  <Text className="text-white text-center font-semibold">Challenge Completed</Text>
+                </View>
+              ) : (
+                <TouchableOpacity className="mt-4 bg-red-500 p-2 rounded-lg" onPress={leaveFromChallenge}>
+                  <Text className="text-white text-center font-semibold">Leave Challenge</Text>
+                </TouchableOpacity>
+              )
             )}
 
           </View>

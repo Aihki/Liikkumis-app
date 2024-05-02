@@ -51,7 +51,7 @@ const Profile = () => {
                 />
               </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate('YourChallenges', {userId: Number(user?.user_id)})}>
+              <TouchableOpacity onPress={() => navigation.navigate('Challenges')}>
               <View className='absolute left-8 -top-[67px]'>
                 <FontAwesome
                   name="gamepad"
