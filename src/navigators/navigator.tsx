@@ -49,7 +49,7 @@ const TabNavigator = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 60,
+          height: 80,
           backgroundColor: '#fff',
           paddingBottom: 5,
         },
