@@ -88,11 +88,11 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
             borderBottomWidth: 1,
             borderBottomColor: 'transparent',
             shadowColor: '#000',
-            shadowOffset: { width: 0, height: 10 }, // Shadow only at the bottom
+            shadowOffset: { width: 0, height: 10 },
             shadowOpacity: 0.1,
             shadowRadius: 6,
-            elevation: 10, // For Android
-            backgroundColor: 'white' // Make sure the background color is set for the shadow to appear
+            elevation: 10,
+            backgroundColor: 'white'
         }}>
         <Text style={{ textAlign: 'center', fontSize: 20, fontWeight: 'bold', margin: 10 }}>
           Welcome to LiikkumisApp!
@@ -110,7 +110,7 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
           }}
         />
       </View>
-      <View className='items-center border-y pt-4 pb-6 border-gray-200'>
+      <View className='items-center border-y pt-3 pb-3 border-gray-200'>
         <View className='w-[87%]  bg-white rounded-lg border border-t border-gray-50 shadow-lg shadow-indigo-200   relative'>
           <Text className='text-center mt-4 mb-2 text-[18px]'>Monthly Activity</Text>
           <TouchableOpacity
@@ -164,21 +164,22 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
           />
         </View>
       </View>
-      <View className='bg-gray-200 p-4 rounded-lg my-4 border-2 mx-2'>
+      <View className='items-center mb-2'>
+        <TouchableOpacity
+          className='px-4 py-2 bg-indigo-500 rounded-md w-[85%]'
+          onPress={() => navigation.navigate('Challenges')}
+        >
+          <Text className='text-white text-center font-semibold'>Challenges</Text>
+        </TouchableOpacity>
+      </View>
+      <View className='bg-gray-200 p-4 rounded-lg mt-5 mb-7 border-2 mx-2'>
         <Text className='text-base font-bold text-center my-2'>Here's what you can do!{'\n'}</Text>
         <Text className='text-sm'>- Create and track your workouts in the exercise page.{'\n'}</Text>
         <Text className='text-sm'>- Create meal plans to follow in the food diary.{'\n'}</Text>
         <Text className='text-sm'>- Track your progress on your profile.{'\n'}</Text>
         <Text className='text-sm'>- And finally, see your challenges here on the home page!{'\n'}</Text>
       </View>
-      <View className='items-center mb-8'>
-        <TouchableOpacity
-          className='px-4 py-2 bg-indigo-500 rounded-md w-[95%]'
-          onPress={() => navigation.navigate('Challenges')}
-        >
-          <Text className='text-white text-center font-semibold'>Challenges</Text>
-        </TouchableOpacity>
-      </View>
+
     </ScrollView>
   );
 };

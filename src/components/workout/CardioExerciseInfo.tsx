@@ -24,7 +24,7 @@ const CardioExerciseInfo = ({ exercise }: { exercise: Exercise }) => {
 
   useEffect(() => {
     Animated.timing(animatedWidth, {
-      toValue: intensity.numericLevel, // Low = 1, Moderate = 2, High = 3
+      toValue: intensity.numericLevel,
       duration: 500,
       useNativeDriver: false,
     }).start();
@@ -37,8 +37,8 @@ const CardioExerciseInfo = ({ exercise }: { exercise: Exercise }) => {
   });
 
   return (
-    <View className='items-center p-5'>
-      <Text className='text-base text-black mb-2.5'>Intensity:</Text>
+    <View className='items-center p-5 bg-white mx-3 rounded-md'>
+      <Text className='text-[18px] font-bold text-black mb-2.5'>Intensity:</Text>
       <View className='w-full h-5 bg-gray-300 rounded-lg overflow-hidden mb-2.5'>
         <Animated.View style={{ width: widthInterpolation, backgroundColor: intensity.color, height: '100%', borderRadius: 9999 }} />
       </View>
