@@ -213,7 +213,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="bg-white p-3 pt-10 items-center h-[35%]">
+        <View className="bg-white p-3 pt-20 items-center h-[35%]">
           <View className="flex flex-col gap-4">
             <Text className="text-center text-[20px] font-bold mb-2">Manage Your Exercises:</Text>
             <Text className="text-[16px]">Add an exercise with the 'Add Exercise' button.</Text>
