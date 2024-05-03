@@ -170,19 +170,29 @@ const AddProgress = () => {
                 ? formState.progress_height.toString() + ' cm'
                 : ''
             }
-            onChangeText={(value) =>
-              handleChange('progress_height', value.replace(' cm', ''))
-            }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange('progress_height', value.replace(' cm', ''));
+              }
+            }}
           />
           <Text className="text-left">Weight</Text>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Weight (kg)"
-            value={formState.progress_weight ? formState.progress_weight.toString() + ' kg' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_weight', value.replace(' kg', ''))
+            value={
+              formState.progress_weight
+                ? formState.progress_weight.toString() + ' kg'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' kg', ''));
+              if (numericValue <= 999) {
+                handleChange('progress_weight', value.replace(' kg', ''));
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text>Bicep left</Text>
@@ -192,10 +202,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Bicep Left (cm)"
-            value={formState.progress_circumference_bicep_l? formState.progress_circumference_bicep_l?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_bicep_l', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_bicep_l
+                ? formState.progress_circumference_bicep_l?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_bicep_l',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text>Bicep right</Text>
@@ -205,10 +225,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Bicep Right (cm)"
-            value={formState.progress_circumference_bicep_r ? formState.progress_circumference_bicep_r?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_bicep_r', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_bicep_r
+                ? formState.progress_circumference_bicep_r?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_bicep_r',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text>Calves left</Text>
@@ -218,10 +248,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Calves Left (cm)"
-            value={formState.progress_circumference_calves_l ? formState.progress_circumference_calves_l?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_calves_l', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_calves_l
+                ? formState.progress_circumference_calves_l?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_calves_l',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text>Calves Right</Text>
@@ -231,10 +271,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Calves Right (cm)"
-            value={formState.progress_circumference_calves_r ? formState.progress_circumference_calves_r?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_calves_r', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_calves_r
+                ? formState.progress_circumference_calves_r?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_calves_r',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
         </View>
         <View className="flex-1 justify-center m-2">
@@ -246,10 +296,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Chest (cm)"
-            value={formState.progress_circumference_chest ? formState.progress_circumference_chest?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_chest', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_chest
+                ? formState.progress_circumference_chest?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_chest',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text className="text-left">Waist</Text>
@@ -259,10 +319,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Waist (cm)"
-            value={formState.progress_circumference_waist ? formState.progress_circumference_waist?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_waist', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_waist
+                ? formState.progress_circumference_waist?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_waist',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text className="text-left">Thigh left</Text>
@@ -272,10 +342,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Thigh Left (cm)"
-            value={formState.progress_circumference_thigh_l ? formState.progress_circumference_thigh_l?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_thigh_l', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_thigh_l
+                ? formState.progress_circumference_thigh_l?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_thigh_l',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
             <Text className="text-left">Thigh Right</Text>
@@ -285,10 +365,20 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Thigh Right (cm)"
-            value={formState.progress_circumference_thigh_r ? formState.progress_circumference_thigh_r?.toString() + ' cm' : ''}
-            onChangeText={(value) =>
-              handleChange('progress_circumference_thigh_r', value.replace(' cm', ''))
+            value={
+              formState.progress_circumference_thigh_r
+                ? formState.progress_circumference_thigh_r?.toString() + ' cm'
+                : ''
             }
+            onChangeText={(value) => {
+              const numericValue = parseFloat(value.replace(' cm', ''));
+              if (numericValue <= 999) {
+                handleChange(
+                  'progress_circumference_thigh_r',
+                  value.replace(' cm', ''),
+                );
+              }
+            }}
           />
           <Text className="text-left">Date</Text>
           <TouchableOpacity
