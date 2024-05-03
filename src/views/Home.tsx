@@ -131,7 +131,7 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
               setModalVisible(!modalVisible);
             }}
           >
-            <View className="bg-white border-b border-gray-50 p-3 items-center h-[32%]">
+            <View className="bg-white border-b border-gray-50 p-3 pt-10 items-center h-[32%]">
               <View className="flex flex-col gap-4">
                   <Text className="text-center text-[20px] font-bold mb-2">Monthly Activity Calendar:</Text>
                   <Text className="text-[16px]">This calendar displays your activity history for the month.</Text>
