@@ -155,7 +155,7 @@ const StackNavigator = () => {
             />
             <stack.Screen name="AddWorkoutScreen" component={AddWorkoutScreen} />
             <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
-            <stack.Screen name="WorkoutHistoryScreen" component={WorkoutHistoryScreen} />
+            <stack.Screen name="WorkoutHistory" component={WorkoutHistoryScreen} />
             <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
             <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
             <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />

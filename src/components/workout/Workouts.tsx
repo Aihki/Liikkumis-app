@@ -74,7 +74,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
 
   const navigateToWorkoutHistory = () => {
     if (typeof user?.user_id !== 'number') return;
-    navigation.navigate('WorkoutHistoryScreen', { userId: user.user_id });
+    navigation.navigate('WorkoutHistory', { userId: user.user_id });
     setIsOpen(false);
   };
 
