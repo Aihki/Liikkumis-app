@@ -309,7 +309,7 @@ const AddProgress = () => {
       </View>
       <TouchableOpacity
         onPress={addProgress}
-        className="bg-green-500 p-2 rounded-lg w-1/2 self-center m-1.5"
+        className="bg-indigo-500 p-2 rounded-lg w-1/2 self-center m-1.5"
       >
         <Text className="text-white font-bold text-lg text-center">
           Upload Progress

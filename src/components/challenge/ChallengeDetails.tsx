@@ -131,7 +131,7 @@ const ChallengeDetails = () => {
             <Text className="mb-4 text-[16px]">{challenge.description}</Text>
             <Text className="font-semibold">Target: {challenge.target_value} {challenge.target_type}</Text>
             {!joined ? (
-              <TouchableOpacity className="mt-4 bg-blue-500 p-2 rounded-lg" onPress={takePartInChallenge}>
+              <TouchableOpacity className="mt-4 bg-indigo-500 p-2 rounded-lg" onPress={takePartInChallenge}>
                 <Text className="text-white text-center font-semibold">Join Challenge</Text>
               </TouchableOpacity>
             ) : (

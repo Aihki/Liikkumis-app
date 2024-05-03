@@ -67,7 +67,7 @@ const YourChallenges = () => {
 
 
     return (
-    <TouchableOpacity onPress={() => navigation.navigate('ChallengeDetails', { challengeId: item.challenge_id })}>
+
     <View className={` rounded-lg shadow my-1 relative ${progressPercentage === 100 ? 'bg-green-50 border border-green-400' : 'bg-white border-red-500'}`} >
       <View className="p-4 w-[65%] border-r border-gray-300 ">
         <Text className="text-lg font-bold">{item.challenge_name}</Text>
@@ -85,7 +85,6 @@ const YourChallenges = () => {
           className={`w-[127px] h-full object-cover absolute right-0 top-0 rounded-r-lg  ${progressPercentage === 100 ? 'bg-green-100' : 'bg-white opacity-30'} `}
       />
   </View>
-  </TouchableOpacity>
   )};
 
   return (

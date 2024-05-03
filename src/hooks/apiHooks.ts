@@ -251,6 +251,25 @@ const useExercise = () => {
     );
   };
 
+  interface Activity {
+    workout_date: string;
+    workout_type: string;
+    workout_name: string;
+    total_exercises: number;
+  }
+
+  const getActivity = async (id: number, token: string) => {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+      return await fetchData<Activity[]>(
+        process.env.EXPO_PUBLIC_TRAINING_SERVER + '/exercises/' + id + '/activity',
+        options,
+      );
+  };
+
   return {
     getUserExercises,
     getUserSpecificExercises,
@@ -263,6 +282,7 @@ const useExercise = () => {
     getPersonalBestByExerciseName,
     comparePersonalBest,
     getPersonalBestForProfile,
+    getActivity
   };
 };
 

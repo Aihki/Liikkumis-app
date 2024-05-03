@@ -34,6 +34,7 @@ const GymExerciseInfo = ({exercise}: {exercise: Exercise}) => {
       const token = await AsyncStorage.getItem('token');
       if (!token || !user) return
       const response = await comparePersonalBest(user.user_id, exercise_name, token)
+      console.log(response);
       const parsedData = response.map(item => ({
         ...item,
         average_max_weight: parseFloat(item.average_max_weight),
@@ -41,6 +42,7 @@ const GymExerciseInfo = ({exercise}: {exercise: Exercise}) => {
         percentage_above_average: parseFloat(item.percentage_above_average),
         user_id: parseInt(item.user_id, 10)
       }));
+
 
       setCompare(parsedData[0]);
     } catch (error) {
@@ -75,26 +77,33 @@ const GymExerciseInfo = ({exercise}: {exercise: Exercise}) => {
         </View>
 
         {compare && typeof compare.percentage_above_average === 'number' ? (
-          compare.percentage_above_average < 0 ? (
-            <View className="flex flex-row items-center justify-center gap-2">
-              <FontAwesome name="arrow-down" size={30} color="red"  />
-              <Text className="font-bold text-lg pt-2">
-                PB is {Math.round(Math.abs(compare.percentage_above_average))}% below average
-              </Text>
-            </View>
-          ) : (
-            <View className="flex flex-row items-center justify-center gap-2">
-              <FontAwesome name="arrow-up" size={30} color="green" />
-              <Text className="font-bold text-lg pt-2">
-                Your PB is {Math.round(compare.percentage_above_average)}% above average
-              </Text>
-            </View>
-          )
-        ) : (
-          <Text className="text-lg">
-            No Comparison Data
-          </Text>
-        )}
+  compare.percentage_above_average < 0 ? (
+    <View className="flex flex-row items-center justify-center gap-2">
+      <FontAwesome name="arrow-down" size={30} color="red"  />
+      <Text className="font-bold text-lg pt-2">
+        PB is {Math.round(Math.abs(compare.percentage_above_average))}% below average
+      </Text>
+    </View>
+  ) : compare.percentage_above_average > 0 ? (
+    <View className="flex flex-row items-center justify-center gap-2">
+      <FontAwesome name="arrow-up" size={30} color="green" />
+      <Text className="font-bold text-lg pt-2">
+        Your PB is {Math.round(compare.percentage_above_average)}% above average
+      </Text>
+    </View>
+  ) : (
+    <View className="flex flex-row items-center justify-center gap-2">
+      <FontAwesome name="minus" size={30} color="grey" />
+      <Text className="font-bold text-lg pt-2">
+        Your PB is average
+      </Text>
+    </View>
+  )
+) : (
+  <Text className="text-lg">
+    No Comparison Data
+  </Text>
+)}
       </View>
     </>
   );

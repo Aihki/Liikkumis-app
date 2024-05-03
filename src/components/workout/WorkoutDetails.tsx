@@ -284,7 +284,7 @@ const WorkoutDetails = () => {
                   {allExercisesCompleted && userExercises.length > 0 ? (
                     <Pressable
                     onPress={handleCheckMark}
-                    className="absolute z-10 bottom-0 right-[5%] px-2 py-[5px] bg-cyan-700 rounded-xl"
+                    className="absolute z-10 bottom-0 right-[5%] px-2 py-[5px] bg-indigo-600 rounded-xl"
                   >
                     <Ionicons name="checkmark-circle-outline" size={40} color="white" />
                   </Pressable>
