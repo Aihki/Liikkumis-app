@@ -156,9 +156,9 @@ const StackNavigator = () => {
             <stack.Screen name="AddWorkoutScreen" component={AddWorkoutScreen} />
             <stack.Screen name="WorkoutDetails" component={WorkoutDetails} />
             <stack.Screen name="WorkoutHistory" component={WorkoutHistoryScreen} />
-            <stack.Screen name="EditWorkoutScreen" component={EditWorkoutScreen} />
-            <stack.Screen name="AddExerciseScreen" component={AddExerciseScreen} />
-            <stack.Screen name="ExerciseInfoScreen" component={ExerciseInfoScreen} />
+            <stack.Screen name="EditWorkout" component={EditWorkoutScreen} />
+            <stack.Screen name="AddExercise" component={AddExerciseScreen} />
+            <stack.Screen name="ExerciseInfo" component={ExerciseInfoScreen} />
             <stack.Screen name="ProfilePic" component={ProfilePic} />
             <stack.Screen name="AddProgress" component={addProgress} />
             <stack.Screen name="CompareProgress" component={CompareProgress} />

@@ -31,14 +31,14 @@ export type RootStackParamList = {
 
   WorkoutHistory: { userId: number; refresh?: boolean};
 
-  EditWorkoutScreen: {workoutId: number; refresh?: boolean};
+  EditWorkout: {workoutId: number; refresh?: boolean};
 
-  AddExerciseScreen: {
+  AddExercise: {
     workoutId: number;
     workoutInfo: UserWorkout;
     refresh?: boolean;
   };
-  ExerciseInfoScreen: {
+  ExerciseInfo: {
     exerciseId: number;
     refresh?: boolean;
   };

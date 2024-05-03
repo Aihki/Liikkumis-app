@@ -11,7 +11,7 @@ import GymExerciseInfo from "./GymExerciseInfo";
 import { useExercise } from "../../hooks/apiHooks";
 
 const ExerciseInfoScreen = () => {
-  const route = useRoute<RouteProp<RootStackParamList, 'ExerciseInfoScreen'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'ExerciseInfo'>>();
   const { exerciseId } = route.params;
   const { user } = useUserContext();
 

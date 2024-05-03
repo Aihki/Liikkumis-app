@@ -247,7 +247,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
             >
               <Pressable
                 onPress={() => {
-                  navigation.navigate('ExerciseInfoScreen', { exerciseId: item.exercise_id, refresh: true })
+                  navigation.navigate('ExerciseInfo', { exerciseId: item.exercise_id, refresh: true })
                 }}
               >
                 <View className={`${item.exercise_completed == 1 ? ('border border-green-300 bg-green-50') : ('bg-white')}   mb-4 rounded-lg shadow relative overflow-hidden min-h-[140px]`}>

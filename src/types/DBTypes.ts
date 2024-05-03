@@ -15,7 +15,7 @@ type User = {
 };
 
 type FoodDiary = {
-  foodDiary_id?: number;
+  food_diary_id?: number;
   user_id: number;
   food_diary_date: string;
   food_diary_notes: string;

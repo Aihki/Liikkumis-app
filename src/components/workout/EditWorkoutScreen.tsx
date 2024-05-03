@@ -10,7 +10,7 @@ import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 ;
 
 const EditWorkoutScreen = () => {
-  const route = useRoute<RouteProp<RootStackParamList, 'EditWorkoutScreen'>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'EditWorkout'>>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { workoutId } = route.params;
   const { user } = useUserContext();
@@ -84,8 +84,10 @@ const EditWorkoutScreen = () => {
       <TextInput
         placeholder={workoutInfo?.workout_name}
         value={workout_name}
-        onChangeText={setWorkoutName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg  mt-3 mb-4'
+        multiline
+        textAlignVertical="top"
+        onChangeText={(text) => setWorkoutName(text.substring(0, 50))}
+        className='p-3 border-gray-300 bg-gray-100 border w-[90%] rounded-lg  mt-3 mb-4'
       />
       <View className='relative w-[90%]'>
         <TextInput
@@ -93,7 +95,7 @@ const EditWorkoutScreen = () => {
           value={workout_description}
           onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))}
           multiline
-          numberOfLines={5}
+          numberOfLines={7}
           textAlignVertical="top"
           className='p-2 border-gray-300 bg-gray-100 border rounded-lg '
         />

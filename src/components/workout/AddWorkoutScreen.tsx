@@ -72,12 +72,25 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
   return (
     <View className='flex flex-col items-center w-full pt-3 '>
       <Text className='text-[22px] pt-2 pb-4 '>Add New Workout</Text>
-      <TextInput
-        placeholder="Workout Name"
-        value={workout_name}
-        onChangeText={setWorkoutName}
-        className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg mb-4 '
-      />
+      <View className="relative w-full items-center">
+        <TextInput
+          placeholder="Workout Name"
+          value={workout_name}
+          onChangeText={(text) => setWorkoutName(text.substring(0, 35))}
+          className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg mb-4 '
+        />
+        <Text
+        className={`absolute right-7 bottom-7 ${
+          workout_name.length > 30
+            ? workout_name.length >= 35
+              ? 'text-red-400'
+              : 'text-orange-500'
+            : 'text-gray-600'
+        }`}
+      >
+      {workout_name.length} / 35
+    </Text>
+      </View>
       <Dropdown
         data={options}
         labelField="label"
@@ -155,8 +168,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   placeholderText: {
-    fontSize: 16,
-    color: 'gray',
+    fontSize: 14,
+    color: '#636262',
   },
 });
 

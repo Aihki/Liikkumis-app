@@ -33,7 +33,7 @@ const WorkoutDetails = () => {
   const { setWorkoutStatusToCompleted } = useWorkouts();
 
   const navigateToEditWorkout = () => {
-    navigation.navigate('EditWorkoutScreen', { workoutId });
+    navigation.navigate('EditWorkout', { workoutId });
   };
 
   const getWorkout = async () => {
@@ -201,11 +201,11 @@ const WorkoutDetails = () => {
       <>
         {workoutInfo ? (
           <>
-            <View>
+            <View className='h-[98%]'>
               <View className="px-2 pb-3 pt-2 bg-white border-b border-gray-200 shadow-lg relative w-full">
-                <View className="border border-[#a5b4fc] rounded-md p-3 items-center relative">
-                  <Text className="text-[24px] font-bold">{workoutInfo.workout_name}</Text>
-                  <Text className=" text-[16px] text-gray-600">{truncateText(workoutInfo.workout_description, 42)}</Text>
+                <View className="border border-[#a5b4fc] rounded-md p-3 pt-4 items-center relative">
+                  <Text className="text-[23px] font-bold">{truncateText(workoutInfo.workout_name, 18)}</Text>
+                  <Text className=" text-[16px] text-gray-600">{truncateText(workoutInfo.workout_description, 65)}</Text>
                   <Text className="text-[16px] text-gray-500">{formatDate(workoutInfo.workout_date)}</Text>
                   <FontAwesome6
                     name="edit"
@@ -276,7 +276,7 @@ const WorkoutDetails = () => {
               (
                 <>
                   <TouchableOpacity
-                  onPress={() => navigation.navigate('AddExerciseScreen', { workoutId: workoutId, workoutInfo: workoutInfo, refresh: true  })}
+                  onPress={() => navigation.navigate('AddExercise', { workoutId: workoutId, workoutInfo: workoutInfo, refresh: true  })}
                   className={`absolute z-10 bottom-0 left-[5%] px-4 py-3 bg-indigo-500 rounded-xl ${userExercises.length === 0 || !allExercisesCompleted ? 'w-[90%]' : 'w-[75%]'}`}
                   >
                     <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>

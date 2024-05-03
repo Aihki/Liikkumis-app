@@ -98,6 +98,10 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
     }
   };
 
+  const truncateText = (text: string, limit: number) => {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  };
+
   const workoutWarning = async (workoutId: number) => {
     if (!user) return;
     Alert.alert("Delete Exercise", "Are you sure you want to delete this exercise?", [
@@ -187,10 +191,10 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 className={`mb-1 overflow-hidden rounded-lg shadow-lg relative`}
               >
                 <View className="bg-white rounded-lg relative overflow-hidden m-[3px]  min-h-[115px]">
-                  <View className="p-5 py-4 z-10">
-                    <Text className="text-xl font-bold mb-2">{item.workout_name}</Text>
-                    <Text className="text-gray-500">{formatDate(item.workout_date)}</Text>
-                    <Text className="text-gray-400">Created at: {item.created_at ? new Date(item.created_at).toISOString().split('T')[0] : ''}</Text>
+                  <View className="p-5 py-4 z-10 mr-8">
+                    <Text className="text-xl font-bold mb-1">{truncateText(item.workout_name, 16)}</Text>
+                    <Text className="text-gray-500 mb-1">{formatDate(item.workout_date)}</Text>
+                    <Text className="text-gray-600">{truncateText(item.workout_description, 38)}</Text>
                   </View>
                   <Image source={item.workout_type === 'Gym' ? gymImage : item.workout_type === 'Cardio' ? cardioImage : gymImage2} className="w-[46%] h-full mr-4 absolute -right-16 rounded-r-xl" />
                   <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
