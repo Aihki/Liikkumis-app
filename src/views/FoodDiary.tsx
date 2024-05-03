@@ -71,6 +71,10 @@ const FoodDiary = () => {
     setFoodDiaryEntries(foodDiaryEntries.filter((entry) => entry.food_diary_id !== foodDiaryId));
   };
 
+  const truncateText = (text: string, limit: number) => {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
+  };
+
   useFocusEffect(
     useCallback(() => {
       fetchData();
@@ -147,7 +151,7 @@ const FoodDiary = () => {
     foodDiaryEntries.map((entry) => (
       <View className="relative mx-4 my-2 p-4 bg-white rounded-lg shadow " key={entry.food_diary_id}>
         <TouchableOpacity
-          className="absolute top-0 right-1 p-2"
+          className="absolute top-2 right-2 "
           onPress={() => handleDeleteMeal(entry.food_diary_id!)}
         >
           <FontAwesome
@@ -156,7 +160,7 @@ const FoodDiary = () => {
             color="red"
           />
         </TouchableOpacity>
-        <Text className="text-lg font-bold mb-2">{entry.food_diary_meal}</Text>
+        <Text className="text-lg font-bold mb-2">{truncateText(entry.food_diary_meal, 24)}</Text>
         <Text className="font-medium">Notes: </Text>
         <Text className="mb-1 ">{entry.food_diary_notes}</Text>
         <Text className='font-medium'>Ingredients:</Text>

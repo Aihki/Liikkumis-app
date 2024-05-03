@@ -201,7 +201,7 @@ const WorkoutDetails = () => {
       <>
         {workoutInfo ? (
           <>
-            <View className='h-[98%]'>
+            <View className='h-[96%]'>
               <View className="px-2 pb-3 pt-2 bg-white border-b border-gray-200 shadow-lg relative w-full">
                 <View className="border border-[#a5b4fc] rounded-md p-3 pt-4 items-center relative">
                   <Text className="text-[23px] font-bold">{truncateText(workoutInfo.workout_name, 18)}</Text>

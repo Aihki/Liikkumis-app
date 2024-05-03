@@ -160,7 +160,7 @@ const AddProgress = () => {
       <Text className="text-2xl">Add Progress</Text>
       <View className="flex-row justify-between items-start">
         <View className="flex-1 justify-center m-2">
-          <Text className="text-left">Height</Text>
+          <Text className="ml-[5px]">Height</Text>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -177,7 +177,7 @@ const AddProgress = () => {
               }
             }}
           />
-          <Text className="text-left">Weight</Text>
+          <Text className="ml-[5px]">Weight</Text>
           <TextInput
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
@@ -195,7 +195,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text>Bicep left</Text>
+            <Text className='ml-[5px]'>Bicep left</Text>
             <TooltipButton guideName="Bicep" />
           </View>
           <TextInput
@@ -218,7 +218,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text>Bicep right</Text>
+            <Text className='ml-[5px]'>Bicep right</Text>
             <TooltipButton guideName="Bicep" />
           </View>
           <TextInput
@@ -241,7 +241,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text>Calves left</Text>
+            <Text className='ml-[5px]'>Calves left</Text>
             <TooltipButton guideName="Calves" />
           </View>
           <TextInput
@@ -264,7 +264,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text>Calves Right</Text>
+            <Text className='ml-[5px]'>Calves Right</Text>
             <TooltipButton guideName="Calves" />
           </View>
           <TextInput
@@ -289,7 +289,7 @@ const AddProgress = () => {
         </View>
         <View className="flex-1 justify-center m-2">
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text>Chest</Text>
+            <Text className='ml-[5px]'>Chest</Text>
             <TooltipButton guideName="Chest" />
           </View>
           <TextInput
@@ -312,7 +312,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="text-left">Waist</Text>
+            <Text className="text-left ml-[5px]">Waist</Text>
             <TooltipButton guideName="Waist" />
           </View>
           <TextInput
@@ -335,7 +335,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="text-left">Thigh left</Text>
+            <Text className="ml-[5px]">Thigh left</Text>
             <TooltipButton guideName="Thigh" />
           </View>
           <TextInput
@@ -358,7 +358,7 @@ const AddProgress = () => {
             }}
           />
           <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="text-left">Thigh Right</Text>
+            <Text className="ml-[5px]">Thigh Right</Text>
             <TooltipButton guideName="Thigh" />
           </View>
           <TextInput
@@ -380,7 +380,7 @@ const AddProgress = () => {
               }
             }}
           />
-          <Text className="text-left">Date</Text>
+          <Text className="ml-[5px]">Date</Text>
           <TouchableOpacity
             onPress={() => setShowDatePicker(true)}
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg  m-1"
