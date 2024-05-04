@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View, StyleSheet, TextInput } from "react-native"
+import { Text, TouchableOpacity, View, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native"
 import { CombinedChallenge, UserWorkout } from "../../types/DBTypes"
 import { ExerciseProps, RootStackParamList } from "../../types/LocalTypes"
 import { useUserContext } from "../../hooks/ContextHooks";
@@ -114,105 +114,107 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
   const durationOptions = [30, 45, 60, 90, 120, 150, 180].map(sec => ({ label: `${sec} seconds`, value: sec }));
 
   return (
-    <View className="flex items-center pt-5 ">
-      {!showCustomInput ? (
-        <Dropdown
-        data={options}
-        labelField="label"
-        valueField="value"
-        placeholder="Exercise Name"
-        value={exerciseName}
-        onChange={(item) => {
-          if (item.value === 'custom') {
-            setShowCustomInput(true);
-          } else {
-            setShowCustomInput(false);
-            setExerciseName(item.value);
-          }
-        }}
-        style={styles.dropdown}
-        selectedTextStyle={styles.selectedText}
-        placeholderStyle={styles.placeholderText}
-      />
-      ) : null}
-
-      {showCustomInput ? (
-        <>
-          <TextInput
-            placeholder="Enter Custom Exercise Name"
-            style={styles.customExerciseInput}
-            value={customExercise}
-            onChangeText={(text) => {
-              setCustomExercise(text);
-              setExerciseName(text);
-              }}
-          />
-          <TouchableOpacity
-            style={{ position: 'absolute',top: 35, right: 31}}
-            onPress={() => {
-              setShowCustomInput(!showCustomInput)
-            }}
-          >
-            <FontAwesome
-                name="angle-down"
-                size={20}
-                color="gray"
-            />
-          </TouchableOpacity>
-        </>
-      ) : null}
-      <View className=" flex w-full items-center">
-        {isDurationBased ? (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View className="flex items-center pt-5 h-[100%] ">
+        {!showCustomInput ? (
           <Dropdown
-            mode="default"
-            data={durationOptions}
-            labelField="label"
-            valueField="value"
-            placeholder="Select Duration"
-            value={durationOptions.find(option => option.value === exerciseDuration) || null}
-            onChange={(item) => setExerciseDuration(item.value)}
-            style={styles.dropdown}
-            selectedTextStyle={styles.selectedText}
-            placeholderStyle={styles.placeholderText}
-          />
-        ) : (
+          data={options}
+          labelField="label"
+          valueField="value"
+          placeholder="Exercise Name"
+          value={exerciseName}
+          onChange={(item) => {
+            if (item.value === 'custom') {
+              setShowCustomInput(true);
+            } else {
+              setShowCustomInput(false);
+              setExerciseName(item.value);
+            }
+          }}
+          style={styles.dropdown}
+          selectedTextStyle={styles.selectedText}
+          placeholderStyle={styles.placeholderText}
+        />
+        ) : null}
+
+        {showCustomInput ? (
           <>
+            <TextInput
+              placeholder="Enter Custom Exercise Name"
+              style={styles.customExerciseInput}
+              value={customExercise}
+              onChangeText={(text) => {
+                setCustomExercise(text);
+                setExerciseName(text);
+                }}
+            />
+            <TouchableOpacity
+              style={{ position: 'absolute',top: 35, right: 31}}
+              onPress={() => {
+                setShowCustomInput(!showCustomInput)
+              }}
+            >
+              <FontAwesome
+                  name="angle-down"
+                  size={20}
+                  color="gray"
+              />
+            </TouchableOpacity>
+          </>
+        ) : null}
+        <View className=" flex w-full items-center">
+          {isDurationBased ? (
             <Dropdown
               mode="default"
-              data={repOptions}
+              data={durationOptions}
               labelField="label"
               valueField="value"
-              placeholder="Select Rep Count"
-              value={repOptions.find(option => option.value === exerciseReps) || null}
-              onChange={(item) => setExerciseReps(item.value)}
+              placeholder="Select Duration"
+              value={durationOptions.find(option => option.value === exerciseDuration) || null}
+              onChange={(item) => setExerciseDuration(item.value)}
               style={styles.dropdown}
               selectedTextStyle={styles.selectedText}
               placeholderStyle={styles.placeholderText}
             />
-            <Dropdown
+          ) : (
+            <>
+              <Dropdown
                 mode="default"
-                data={setOptions}
+                data={repOptions}
                 labelField="label"
                 valueField="value"
-                placeholder="Set Count"
-                value={repOptions.find(option => option.value === exerciseSets) || null}
-                onChange={(item) => setExerciseSets(item.value)}
+                placeholder="Select Rep Count"
+                value={repOptions.find(option => option.value === exerciseReps) || null}
+                onChange={(item) => setExerciseReps(item.value)}
                 style={styles.dropdown}
                 selectedTextStyle={styles.selectedText}
                 placeholderStyle={styles.placeholderText}
               />
-            </>
+              <Dropdown
+                  mode="default"
+                  data={setOptions}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Set Count"
+                  value={repOptions.find(option => option.value === exerciseSets) || null}
+                  onChange={(item) => setExerciseSets(item.value)}
+                  style={styles.dropdown}
+                  selectedTextStyle={styles.selectedText}
+                  placeholderStyle={styles.placeholderText}
+                />
+              </>
 
-        )}
+          )}
+        </View>
+
+        <TouchableOpacity
+            onPress={() => addAnExercise()}
+            className='px-4 py-2 bg-indigo-500 rounded-md w-[91%] mt-1'
+            >
+            <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
+          </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-          onPress={() => addAnExercise()}
-          className='px-4 py-2 bg-indigo-500 rounded-md w-[91%] mt-1'
-          >
-          <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
-        </TouchableOpacity>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 

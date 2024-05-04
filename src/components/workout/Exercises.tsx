@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from "react"
-import {Alert, FlatList, Image, Modal, Pressable, TouchableOpacity, View} from "react-native"
+import {Alert, FlatList, Image, Modal, Platform, Pressable, TouchableOpacity, View} from "react-native"
 import {Exercise} from "../../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -213,7 +213,10 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
           setModalVisible(!modalVisible);
         }}
       >
-        <View className="bg-white p-3 pt-20 items-center h-[35%]">
+        <View
+          className="bg-white p-3 pt-20 items-center h-[35%] border-b border-gray-200"
+          style={{ paddingTop: Platform.OS === 'ios' ? 70 : 0, height: Platform.OS === 'ios' ? '32%' : '29%'}}
+        >
           <View className="flex flex-col gap-4">
             <Text className="text-center text-[20px] font-bold mb-2">Manage Your Exercises:</Text>
             <Text className="text-[16px]">Add an exercise with the 'Add Exercise' button.</Text>

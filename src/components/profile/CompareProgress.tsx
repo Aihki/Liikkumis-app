@@ -128,7 +128,7 @@ const CompareProgress = () => {
             const {latestTotal, selectedTotal, improvement, status} =
               calculateImprovement(latestProgress, selectedProgress, key);
             return (
-              <View className="bg-white shadow-lg rounded-lg p-4 m-1 w-[90%]">
+              <View className="bg-white shadow-lg rounded-lg p-4 m-1 w-[100%]">
                 <View key={key} className="items-center">
                   <Text className="text-center text-xl">
                     {key.replace('progress_', '').replace('_', ' ')}:
@@ -144,7 +144,7 @@ const CompareProgress = () => {
                         '(-)'
                       )}
                     </Text>
-                    <Text className="text-center text-lg">
+                    <Text className="text-center text-lg ml-[8px]">
                       Selected: {selectedTotal} {units[key]}
                     </Text>
                   </View>

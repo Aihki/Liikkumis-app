@@ -1,4 +1,4 @@
-import { Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native"
+import { Text, TextInput, TouchableOpacity, View, StyleSheet, Keyboard } from "react-native"
 import { CombinedChallenge, UserWorkout } from "../../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserContext } from "../../hooks/ContextHooks";
@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Dropdown } from "react-native-element-dropdown";
 import { useChallenge, useExercise } from "../../hooks/apiHooks";
+import { TouchableWithoutFeedback } from "react-native";
 
 
 const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
@@ -120,97 +121,99 @@ const GymExercise = ({ workout, workoutId }: ExerciseProps) => {
   const setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: `${num} sets`, value: num }));
 
   return (
-    <View className="flex items-center pt-5 gap-3">
-      {!showCustomInput ? (
-        <Dropdown
-        data={options}
-        labelField="label"
-        valueField="value"
-        placeholder="Exercise Name"
-        value={exerciseName}
-        onChange={(item) => {
-          if (item.value === 'custom') {
-            setShowCustomInput(true);
-          } else {
-            setShowCustomInput(false);
-            setExerciseName(item.value);
-          }
-        }}
-        style={styles.dropdown}
-        selectedTextStyle={styles.selectedText}
-        placeholderStyle={styles.placeholderText}
-      />
-      ) : null}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View className="flex items-center pt-5 gap-3 h-[100%]">
+        {!showCustomInput ? (
+          <Dropdown
+          data={options}
+          labelField="label"
+          valueField="value"
+          placeholder="Exercise Name"
+          value={exerciseName}
+          onChange={(item) => {
+            if (item.value === 'custom') {
+              setShowCustomInput(true);
+            } else {
+              setShowCustomInput(false);
+              setExerciseName(item.value);
+            }
+          }}
+          style={styles.dropdown}
+          selectedTextStyle={styles.selectedText}
+          placeholderStyle={styles.placeholderText}
+        />
+        ) : null}
 
-      {showCustomInput ? (
-        <>
-          <TextInput
-            placeholder="Enter Custom Exercise Name"
-            style={styles.customExerciseInput}
-            value={customExercise}
-            onChangeText={(text) => {
-            setCustomExercise(text);
-            setExerciseName(text);
-            }}
-          />
-          <TouchableOpacity
-            style={{ position: 'absolute',top: 45, right: 30}}
-            onPress={() => {
-              setShowCustomInput(!showCustomInput)
-            }}
-          >
-            <FontAwesome
-                name="angle-down"
-                size={20}
-                color="gray"
+        {showCustomInput ? (
+          <>
+            <TextInput
+              placeholder="Enter Custom Exercise Name"
+              style={styles.customExerciseInput}
+              value={customExercise}
+              onChangeText={(text) => {
+              setCustomExercise(text);
+              setExerciseName(text);
+              }}
             />
-          </TouchableOpacity>
-        </>
-      ) : null}
-      <Dropdown
+            <TouchableOpacity
+              style={{ position: 'absolute',top: 45, right: 30}}
+              onPress={() => {
+                setShowCustomInput(!showCustomInput)
+              }}
+            >
+              <FontAwesome
+                  name="angle-down"
+                  size={20}
+                  color="gray"
+              />
+            </TouchableOpacity>
+          </>
+        ) : null}
+        <Dropdown
+          mode="default"
+          data={weightOptions}
+          labelField="label"
+          valueField="value"
+          placeholder="Select Weight"
+          value={exerciseWeight}
+          onChange={(item) => setExerciseWeight(item)}
+          style={styles.dropdown}
+          selectedTextStyle={styles.selectedText}
+          placeholderStyle={styles.placeholderText}
+        />
+        <Dropdown
         mode="default"
-        data={weightOptions}
+        data={repOptions}
         labelField="label"
         valueField="value"
-        placeholder="Select Weight"
-        value={exerciseWeight}
-        onChange={(item) => setExerciseWeight(item)}
+        placeholder="Select Rep Count"
+        value={repOptions.find(option => option.value === exerciseReps) || null}
+        onChange={(item) => setExerciseReps(item.value)}
+        style={styles.dropdown}
+        selectedTextStyle={styles.selectedText}
+        placeholderStyle={styles.placeholderText}
+        />
+        <Dropdown
+        mode="default"
+        data={setOptions}
+        labelField="label"
+        valueField="value"
+        placeholder="Set Count"
+        value={repOptions.find(option => option.value === exerciseSets) || null}
+        onChange={(item) => setExerciseSets(item.value)}
         style={styles.dropdown}
         selectedTextStyle={styles.selectedText}
         placeholderStyle={styles.placeholderText}
       />
-      <Dropdown
-      mode="default"
-      data={repOptions}
-      labelField="label"
-      valueField="value"
-      placeholder="Select Rep Count"
-      value={repOptions.find(option => option.value === exerciseReps) || null}
-      onChange={(item) => setExerciseReps(item.value)}
-      style={styles.dropdown}
-      selectedTextStyle={styles.selectedText}
-      placeholderStyle={styles.placeholderText}
-      />
-      <Dropdown
-      mode="default"
-      data={setOptions}
-      labelField="label"
-      valueField="value"
-      placeholder="Set Count"
-      value={repOptions.find(option => option.value === exerciseSets) || null}
-      onChange={(item) => setExerciseSets(item.value)}
-      style={styles.dropdown}
-      selectedTextStyle={styles.selectedText}
-      placeholderStyle={styles.placeholderText}
-    />
 
-      <TouchableOpacity
-          onPress={() => addAnExercise()}
-          className='px-4 py-2 bg-indigo-500 rounded-md w-[91%]'
-          >
-          <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
-        </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+            onPress={() => addAnExercise()}
+            className='px-4 py-2 bg-indigo-500 rounded-md w-[91%]'
+            >
+            <Text className='text-white text-[20px] font-medium text-center'>Add Exercise</Text>
+          </TouchableOpacity>
+      </View>
+    </TouchableWithoutFeedback>
   )
 }
 

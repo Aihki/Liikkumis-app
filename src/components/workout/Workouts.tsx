@@ -3,7 +3,7 @@ import { useUserContext } from "../../hooks/ContextHooks"
 import { useWorkouts } from "../../hooks/apiHooks"
 import { UserWithNoPassword, UserWorkout } from "../../types/DBTypes";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/LocalTypes";
@@ -127,7 +127,7 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
   };
 
   return (
-    <>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <GestureHandlerRootView className="pt-10 h-[93%]">
         <View className="relative z-50">
           <Text className="w-full text-center font-medium text-[24px] pb-4">Active Workouts</Text>
@@ -213,18 +213,16 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
               />
               <View className="relative">
                 <Text className="text-center text-[19px]">
-                  No active workouts found. Add a workout by clicking the
+                  No active workouts found
                 </Text>
-                <View className="absolute right-[21%] top-[20%] translate-y-[-50%]">
-                  <Text className="font-extrabold text-[38px]"> + </Text>
-                </View>
+
               </View>
             </View>
           )}
 
         </View>
       </GestureHandlerRootView>
-    </>
+    </TouchableWithoutFeedback>
   );
 };
 

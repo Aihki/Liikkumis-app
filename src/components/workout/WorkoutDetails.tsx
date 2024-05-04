@@ -1,7 +1,7 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/LocalTypes";
 import Exercises from "./Exercises";
-import {Alert, Pressable, Text, TouchableOpacity, View} from "react-native";
+import {Alert, Platform, Pressable, Text, TouchableOpacity, View} from "react-native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useExercise, useWorkouts} from "../../hooks/apiHooks";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -231,7 +231,8 @@ const WorkoutDetails = () => {
                         width: 250,
                         height: 250,
                         position: 'absolute',
-                        top: -606,
+
+                        top: Platform.OS === 'ios' ? -632 : -606,
                         right: 76,
                         zIndex: 100
                       }}

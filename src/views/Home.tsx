@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { FlatList, Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Modal, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationProp, ParamListBase, useFocusEffect } from '@react-navigation/native';
 import { useUserContext } from '../hooks/ContextHooks';
 import { Calendar } from 'react-native-calendars';
@@ -131,7 +131,10 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
               setModalVisible(!modalVisible);
             }}
           >
-            <View className="bg-white border-b border-gray-50 p-3 pt-20 items-center h-[32%]">
+            <View
+              className="bg-white border-b border-gray-50 p-3  items-center h-[32%]"
+              style={{ paddingTop: Platform.OS === 'ios' ? 70 : 0, height: Platform.OS === 'ios' ? '33%' : '32%'}}
+            >
               <View className="flex flex-col gap-4">
                   <Text className="text-center text-[20px] font-bold mb-2">Monthly Activity Calendar:</Text>
                   <Text className="text-[16px]">This calendar displays your activity history for the month.</Text>
