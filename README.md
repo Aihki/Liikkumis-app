@@ -6,9 +6,9 @@ LiikkumisApp on käyttäjää tukeva urheilu aplikaatio. Käyttäjä pystyy seur
 [Rautalankamalli](https://www.figma.com/file/C4hgU6YZl7PF0OLEaqAC9a/Untitled?type=design&node-id=1-5&mode=design&t=JBFiQK2WytOM06tc-0)
 
 ## Backend
-* [upload-server]()
-* [auth-server]()
-* [training-server]()
+* [upload-server](https://liikkumisapp.northeurope.cloudapp.azure.com/upload-api/api/v1/)
+* [auth-server](https://liikkumisapp.northeurope.cloudapp.azure.com/auth-api/api/v1)
+* [training-server](https://liikkumisapp.northeurope.cloudapp.azure.com/training-api/api/v1)
 
 ## apidocs
 * [upload-server](https://liikkumisapp.northeurope.cloudapp.azure.com/upload-api/)
