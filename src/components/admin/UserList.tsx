@@ -11,7 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserList = () => {
 
-  const { getUsers, getUserCount, deleteUserAsAdmin } = useUser();
+  const { getUsers, getUserCount } = useUser();
   const { user } = useUserContext();
   const currentUsername = user?.username
 
@@ -23,16 +23,6 @@ const UserList = () => {
   const toggleUserList = () => {
     setIsOpen(!isOpen);
   }
-
-  const deleteUser = async (id: number) => {
-    const token = await AsyncStorage.getItem('token');
-    if (!token || !user) return
-    try {
-    await deleteUserAsAdmin(id, token)
-    } catch (error) {
-
-    }
-  };
 
   const getAllUsers = async () => {
     if (user?.user_level_id !== 1) {
@@ -74,7 +64,6 @@ const UserList = () => {
             name={isOpen ? 'caret-up' : 'caret-down'}
             size={25}
             color="black"
-            style={{ alignSelf: 'center' }} // Center align if needed
           />
         </TouchableOpacity>
 
@@ -92,13 +81,7 @@ const UserList = () => {
                 keyExtractor={(item) => item.user_id.toString()}
                 renderItem={({ item }) => (
                   <View className="bg-white rounded-lg p-4 mb-1 shadow">
-                    <TouchableOpacity onPress={() => deleteUser(item.user_id)}>
-                      <FontAwesome
-                        name="times"
-                        size={25}
-                        color="black"
-                      />
-                    </TouchableOpacity>
+
                     <Text className="text-lg font-semibold text-gray-800 text-center">{item.username}</Text>
                     <Text className="text-gray-600 text-center">{item.email}</Text>
                     <Text className="text-gray-400 text-center">{new Date(item.created_at).toLocaleString()}</Text>
