@@ -18,16 +18,16 @@ import {
   faMinus,
 } from '@fortawesome/free-solid-svg-icons';
 const units = {
-  progress_weight: 'kg',
-  progress_height: 'cm',
-  progress_circumference_chest: 'cm',
-  progress_circumference_waist: 'cm',
-  progress_circumference_thigh_r: 'cm',
-  progress_circumference_thigh_l: 'cm',
-  progress_circumference_bicep_r: 'cm',
-  progress_circumference_bicep_l: 'cm',
-  progress_circumference_calves_r: 'cm',
-  progress_circumference_calves_l: 'cm',
+  progress_Weight: 'kg',
+  progress_Height: 'cm',
+  progress_circumference_Chest: 'cm',
+  progress_circumference_Waist: 'cm',
+  progress_circumference_Thigh_r: 'cm',
+  progress_circumference_Thigh_l: 'cm',
+  progress_circumference_Bicep_r: 'cm',
+  progress_circumference_Bicep_l: 'cm',
+  progress_circumference_Calves_r: 'cm',
+  progress_circumference_Calves_l: 'cm',
 };
 
 
@@ -131,7 +131,7 @@ const CompareProgress = () => {
               <View className="bg-white shadow-lg rounded-lg p-4 m-1 w-[90%]">
                 <View key={key} className="items-center">
                   <Text className="text-center text-xl">
-                    {key.replace('progress_', '').replace('_', ' ')}:
+                  {key.replace('progress_', '').replace('_', ' ').replace('circumference', '')}:
                   </Text>
                   <View className="flex-row">
                     <Text className="text-center text-lg">

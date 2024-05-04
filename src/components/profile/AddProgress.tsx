@@ -158,7 +158,6 @@ const AddProgress = () => {
 
   return (
 
-    <ScrollView>
     <View className="flex-1 justify-center items-center">
       <Text className="text-2xl">Add Progress</Text>
       <View className="flex-row justify-between items-start">
@@ -168,15 +167,11 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Height (cm)"
-            value={
-              formState.progress_height
-                ? formState.progress_height.toString() + ' cm'
-                : ''
-            }
+            value={formState.progress_height?.toString()}
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
-                handleChange('progress_height', value.replace(' cm', ''));
+                handleChange('progress_height', value);
               }
             }}
           />
@@ -185,15 +180,11 @@ const AddProgress = () => {
             keyboardType="numeric"
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Weight (kg)"
-            value={
-              formState.progress_weight
-                ? formState.progress_weight.toString() + ' kg'
-                : ''
-            }
+            value={formState.progress_weight?.toString()}
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' kg', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
-                handleChange('progress_weight', value.replace(' kg', ''));
+                handleChange('progress_weight', value);
               }
             }}
           />
@@ -206,16 +197,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Bicep Left (cm)"
             value={
-              formState.progress_circumference_bicep_l
-                ? formState.progress_circumference_bicep_l?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_bicep_l?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_bicep_l',
-                  value.replace(' cm', ''),
+                  value,
                 );
               }
             }}
@@ -229,16 +218,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Bicep Right (cm)"
             value={
-              formState.progress_circumference_bicep_r
-                ? formState.progress_circumference_bicep_r?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_bicep_r?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_bicep_r',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -252,16 +239,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Calves Left (cm)"
             value={
-              formState.progress_circumference_calves_l
-                ? formState.progress_circumference_calves_l?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_calves_l?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_calves_l',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -275,16 +260,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Calves Right (cm)"
             value={
-              formState.progress_circumference_calves_r
-                ? formState.progress_circumference_calves_r?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_calves_r?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_calves_r',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -300,16 +283,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Chest (cm)"
             value={
-              formState.progress_circumference_chest
-                ? formState.progress_circumference_chest?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_chest?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_chest',
-                  value.replace(' cm', ''),
+                  value,
                 );
               }
             }}
@@ -323,16 +304,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Waist (cm)"
             value={
-              formState.progress_circumference_waist
-                ? formState.progress_circumference_waist?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_waist?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_waist',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -346,16 +325,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Thigh Left (cm)"
             value={
-              formState.progress_circumference_thigh_l
-                ? formState.progress_circumference_thigh_l?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_thigh_l?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_thigh_l',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -369,16 +346,14 @@ const AddProgress = () => {
             className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
             placeholder="Thigh Right (cm)"
             value={
-              formState.progress_circumference_thigh_r
-                ? formState.progress_circumference_thigh_r?.toString() + ' cm'
-                : ''
+              formState.progress_circumference_thigh_r?.toString()
             }
             onChangeText={(value) => {
-              const numericValue = parseFloat(value.replace(' cm', ''));
+              const numericValue = parseFloat(value);
               if (numericValue <= 999) {
                 handleChange(
                   'progress_circumference_thigh_r',
-                  value.replace(' cm', ''),
+                  value
                 );
               }
             }}
@@ -410,8 +385,6 @@ const AddProgress = () => {
       </TouchableOpacity>
       <Toast config={toastConfig} />
     </View>
-    </scrollview>
-    </>
   );
 };
 export default AddProgress;
