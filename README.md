@@ -11,9 +11,9 @@ LiikkumisApp on käyttäjää tukeva urheilu aplikaatio. Käyttäjä pystyy seur
 * [training-server]()
 
 ## apidocs
-* [upload-server]()
-* [auth-server]()
-* [training-server]()
+* [upload-server](https://liikkumisapp.northeurope.cloudapp.azure.com/upload-api/)
+* [auth-server](https://liikkumisapp.northeurope.cloudapp.azure.com/auth-api/)
+* [training-server](https://liikkumisapp.northeurope.cloudapp.azure.com/training-api/)
 
 ## backend testaukset
 * [ci/cd](https://github.com/Aihki/Liikkumis-app-be/actions)
