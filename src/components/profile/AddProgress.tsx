@@ -1,4 +1,11 @@
-import {View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Platform} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -9,7 +16,6 @@ import {useUserContext} from '../../hooks/ContextHooks';
 import {useUserProgress} from '../../hooks/apiHooks';
 import {UserProgress} from '../../types/DBTypes';
 import TooltipButton from './ProgressGuide';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const AddProgress = () => {
   const {user} = useUserContext();
@@ -63,19 +69,14 @@ const AddProgress = () => {
     if (field === 'date') {
       setFormState((prevState) => ({...prevState, [field]: value}));
     } else {
-      if (isNaN(Number(value))) {
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid Input',
-          text2: 'Please enter a valid number.',
-        });
-        return;
+      if (value === '') {
+        setFormState((prevState) => ({...prevState, [field]: ''}));
+      } else {
+        const numberValue = Number(value);
+        setFormState((prevState) => ({...prevState, [field]: numberValue}));
       }
-      const numberValue = Number(value);
-      setFormState((prevState) => ({...prevState, [field]: numberValue}));
     }
   };
-
   const addProgress = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -112,19 +113,6 @@ const AddProgress = () => {
           formState.progress_circumference_calves_l || 0,
       };
 
-      const hasZeroValue = Object.values(progressData).some(
-        (value) => value === 0,
-      );
-
-      if (hasZeroValue) {
-        console.log('Progress values cannot be zero.');
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid Input',
-          text2: 'Progress values cannot letter or zero.',
-        });
-        return;
-      }
       await postProgress(progressData, user.user_id);
       navigation.goBack();
     } catch (error) {
@@ -157,234 +145,235 @@ const AddProgress = () => {
   };
 
   return (
-
-    <View className="flex-1 justify-center items-center">
-      <Text className="text-2xl">Add Progress</Text>
-      <View className="flex-row justify-between items-start">
-        <View className="flex-1 justify-center m-2">
-          <Text className="ml-[5px]">Height</Text>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Height (cm)"
-            value={formState.progress_height?.toString()}
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange('progress_height', value);
-              }
-            }}
-          />
-          <Text className="ml-[5px]">Weight</Text>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Weight (kg)"
-            value={formState.progress_weight?.toString()}
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange('progress_weight', value);
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className='ml-[5px]'>Bicep left</Text>
-            <TooltipButton guideName="Bicep" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Bicep Left (cm)"
-            value={
-              formState.progress_circumference_bicep_l?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_bicep_l',
-                  value,
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className='ml-[5px]'>Bicep right</Text>
-            <TooltipButton guideName="Bicep" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Bicep Right (cm)"
-            value={
-              formState.progress_circumference_bicep_r?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_bicep_r',
-                  value
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className='ml-[5px]'>Calves left</Text>
-            <TooltipButton guideName="Calves" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Calves Left (cm)"
-            value={
-              formState.progress_circumference_calves_l?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_calves_l',
-                  value
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className='ml-[5px]'>Calves Right</Text>
-            <TooltipButton guideName="Calves" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Calves Right (cm)"
-            value={
-              formState.progress_circumference_calves_r?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_calves_r',
-                  value
-                );
-              }
-            }}
-          />
-        </View>
-        <View className="flex-1 justify-center m-2">
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className='ml-[5px]'>Chest</Text>
-            <TooltipButton guideName="Chest" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Chest (cm)"
-            value={
-              formState.progress_circumference_chest?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_chest',
-                  value,
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="text-left ml-[5px]">Waist</Text>
-            <TooltipButton guideName="Waist" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Waist (cm)"
-            value={
-              formState.progress_circumference_waist?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_waist',
-                  value
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="ml-[5px]">Thigh left</Text>
-            <TooltipButton guideName="Thigh" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Thigh Left (cm)"
-            value={
-              formState.progress_circumference_thigh_l?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_thigh_l',
-                  value
-                );
-              }
-            }}
-          />
-          <View className="flex flex-row justify-between items-center w-[55%]">
-            <Text className="ml-[5px]">Thigh Right</Text>
-            <TooltipButton guideName="Thigh" />
-          </View>
-          <TextInput
-            keyboardType="numeric"
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
-            placeholder="Thigh Right (cm)"
-            value={
-              formState.progress_circumference_thigh_r?.toString()
-            }
-            onChangeText={(value) => {
-              const numericValue = parseFloat(value);
-              if (numericValue <= 999) {
-                handleChange(
-                  'progress_circumference_thigh_r',
-                  value
-                );
-              }
-            }}
-          />
-          <Text className="ml-[5px]">Date</Text>
-          <TouchableOpacity
-            onPress={() => setShowDatePicker(true)}
-            className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg  m-1"
-          >
-            <Text>{date.toDateString()}</Text>
-          </TouchableOpacity>
-          {showDatePicker && (
-            <DateTimePicker
-              value={date}
-              mode={'date'}
-              display="default"
-              onChange={onChange}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View className="flex-1 justify-center items-center">
+        <Text className="text-2xl">Add Progress</Text>
+        <View className="flex-row justify-between items-start">
+          <View className="flex-1 justify-center m-2">
+            <Text className="ml-[5px]">Height</Text>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Height (cm)"
+              value={formState.progress_height?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_height', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_height', value);
+                  }
+                }
+              }}
             />
-          )}
+            <Text className="ml-[5px]">Weight</Text>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Weight (kg)"
+              value={formState.progress_weight?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_weight', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_weight', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Bicep left</Text>
+              <TooltipButton guideName="Bicep" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Bicep Left (cm)"
+              value={formState.progress_circumference_bicep_l?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_bicep_l', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_bicep_l', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Bicep right</Text>
+              <TooltipButton guideName="Bicep" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Bicep Right (cm)"
+              value={formState.progress_circumference_bicep_r?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_bicep_r', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_bicep_r', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Calves left</Text>
+              <TooltipButton guideName="Calves" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Calves Left (cm)"
+              value={formState.progress_circumference_calves_l?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_calves_l', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_calves_l', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Calves Right</Text>
+              <TooltipButton guideName="Calves" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Calves Right (cm)"
+              value={formState.progress_circumference_calves_r?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_calves_r', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_calves_r', value);
+                  }
+                }
+              }}
+            />
+          </View>
+          <View className="flex-1 justify-center m-2">
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Chest</Text>
+              <TooltipButton guideName="Chest" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Chest (cm)"
+              value={formState.progress_circumference_chest?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_chest', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_chest', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="text-left ml-[5px]">Waist</Text>
+              <TooltipButton guideName="Waist" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Waist (cm)"
+              value={formState.progress_circumference_waist?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_waist', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_waist', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Thigh left</Text>
+              <TooltipButton guideName="Thigh" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Thigh Left (cm)"
+              value={formState.progress_circumference_thigh_l?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_thigh_l', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_thigh_l', value);
+                  }
+                }
+              }}
+            />
+            <View className="flex flex-row justify-between items-center w-[55%]">
+              <Text className="ml-[5px]">Thigh Right</Text>
+              <TooltipButton guideName="Thigh" />
+            </View>
+            <TextInput
+              keyboardType="numeric"
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg m-1"
+              placeholder="Thigh Right (cm)"
+              value={formState.progress_circumference_thigh_r?.toString()}
+              onChangeText={(value) => {
+                if (value === '') {
+                  handleChange('progress_circumference_thigh_r', value);
+                } else {
+                  const numericValue = parseFloat(value);
+                  if (numericValue <= 999) {
+                    handleChange('progress_circumference_thigh_r', value);
+                  }
+                }
+              }}
+            />
+            <Text className="ml-[5px]">Date</Text>
+            <TouchableOpacity
+              onPress={() => setShowDatePicker(true)}
+              className="p-2.5 border-gray-500 bg-gray-200 border w-[90%] rounded-lg  m-1"
+            >
+              <Text>{date.toDateString()}</Text>
+            </TouchableOpacity>
+            {showDatePicker && (
+              <DateTimePicker
+                value={date}
+                mode={'date'}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </View>
         </View>
+        <TouchableOpacity
+          onPress={addProgress}
+          className="bg-indigo-500 p-2 rounded-lg w-1/2 self-center m-1.5"
+        >
+          <Text className="text-white font-bold text-lg text-center">
+            Upload Progress
+          </Text>
+        </TouchableOpacity>
+        <Toast config={toastConfig} />
       </View>
-      <TouchableOpacity
-        onPress={addProgress}
-        className="bg-indigo-500 p-2 rounded-lg w-1/2 self-center m-1.5"
-      >
-        <Text className="text-white font-bold text-lg text-center">
-          Upload Progress
-        </Text>
-      </TouchableOpacity>
-      <Toast config={toastConfig} />
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 export default AddProgress;
