@@ -68,7 +68,7 @@ const LoginForm = () => {
       />
        <View className="flex items-center justify-center">
         <TouchableOpacity
-          className=" bg-blue-500 p-2 rounded-lg w-1/2"
+          className=" bg-indigo-500 p-2 rounded-lg w-1/2"
           onPress={handleSubmit(doLogin)}
         >
           <Text className="text-white font-bold text-lg text-center">
