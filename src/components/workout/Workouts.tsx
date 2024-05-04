@@ -3,7 +3,7 @@ import { useUserContext } from "../../hooks/ContextHooks"
 import { useWorkouts } from "../../hooks/apiHooks"
 import { UserWithNoPassword, UserWorkout } from "../../types/DBTypes";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/LocalTypes";
@@ -156,15 +156,22 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
         <View className="border border-gray-300 border-b-[1px] w-full opacity-50"/>
         <View className="px-3">
           <View className="flex my-[9px] w-full">
-            <TextInput
-              placeholder="Search"
-              clearButtonMode="always"
-              autoCapitalize="none"
-              autoCorrect={false}
-              className="py-[8px] px-[10px] border border-[#ccc] rounded-[10px]"
-              value={searchQuery}
-              onChangeText={(query) => setSearchQuery(query)}
-            />
+          <TextInput
+  placeholder="Search"
+  clearButtonMode="always"
+  autoCapitalize="none"
+  autoCorrect={false}
+  style={{
+    paddingVertical: Platform.OS === 'ios' ? 15 : 5,
+    paddingHorizontal: 10,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+  }}
+  value={searchQuery}
+  onChangeText={(query) => setSearchQuery(query)}
+/>
           </View>
           <View className="flex flex-row space-x-5 justify-center pb-2">
             <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>

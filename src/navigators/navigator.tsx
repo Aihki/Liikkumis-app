@@ -23,7 +23,7 @@ import Challenges from '../components/challenge/Challenges';
 import ChallengeDetails from '../components/challenge/ChallengeDetails';
 import YourChallenges from '../components/challenge/YourChallenges';
 import { MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import CustomTabButton from '../components/CustomTabButton';
 import Workouts from '../components/workout/Workouts';
@@ -49,9 +49,9 @@ const TabNavigator = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          height: 80,
+          height:  Platform.OS === 'ios' ? 100 : 75,
           backgroundColor: '#fff',
-          paddingBottom: 5,
+          paddingBottom: Platform.OS === 'ios' ? 27 : 8,
         },
         tabBarActiveTintColor: '#9ef09e',
         tabBarInactiveTintColor: '#d3d3d3',

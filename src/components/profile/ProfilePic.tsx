@@ -78,6 +78,9 @@ const ChangeProfilePic = () => {
     return unsubscribe;
   }, []);
 
+  console.log(user?.user_profile_pic);
+
+
   return (
     <>
     <View className='bg-white shadow-lg h-[50%] rounded-lg p-4 m-2'>
@@ -91,7 +94,7 @@ const ChangeProfilePic = () => {
               uri: image
                 ? image.assets![0].uri
                 : (user.user_profile_pic
-                  ? 'http://10.0.2.2:3002/uploads/' + user.user_profile_pic
+                  ? 'https://liikkumisapp.northeurope.cloudapp.azure.com/upload-api/uploads/' + user.user_profile_pic
                   : 'https://via.placeholder.com/640x360/808080/FFFFFF?text=click+to+choose+picture'),
             }}
           />

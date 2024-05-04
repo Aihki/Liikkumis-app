@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Button, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Button, SafeAreaView, Platform } from 'react-native';
 import { useUserFoodDiary } from '../hooks/apiHooks'; // Adjust the import path as needed
 import { useUserContext } from '../hooks/ContextHooks'; // Adjust the import path as needed
 import { FoodDiary as FoodDiaryType} from '../types/DBTypes'; // Adjust the import path as needed
@@ -119,7 +119,8 @@ const FoodDiary = () => {
         <Text className="text-lg font-bold mb-2 ml-1">Ingredients</Text>
         <View className='relative'>
           <TextInput
-            className="border border-gray-300 p-3 rounded mb-4"
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[120px]' : ''}`}
+
             onChangeText={(text) => setIngredients(text.substring(0, 200))}
             value={ingredients}
             numberOfLines={4}

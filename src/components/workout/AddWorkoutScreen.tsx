@@ -76,19 +76,29 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
         <TextInput
           placeholder="Workout Name"
           value={workout_name}
-          onChangeText={(text) => setWorkoutName(text.substring(0, 35))}
-          className='p-2 border-gray-300 bg-gray-100 border w-[90%] rounded-lg mb-4 '
+          onChangeText={(text) => setWorkoutName(text.substring(0, 30))}
+          style={{
+            paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+            marginBottom: 18,
+            paddingHorizontal: 10,
+            borderStyle: 'solid',
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: 10,
+            width: '90%',
+            backgroundColor: '#F3F4F6',
+          }}
         />
         <Text
-        className={`absolute right-7 bottom-7 ${
-          workout_name.length > 30
-            ? workout_name.length >= 35
+        className={`absolute  ${Platform.OS === 'ios' ? 'right-7 bottom-9' : 'right-7 bottom-8'} ${
+          workout_name.length > 25
+            ? workout_name.length >= 30
               ? 'text-red-400'
               : 'text-orange-500'
             : 'text-gray-600'
         }`}
       >
-      {workout_name.length} / 35
+      {workout_name.length} / 30
     </Text>
       </View>
       <Dropdown
@@ -108,12 +118,23 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
           value={workout_description}
           onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))}
           multiline
-          numberOfLines={5}
+          numberOfLines={6}
           textAlignVertical="top"
-          className='p-2 border-gray-300 bg-gray-100 border rounded-lg  mb-4'
+          style={{
+            height: 110,
+            padding: 10,
+            paddingTop: Platform.OS === 'ios' ? 12 : 10,
+
+            borderColor: '#ccc',
+            backgroundColor: '#F3F4F6',
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: 16,
+          }}
         />
+
       <Text
-        className={`absolute right-2 bottom-5 ${
+        className={`absolute right-2 bottom-6 ${
           workout_description.length > 175
             ? workout_description.length >= 200
               ? 'text-red-500'
@@ -125,10 +146,22 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
     </Text>
   </View>
       <View className='flex w-full items-center justify-center  flex-row'>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-300 w-[45%]'>
-        <Text className='text-center'>Select Workout Date</Text>
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        className={`p-2 bg-gray-200 border border-gray-300 mb-1 ${Platform.OS === 'ios' ? ' ml-2' : ''}`}
+        style={{width: Platform.OS === 'ios' ? '30%' : '45%', borderRadius: Platform.OS === 'ios' ? 10 : 0}}
+        >
+        <Text
+          className={`text-center`}
+        >
+          Select Workout Date
+        </Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-300 w-[45%]'>
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        className='p-2 bg-gray-200 border border-gray-300 w-[45%] mb-1'
+        style={{display: Platform.OS === 'ios' ? 'none' : 'flex'}}
+      >
       <Text className='text-center'>
         {workoutDate.toISOString().split('T')[0]}
       </Text>
@@ -144,7 +177,7 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
       )}
       <TouchableOpacity
         onPress={addWorkoutHandler}
-        className='px-4 py-2 bg-indigo-500 rounded-lg mt-4 w-[91%]'
+        className={` ${Platform.OS === 'ios' ? ' px-4 py-4' : 'px-4 py-2'}  bg-indigo-500 rounded-lg mt-4 w-[91%]`}
       >
         <Text className='text-white text-[20px] text-center font-medium'>Add Workout</Text>
     </TouchableOpacity>
@@ -169,7 +202,7 @@ const styles = StyleSheet.create({
   },
   placeholderText: {
     fontSize: 14,
-    color: '#636262',
+    color: Platform.OS === 'ios' ? '#B3B3B3' : '#636262',
   },
 });
 

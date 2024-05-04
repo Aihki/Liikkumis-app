@@ -39,24 +39,26 @@ const Profile = () => {
           <View className="flex justify-center w-full h-60 bg-black">
             <Motivational />
           </View>
+          <View className="flex items-center">
           <TouchableOpacity onPress={() => navigation.navigate('ProfilePic')}>
-            <View className="flex items-center">
               <Image
                 source={{
                   uri: user?.user_profile_pic
-                    ? `http://10.0.2.2:3002/uploads/${user.user_profile_pic}`
+                    ? `https://liikkumisapp.northeurope.cloudapp.azure.com/upload-api/uploads/${user.user_profile_pic}`
                     : 'https://via.placeholder.com/640x360/808080/FFFFFF?text=click+to+change+picture',
                 }}
                 resizeMode="cover"
                 className="w-36 h-36 rounded-full -mt-14"
               />
-            </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Challenges')}>
-            <View className="absolute left-8 -top-[67px]">
-              <FontAwesome name="gamepad" size={32} color="black" />
             </View>
-          </TouchableOpacity>
+            <View className='z-10'>
+              <TouchableOpacity onPress={() => navigation.navigate('Challenges')}>
+                <View className="absolute left-8 -top-[67px] ">
+                  <FontAwesome name="gamepad" size={32} color="black" />
+                </View>
+              </TouchableOpacity>
+          </View>
           <TouchableOpacity onPress={() => setModalVisible(true)}>
             <View className="absolute right-8 -top-[65px]">
               <FontAwesome name="gear" size={32} color="black" />
