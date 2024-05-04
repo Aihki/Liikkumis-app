@@ -9,6 +9,7 @@ import {useUserContext} from '../../hooks/ContextHooks';
 import {useUserProgress} from '../../hooks/apiHooks';
 import {UserProgress} from '../../types/DBTypes';
 import TooltipButton from './ProgressGuide';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const AddProgress = () => {
   const {user} = useUserContext();
@@ -156,6 +157,8 @@ const AddProgress = () => {
   };
 
   return (
+
+    <ScrollView>
     <View className="flex-1 justify-center items-center">
       <Text className="text-2xl">Add Progress</Text>
       <View className="flex-row justify-between items-start">
@@ -407,6 +410,8 @@ const AddProgress = () => {
       </TouchableOpacity>
       <Toast config={toastConfig} />
     </View>
+    </scrollview>
+    </>
   );
 };
 export default AddProgress;
