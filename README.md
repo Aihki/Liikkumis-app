@@ -22,7 +22,7 @@ LiikkumisApp on käyttäjää tukeva urheilu aplikaatio. Käyttäjä pystyy seur
 
 ## Tietokannan kuvaus
 
-* [tietokanta]()
+* [tietokanta](ss/liikkumisApp_diagram.png)
 
 ## Toimminnallisuudet
 
@@ -75,3 +75,24 @@ LiikkumisApp on käyttäjää tukeva urheilu aplikaatio. Käyttäjä pystyy seur
 * foodiaryn poistaminen on hyvin tarkka mistä painaa
 * foodiaryn lisäykset palasivat takas kun vaihtoi sivua(korjattu)
 * progressin lisäys samaan päivään lisäsi sen olemassa oleviin(korjattu)
+
+
+# Kuvankaappaukset
+
+<img src="ss/login.png" width="250"/>
+<img src="ss/reg.png" width="250"/>
+<img src="ss/welcome.png" width="250"/>
+<img src="ss/profile.png" width="250"/>
+<img src="ss/updateProfilePic.png" width="250"/>
+<img src="ss/addprogress.png" width="250"/>
+<img src="ss/compare.png" width="250"/>
+<img src="ss/workouts.png" width="250"/>
+<img src="ss/WorkoutHistory.png" width="250"/>
+<img src="ss/newWorkout.png" width="250"/>
+<img src="ss/editWorkout.png" width="250"/>
+<img src="ss/addExercise.png" width="250"/>
+<img src="ss/exercieInfo.png" width="250"/>
+<img src="ss/fooddiary.png" width="250"/>
+<img src="ss/chanllenge.png" width="250"/>
+<img src="ss/challengeDetails.png" width="250"/>
+<img src="ss/userChallenge.png" width="250"/>
