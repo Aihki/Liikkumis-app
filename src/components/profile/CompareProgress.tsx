@@ -98,8 +98,10 @@ const CompareProgress = () => {
           <Text className="text-2xl font-bold text-center">
             Compare Progress
           </Text>
-          <TouchableOpacity onPress={() => setShowDatePicker(true)}>
-            <Text>Pick the date what you want to compare</Text>
+          <TouchableOpacity onPress={() => setShowDatePicker(true)}
+          className='bg-cyan-700 p-2 rounded-md  self-center m-1.5 mb-7'
+          >
+            <Text className='text-white text-bold text-lg'>Pick the date what you want to compare</Text>
           </TouchableOpacity>
           {showDatePicker && (
             <DateTimePicker

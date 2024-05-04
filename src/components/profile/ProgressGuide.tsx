@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   menuOptions: {
-    borderRadius: 10,
+    borderRadius: 5,
   },
 });
 
