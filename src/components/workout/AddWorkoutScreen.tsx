@@ -90,16 +90,16 @@ const AddWorkoutScreen: React.FC<AddWorkoutScreenProps> = ({ route }) => {
           }}
         />
         <Text
-        className={`absolute  ${Platform.OS === 'ios' ? 'right-7 bottom-9' : 'right-7 bottom-8'} ${
-          workout_name.length > 25
-            ? workout_name.length >= 30
-              ? 'text-red-400'
-              : 'text-orange-500'
-            : 'text-gray-600'
-        }`}
-      >
-      {workout_name.length} / 30
-    </Text>
+          className={`absolute  ${Platform.OS === 'ios' ? 'right-7 bottom-9' : 'right-7 bottom-8'} ${
+            workout_name.length > 25
+              ? workout_name.length >= 30
+                ? 'text-red-400'
+                : 'text-orange-500'
+              : 'text-gray-600'
+          }`}
+        >
+        {workout_name.length} / 30
+      </Text>
       </View>
       <Dropdown
         data={options}

@@ -26,7 +26,7 @@ const Login = () => {
       ) : (
         <RegisterForm handletoggle={handleToggle} />
       )}
-      <View className='flex items-center justify-center pt-2'>
+      <View className='flex items-center justify-center pt-2 mt-1'>
         <Text>
           {!toggleReg ? 'Dont have a account yet? ' : 'Have account already? '}
           <Text onPress={handleToggle} className='color-sky-600'>

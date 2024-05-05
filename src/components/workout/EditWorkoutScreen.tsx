@@ -80,44 +80,92 @@ const EditWorkoutScreen = () => {
 
   return (
     <View className='flex flex-col items-center w-full pt-5'>
-      <Text className='text-[22px] pb-1'>Edit Workout</Text>
+      <Text className='text-[24px] pb-5 text-bold'>Edit Workout</Text>
+      <View className="relative w-full items-center">
       <TextInput
         placeholder={workoutInfo?.workout_name}
         value={workout_name}
-        multiline
-        textAlignVertical="top"
-        onChangeText={(text) => setWorkoutName(text.substring(0, 50))}
-        className='p-3 border-gray-300 bg-gray-100 border w-[90%] rounded-lg  mt-3 mb-4'
+
+        textAlignVertical="center"
+        onChangeText={(text) => setWorkoutName(text.substring(0, 30))}
+        style={{
+          paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+          marginBottom: 18,
+          paddingHorizontal: 10,
+          borderStyle: 'solid',
+          borderWidth: 1,
+          borderColor: '#ccc',
+          borderRadius: 10,
+          width: '90%',
+          backgroundColor: '#F3F4F6',
+        }}
       />
+      <Text
+          className={`absolute  ${Platform.OS === 'ios' ? 'right-7 bottom-9' : 'right-7 bottom-8'} ${
+            workout_name.length > 25
+              ? workout_name.length >= 30
+                ? 'text-red-400'
+                : 'text-orange-500'
+              : 'text-gray-600'
+          }`}
+        >
+        {workout_name.length} / 30
+      </Text>
+      </View>
       <View className='relative w-[90%]'>
         <TextInput
           placeholder="Workout Description"
           value={workout_description}
           onChangeText={(text) => setWorkoutDescription(text.substring(0, 200))}
           multiline
-          numberOfLines={7}
+          numberOfLines={6}
           textAlignVertical="top"
-          className='p-2 border-gray-300 bg-gray-100 border rounded-lg '
+          style={{
+            height: 110,
+            padding: 10,
+            paddingTop: Platform.OS === 'ios' ? 12 : 10,
+
+            borderColor: '#ccc',
+            backgroundColor: '#F3F4F6',
+            borderWidth: 1,
+            borderRadius: 10,
+            marginBottom: 16,
+          }}
         />
+
+      <Text
+        className={`absolute right-2 bottom-6 ${
+          workout_description.length > 175
+            ? workout_description.length >= 200
+              ? 'text-red-500'
+              : 'text-orange-500'
+            : 'text-gray-600'
+        }`}
+      >
+      {workout_description.length} / 200
+    </Text>
+  </View>
+  <View className={`flex w-full items-center justify-center  flex-row`}>
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        className={`p-2 bg-gray-200 border border-gray-300 mb-1 ${Platform.OS === 'ios' ? ' ml-2' : ''}`}
+        style={{width: Platform.OS === 'ios' ? '30%' : '45%', borderRadius: Platform.OS === 'ios' ? 10 : 0}}
+        >
         <Text
-          className={`absolute right-2 bottom-2 ${
-            workout_description.length > 175
-              ? workout_description.length >= 200
-                ? 'text-red-500'
-                : 'text-orange-500'
-              : 'text-gray-600'
-          }`}
-          >
-          {workout_description.length} / 200
+          className={`text-center`}
+        >
+          Select Workout Date
         </Text>
-      </View>
-      <View className='flex w-full items-center justify-center  flex-row my-4'>
-        <TouchableOpacity onPress={() => setShowDatePicker(true)} className='p-2 bg-gray-200 border border-gray-400 w-[45%]'>
-          <Text className='text-center'>Edit Workout Date</Text>
-        </TouchableOpacity>
-        <Text
-          className='w-[45%] text-center border-gray-400 border-y border-r p-2  bg-gray-200'
-        >{workoutDate.toISOString().split('T')[0]}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
+        className='p-2 bg-gray-200 border border-gray-300 w-[45%] mb-1'
+        style={{display: Platform.OS === 'ios' ? 'none' : 'flex'}}
+      >
+      <Text className='text-center'>
+        {workoutDate.toISOString().split('T')[0]}
+      </Text>
+      </TouchableOpacity>
       </View>
       {showDatePicker && (
         <DateTimePicker
@@ -130,7 +178,7 @@ const EditWorkoutScreen = () => {
       <View className="w-full h-[100%] items-center relative">
         <TouchableOpacity
           onPress={editWorkout}
-          className='px-4 py-2 bg-indigo-500 rounded-lg w-[90%]'
+          className={`px-4 py-2 bg-indigo-500 rounded-lg w-[90%] ${Platform.OS === 'ios' ? 'mt-3' : ''}`}
         >
           <Text className='text-white text-[20px] font-medium text-center'>Edit Workout</Text>
         </TouchableOpacity>

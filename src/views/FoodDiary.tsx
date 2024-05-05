@@ -10,7 +10,7 @@ const FoodDiary = () => {
   const [foodDiaryEntries, setFoodDiaryEntries] = useState<FoodDiaryType[]>([]);
   const { getUserFoodDiary, postFoodDiary, deleteFoodDiary } = useUserFoodDiary();
   const { user } = useUserContext(); // Get userId from the context
-  const [newMeal, setNewMeal] = useState({meal: "", notes: "", ingredients: ""});
+
   const [meal, setMeal ] = useState("");
   const [notes, setNotes] = useState("");
   const [ingredients, setIngredients] = useState("");
@@ -51,7 +51,9 @@ const FoodDiary = () => {
       const updatedNewEntry = { ...newEntry, food_diary_id: foodDiaryId };
       setFoodDiaryEntries([...foodDiaryEntries, updatedNewEntry]);
       console.log(foodDiaryEntries);
-      setNewMeal({ meal: '', notes: '', ingredients: '' });
+      setMeal('');
+      setNotes('');
+      setIngredients('');
     } catch (error) {
       console.error('Failed to add new meal entry:', error);
 
@@ -86,18 +88,18 @@ const FoodDiary = () => {
 
   return (
     <ScrollView className="flex-1 bg-gray-100 pt-10">
-      <View className={`p-4  border-gray-300 border-b `}>
-          <Text className={`text-lg font-bold mb-2 mt-3 ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Meal Name</Text>
+      <View className={`p-4  border-gray-300 border-b mb-2 `}>
+          <Text className={`text-lg font-bold mb-2 mt-3 ml-1`}>Meal Name</Text>
           <TextInput
-            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[60px]' : ''}`}
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? '  h-[60px]' : ''}`}
             onChangeText={(text) => setMeal(text.substring(0, 35))}
             value={meal}
             placeholder="e.g. Breakfast, or Meal 1"
           />
-          <Text className={`text-lg font-bold mb-2  ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Notes</Text>
+          <Text className={`text-lg font-bold mb-2 ml-1`}>Notes</Text>
         <View className='relative'>
           <TextInput
-            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[120px]' : ''}`}
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? '  h-[120px]' : ''}`}
             onChangeText={(text) => setNotes(text.substring(0, 200))}
             value={notes}
             numberOfLines={4}
@@ -116,10 +118,10 @@ const FoodDiary = () => {
             {notes.length} / 200
           </Text>
         </View>
-        <Text className={`text-lg font-bold mb-2  ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Ingredients</Text>
+        <Text className={`text-lg font-bold mb-2  ml-1`}>Ingredients</Text>
         <View className='relative'>
           <TextInput
-            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[120px]' : ''}`}
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? '  h-[120px]' : ''}`}
             onChangeText={(text) => setIngredients(text.substring(0, 200))}
             value={ingredients}
             numberOfLines={4}
@@ -138,13 +140,16 @@ const FoodDiary = () => {
             {ingredients.length} / 200
           </Text>
         </View>
-        <View className="bg-indigo-500 rounded-md ">
-          <TouchableOpacity onPress={handleAddMeal} >
-            <Text className="text-white text-center p-2 font-semibold text-[18px]">Add Meal</Text>
+        <View className='items-center'>
+          <TouchableOpacity
+            onPress={handleAddMeal}
+            className={`bg-indigo-500 rounded-md w-[100%] ${Platform.OS === 'ios' ? ' py-[3px]' : ''}`}
+          >
+            <Text className="text-white text-center p-2 font-semibold text-[18px] ">Add Meal</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View className='mb-14'>
+      <View className='mb-[62px]'>
   {foodDiaryEntries.length === 0 ? (
       <Text className='text-center text-[20px] mt-[100px]'>No meals added yet.</Text>
   ) : (

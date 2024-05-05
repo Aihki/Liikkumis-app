@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, View } from 'react-native'
+import { TouchableOpacity, Text, View, Platform } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/LocalTypes';
@@ -38,9 +38,9 @@ const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
     right: 13,
-    top: 33,
-    width: 44,
-    height: 44,
+    top: Platform.OS === 'ios' ? 28 :  37,
+    width: Platform.OS === 'ios' ? 47 : 44,
+    height: Platform.OS === 'ios' ? 47 : 44,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#6366f1',

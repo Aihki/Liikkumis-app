@@ -4,7 +4,7 @@ import { RootStackParamList } from "../../types/LocalTypes";
 import { useUserContext } from "../../hooks/ContextHooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import CardioExerciseInfo from "./CardioExerciseInfo";
 import BodyWeightExerciseInfo from "./BodyWeightExerciseInfo";
 import GymExerciseInfo from "./GymExerciseInfo";
@@ -76,8 +76,9 @@ const ExerciseInfoScreen = () => {
             )}
           </>
         ) : (
-          // Placeholder for loading or null state
-          <Text>Loading exercise details...</Text>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         )}
       </>
     </>

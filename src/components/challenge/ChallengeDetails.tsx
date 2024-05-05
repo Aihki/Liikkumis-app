@@ -1,4 +1,4 @@
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Image, Platform, Text, TouchableOpacity, View } from "react-native"
 import { RootStackParamList } from "../../types/LocalTypes";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { useUserContext } from "../../hooks/ContextHooks";
@@ -131,16 +131,16 @@ const ChallengeDetails = () => {
             <Text className="mb-4 text-[16px]">{challenge.description}</Text>
             <Text className="font-semibold">Target: {challenge.target_value} {challenge.target_type}</Text>
             {!joined ? (
-              <TouchableOpacity className="mt-4 bg-indigo-500 p-2 rounded-lg" onPress={takePartInChallenge}>
+              <TouchableOpacity className={`mt-4 bg-indigo-500 p-2 rounded-lg ${Platform.OS === 'ios' ? 'py-3' : 'py-2'}`} onPress={takePartInChallenge}>
                 <Text className="text-white text-center font-semibold">Join Challenge</Text>
               </TouchableOpacity>
             ) : (
               completed ? (
-                <View className="mt-4 bg-green-400 p-2 rounded-lg">
+                <View className={`mt-4 bg-green-400 p-2 rounded-lg ${Platform.OS === 'ios' ? 'py-3' : 'py-2'}`}>
                   <Text className="text-white text-center font-semibold">Challenge Completed</Text>
                 </View>
               ) : (
-                <TouchableOpacity className="mt-4 bg-red-500 p-2 rounded-lg" onPress={leaveFromChallenge}>
+                <TouchableOpacity className={`mt-4 bg-red-500 p-2 rounded-lg ${Platform.OS === 'ios' ? 'py-3' : 'py-2'}`} onPress={leaveFromChallenge}>
                   <Text className="text-white text-center font-semibold">Leave Challenge</Text>
                 </TouchableOpacity>
               )

@@ -1,7 +1,7 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/LocalTypes";
 import Exercises from "./Exercises";
-import {Alert, Platform, Pressable, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, Platform, Pressable, Text, TouchableOpacity, View} from "react-native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useExercise, useWorkouts} from "../../hooks/apiHooks";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -232,7 +232,7 @@ const WorkoutDetails = () => {
                         height: 250,
                         position: 'absolute',
 
-                        top: Platform.OS === 'ios' ? -632 : -606,
+                        top: Platform.OS === 'ios' ? -609 : -620,
                         right: 76,
                         zIndex: 100
                       }}
@@ -306,7 +306,9 @@ const WorkoutDetails = () => {
             </View>
           </>
         ) : (
-          <Text className="text-center text-xl">Loading workout...</Text>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         )}
 
       </>

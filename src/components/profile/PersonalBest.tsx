@@ -35,8 +35,9 @@ const PersonalBestC = () => {
   );
 
   return (
-    <View className="p-2 my-5 items-center">
-      <Text className="text-center text-[18px] font-medium pb-2">Personal Bests</Text>
+    <View className="my-5">
+      <View className="items-center p-2 border-t border-gray-50">
+      <Text className="text-center text-[18px] font-medium pb-2 mt-3">Personal Bests</Text>
       {personalB && personalB.length > 0 ? personalB.map(pb => (
         <View key={pb.pb_id} className="p-2 m-2 w-[85%] bg-white rounded-lg shadow relative overflow-hidden">
           <View className="flex flex-row items-center justify-between z-10">
@@ -46,6 +47,7 @@ const PersonalBestC = () => {
           <View className="absolute bg-indigo-500 w-[250px] h-[250px] top-0 -right-28 transform rotate-45 translate-x-1/2 -translate-y-1/"></View>
         </View>
       )) : <Text className="text-center text-gray-500">No personal bests to display.</Text>}
+    </View>
     </View>
   );
 }

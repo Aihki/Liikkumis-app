@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from "react"
-import {Alert, FlatList, Image, Modal, Platform, Pressable, TouchableOpacity, View} from "react-native"
+import {ActivityIndicator, Alert, FlatList, Image, Modal, Platform, Pressable, TouchableOpacity, View} from "react-native"
 import {Exercise} from "../../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -57,6 +57,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
   const [isLoading, setIsLoading] = useState(true);
   const [completedExerciseId, setCompletedExerciseId] = useState<number | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+
 
   const swipeableRefs = useRef<{ [key: number]: Swipeable }>({});
 
@@ -233,7 +234,11 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
           </View>
         </View>
       </Modal>
-      {userExercises && userExercises.length > 0 ? (
+      {isLoading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      ) : userExercises.length > 0 ? (
         <FlatList
           data={userExercises}
           keyExtractor={(item) => item.exercise_id.toString()}
@@ -261,7 +266,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                   )}
                   <Image
                     source={exerciseImages[item.exercise_name] || exerciseImages['default']}
-                    className="absolute w-[169px] h-full top-0 right-0 "
+                    className={`absolute w-[169px] h-full top-0 right-0 ${Platform.OS === 'ios' ? 'w-[179px]' : '' } `}
                     resizeMode="cover"
                   />
                   <View className={`${item.exercise_completed == 1 ? ('border-t border-green-300 bg-green-50') : ('bg-white')} absolute -bottom-24 -right-20  h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]`} />
@@ -331,11 +336,14 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
           )}
 
         />
-        ) : (
-            <View className="items-center">
-                <Text className="text-lg text-gray-500 pt-40 ">No Exercises added.</Text>
-            </View>
-        )}
+      ) : (
+        <View className="items-center">
+          <Text className="text-lg text-gray-500 pt-40">No Exercises added.</Text>
+        </View>
+      )}
+
+
+
     </GestureHandlerRootView>
   )
 }

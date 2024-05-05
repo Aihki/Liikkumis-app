@@ -58,7 +58,7 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
 
   function formatDate(dateStr: string): string {
     const date = new Date(dateStr);
-    date.setUTCDate(date.getUTCDate() + 1);  // Adding one day
+    date.setUTCDate(date.getUTCDate());  // Adding one day
 
     const year = date.getUTCFullYear();
     const month = date.getUTCMonth() + 1;  // Months are zero-indexed, add one to normalize

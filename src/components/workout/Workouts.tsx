@@ -63,10 +63,10 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
 
   function formatDate(dateStr: string): string {
     const date = new Date(dateStr);
-    date.setUTCDate(date.getUTCDate() + 1);
+    date.setUTCDate(date.getUTCDate());  // Adding one day
 
     const year = date.getUTCFullYear();
-    const month = date.getUTCMonth() + 1;
+    const month = date.getUTCMonth() + 1;  // Months are zero-indexed, add one to normalize
     const day = date.getUTCDate();
 
     return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
@@ -135,15 +135,15 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 name={isOpen ? 'times' : 'bars'}
                 size={23}
                 color={isOpen ? '#424242' : "black"}
-                style={{position: "absolute", top: 8, left: 17, zIndex: 20}}
+                style={{position: "absolute", top: Platform.OS === 'ios' ? 3 : 8, left: 17, zIndex: 20}}
                 onPress={() => setIsOpen(!isOpen)}
               />
           {isOpen && (
             <View style={{ position:"absolute", width: '100%', top: 45, left: 0, zIndex: 30 }}>
-            <View style={{ zIndex: 10, backgroundColor: 'white' }}>
+            <View style={{ zIndex: 10, backgroundColor: 'white', height: '100%' }}>
               <TouchableOpacity onPress={navigateToWorkoutHistory} style={{ padding: 12, display: 'flex', flexDirection: 'row', borderBottomColor: "#ccc", borderBottomWidth: 1 }}>
-                <FontAwesome name="history" size={28} color="black" />
-                <Text className="text-[18px] font-bold ml-2">Workout History</Text>
+                <FontAwesome name="history" size={28} color="black"/>
+                <Text className="text-[18px] font-bold ml-2 pb-2">Workout History</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={navigateToChallenges} style={{ padding: 12, display: 'flex', flexDirection: 'row' }}>
                 <FontAwesome name="gamepad" size={30} color="black"/>
@@ -157,30 +157,30 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
         <View className="px-3">
           <View className="flex my-[9px] w-full">
           <TextInput
-  placeholder="Search"
-  clearButtonMode="always"
-  autoCapitalize="none"
-  autoCorrect={false}
-  style={{
-    paddingVertical: Platform.OS === 'ios' ? 15 : 5,
-    paddingHorizontal: 10,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 10,
-  }}
-  value={searchQuery}
-  onChangeText={(query) => setSearchQuery(query)}
-/>
+            placeholder="Search"
+            clearButtonMode="always"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={{
+              paddingVertical: Platform.OS === 'ios' ? 16 : 10,
+              paddingHorizontal: 10,
+              borderStyle: 'solid',
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 10,
+            }}
+            value={searchQuery}
+            onChangeText={(query) => setSearchQuery(query)}
+          />
           </View>
           <View className="flex flex-row space-x-5 justify-center pb-2">
-            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Gym' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Gym')} className={`flex justify-center items-center border ${Platform.OS === 'ios' ? 'py-[10px]' : 'py-[7px]'} px-4 rounded-xl  ${filterType === 'Gym' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Gym</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Body Weight')} className={`flex justify-center items-center border ${Platform.OS === 'ios' ? 'py-[10px]' : 'py-[7px]'}  px-4 rounded-xl ${filterType === 'Body Weight' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Body Weight</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+            <TouchableOpacity onPress={() => handleFilterPress('Cardio')} className={`flex justify-center items-center border ${Platform.OS === 'ios' ? 'py-[10px]' : 'py-[7px]'} px-4 rounded-xl ${filterType === 'Cardio' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
               <Text className="text-[15px]">Cardio</Text>
             </TouchableOpacity>
           </View>

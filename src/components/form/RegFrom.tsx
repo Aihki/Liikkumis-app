@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {useUser} from '../../hooks/apiHooks';
 
@@ -39,10 +39,10 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
 
   return (
     <>
-      <View className='h-1/2 w-min'>
+      <View className='h-[40%] w-min'>
       <Image className='h-full w-full absolute' source={require('../../assets/images/logo.png')} resizeMode='contain' />
     </View>
-    <View className='w-full flex items-center'>
+    <View className='w-full flex items-center border-t border-gray-200'>
     <Text className='text-3xl text-black font-bold text-center tracking-wider p-3'>Register</Text>
       </View>
     <View className='flex items-center mx-4 space-y-4'>
@@ -60,12 +60,23 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl'
+          <TextInput
             placeholder="Username"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            style={{
+              paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderStyle: 'solid',
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 10,
+              width: '100%',
+              backgroundColor: '#F3F4F6',
+            }}
           />
         )}
         name="username"
@@ -85,12 +96,23 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           required: {value: true, message: 'is required'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
+          <TextInput
             placeholder="Password"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            style={{
+              paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderStyle: 'solid',
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 10,
+              width: '100%',
+              backgroundColor: '#F3F4F6',
+            }}
           />
         )}
         name="password"
@@ -108,12 +130,23 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
+          <TextInput
             placeholder="Confirm Passowrd"
             secureTextEntry
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
+            style={{
+              paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+              marginBottom: 10,
+              paddingHorizontal: 10,
+              borderStyle: 'solid',
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 10,
+              width: '100%',
+              backgroundColor: '#F3F4F6',
+            }}
           />
         )}
         name="confirmPassword"
@@ -137,19 +170,29 @@ const RegisterForm = ({handletoggle}: {handletoggle: () => void}) => {
           },
         }}
         render={({field: {onChange, onBlur, value}}) => (
-          <TextInput className='border-2 border-gray-500 w-full p-2 rounded-xl mt-2'
+          <TextInput
             placeholder="Email"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
             autoCapitalize="none"
+            style={{
+              paddingVertical: Platform.OS === 'ios' ? 18 : 11,
+              paddingHorizontal: 10,
+              borderStyle: 'solid',
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 10,
+              width: '100%',
+              backgroundColor: '#F3F4F6',
+            }}
           />
         )}
         name="email"
       />
-      <View className="flex items-center justify-center">
+      <View className="flex items-center justify-center w-full">
         <TouchableOpacity
-          className=" bg-indigo-500 p-2 rounded-lg w-1/2"
+          className=" bg-indigo-500 p-2 rounded-lg w-full"
           onPress={handleSubmit(doRegister)}
         >
           <Text className="text-white font-bold text-lg text-center">

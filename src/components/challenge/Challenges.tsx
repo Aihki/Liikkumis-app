@@ -1,4 +1,4 @@
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Image, Platform } from "react-native";
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../hooks/ContextHooks";
 import { useChallenge } from "../../hooks/apiHooks";
@@ -110,16 +110,16 @@ const Challenges = () => {
   return (
     <>
     <View className="flex flex-row space-x-2 justify-center pt-4">
-      <TouchableOpacity onPress={() => setFilterType('All')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'All' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+      <TouchableOpacity onPress={() => setFilterType('All')} className={`flex justify-center items-center border py-[6px] px-4 rounded-xl ${filterType === 'All' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
         <Text>All</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setFilterType('Running')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Running' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+      <TouchableOpacity onPress={() => setFilterType('Running')} className={`flex justify-center items-center border py-[10px] px-4 rounded-xl ${filterType === 'Running' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
         <Text>Running</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setFilterType('Strength')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Strength' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+      <TouchableOpacity onPress={() => setFilterType('Strength')} className={`flex justify-center items-center border py-[6px] px-4 rounded-xl ${filterType === 'Strength' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
         <Text>Strength</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setFilterType('Bodyweight')} className={`border py-[6px] px-4 rounded-xl ${filterType === 'Bodyweight' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
+      <TouchableOpacity onPress={() => setFilterType('Bodyweight')} className={`flex justify-center items-center border py-[6px] px-4 rounded-xl ${filterType === 'Bodyweight' ? 'bg-indigo-100 border-[#6366f1]' : 'bg-gray-100 border-[#818cf8]'}`}>
         <Text>Bodyweight</Text>
       </TouchableOpacity>
     </View>
@@ -133,7 +133,7 @@ const Challenges = () => {
     </View>
     <View className="flex items-center justify-center">
       <TouchableOpacity
-        className="px-4 py-2 bg-indigo-500 rounded-md w-[90%] mt-3"
+        className={`px-4 py-2 bg-indigo-500 rounded-md w-[90%] mt-3 ${Platform.OS === 'ios' ? 'p-4' : ''}`}
         onPress={() => navigation.navigate('YourChallenges', {userId: Number(user?.user_id)})}
       >
         <Text className="text-white text-[16px] text-center font-semibold">Your Challenges</Text>
