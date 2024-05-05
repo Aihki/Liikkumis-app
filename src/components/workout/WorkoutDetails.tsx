@@ -1,7 +1,7 @@
 import { RouteProp, useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackParamList } from "../../types/LocalTypes";
 import Exercises from "./Exercises";
-import {ActivityIndicator, Alert, Platform, Pressable, Text, TouchableOpacity, View} from "react-native";
+import {ActivityIndicator, Alert, Dimensions, Platform, Pressable, Text, TouchableOpacity, View} from "react-native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {useExercise, useWorkouts} from "../../hooks/apiHooks";
 import {useUserContext} from "../../hooks/ContextHooks";
@@ -197,6 +197,14 @@ const WorkoutDetails = () => {
     return text.length > limit ? text.substring(0, limit) + '...' : text;
   };
 
+  const screen = Dimensions.get('window');
+
+  const baseTopOffset = 650;
+  const scaleAdjustmentFactor = 50;
+
+  const calculatedTop = -(baseTopOffset - (scaleAdjustmentFactor / screen.scale));
+  const calculatedRight = Platform.OS === 'ios' ? 76 : 69;
+
   return (
       <>
         {workoutInfo ? (
@@ -232,8 +240,8 @@ const WorkoutDetails = () => {
                         height: 250,
                         position: 'absolute',
 
-                        top: Platform.OS === 'ios' ? -609 : -620,
-                        right: 76,
+                        top: calculatedTop,
+                        right: calculatedRight,
                         zIndex: 100
                       }}
                     />
@@ -243,7 +251,7 @@ const WorkoutDetails = () => {
                       </Text>
                       <View className="bg-yellow-50 px-3 py-1 rounded-lg shadow-md mx-4 mt-7 border border-yellow-300">
                         <Text className="text-center text-gray-700 font-bold text-lg">
-                          Workout Type: {workoutInfo.workout_type}
+                          Type: {workoutInfo.workout_type}
                         </Text>
                       </View>
                       <View className="bg-yellow-50 px-3 py-1 rounded-lg shadow-md mx-4 my-4 mt-2 border border-yellow-300">

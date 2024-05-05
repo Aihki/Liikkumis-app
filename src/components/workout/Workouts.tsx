@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserContext } from "../../hooks/ContextHooks"
 import { useWorkouts } from "../../hooks/apiHooks"
-import { UserWithNoPassword, UserWorkout } from "../../types/DBTypes";
+import { UserWithNoPassword, UserWorkout as OriginalUserWorkout } from "../../types/DBTypes";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Image, Pressable, Animated, Alert, TouchableWithoutFeedback, Keyboard, Platform, ActivityIndicator } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/LocalTypes";
@@ -19,6 +19,10 @@ import { Swipeable, GestureHandlerRootView } from 'react-native-gesture-handler'
 type WorkoutsProps = {
   updateWorkouts: boolean;
 }
+
+type UserWorkout = OriginalUserWorkout & {
+  isLoading: boolean;
+};
 
 const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -36,13 +40,39 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
         const token = await AsyncStorage.getItem('token');
         if (!token || !user) return;
         const fetchedWorkouts = await getUserWorkouts(user.user_id, token);
-        setWorkouts(fetchedWorkouts);
-        setFilteredWorkouts(fetchedWorkouts);
+        const workoutsWithLoading = fetchedWorkouts.map(workout => ({
+          ...workout,
+          isLoading: true  // Initialize isLoading to true
+        }));
+        setWorkouts(workoutsWithLoading);
+        setFilteredWorkouts(workoutsWithLoading);
       };
 
       fetchWorkouts();
     }, [user])
   );
+
+  const getImageSource = (type: string) => {
+    switch (type) {
+        case 'Gym': return gymImage;
+        case 'Cardio': return cardioImage;
+        default: return gymImage2;
+    }
+};
+
+const handleImageLoad = (id: number) => {
+  const updatedWorkouts = workouts?.map(workout => workout.user_workout_id === id ? { ...workout, isLoading: false } : workout);
+  if (!updatedWorkouts) return
+  setWorkouts(updatedWorkouts);
+  setFilteredWorkouts(updatedWorkouts);
+};
+
+const handleImageError = (id: number) => {
+  const updatedWorkouts = workouts?.map(workout => workout.user_workout_id === id ? { ...workout, isLoading: false } : workout);
+  if (!updatedWorkouts) return
+  setWorkouts(updatedWorkouts);
+  setFilteredWorkouts(updatedWorkouts);
+};
 
   useEffect(() => {
     const formattedQuery = searchQuery.toLowerCase();
@@ -91,8 +121,8 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
       await deleteWorkout(user.user_id, workoutId, token)
       const updatedWorkouts = workouts?.filter(workout => workout.user_workout_id !== workoutId);
       const updatedFilteredWorkouts = filteredWorkouts?.filter(workout => workout.user_workout_id !== workoutId);
-    setWorkouts(updatedWorkouts);
-    setFilteredWorkouts(updatedFilteredWorkouts);
+      setWorkouts(updatedWorkouts);
+      setFilteredWorkouts(updatedFilteredWorkouts);
     } catch (error) {
       console.log('error could not delete workout')
     }
@@ -197,15 +227,24 @@ const Workouts: React.FC<WorkoutsProps> = ({ updateWorkouts }) => {
                 onPress={() => navigation.navigate('WorkoutDetails', { workoutId: item.user_workout_id, refresh: true })}
                 className={`mb-1 overflow-hidden rounded-lg shadow-lg relative`}
               >
-                <View className="bg-white rounded-lg relative overflow-hidden m-[3px]  min-h-[115px]">
-                  <View className="p-5 py-4 z-10 mr-8">
-                    <Text className="text-xl font-bold mb-1">{truncateText(item.workout_name, 16)}</Text>
-                    <Text className="text-gray-500 mb-1">{formatDate(item.workout_date)}</Text>
-                    <Text className="text-gray-600">{truncateText(item.workout_description, 38)}</Text>
-                  </View>
-                  <Image source={item.workout_type === 'Gym' ? gymImage : item.workout_type === 'Cardio' ? cardioImage : gymImage2} className="w-[46%] h-full mr-4 absolute -right-16 rounded-r-xl" />
-                  <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
-                </View>
+                <View className="relative overflow-hidden m-[3px] min-h-[115px] bg-white rounded-lg">
+        {item.isLoading ? (
+        <ActivityIndicator size="large" color="#0000ff" style={{ position: 'absolute', right: '1%', top: '50%', transform: [{ translateX: -25 }, { translateY: -25 }] }} />
+    ) : null}
+    <Image
+        source={getImageSource(item.workout_type)}
+        className="w-[46%] h-full mr-4 absolute -right-16 rounded-r-xl"
+        onLoad={() => handleImageLoad(item.user_workout_id)}
+        onError={() => handleImageError(item.user_workout_id)}
+    />
+    <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]" />
+
+    <View className="p-5 py-4 z-10 mr-8">
+        <Text className="text-xl font-bold mb-1">{truncateText(item.workout_name, 16)}</Text>
+        <Text className="text-gray-500 mb-1">{formatDate(item.workout_date)}</Text>
+        <Text className="text-gray-600">{truncateText(item.workout_description, 38)}</Text>
+    </View>
+</View>
               </Pressable>
               </Swipeable>
             )}

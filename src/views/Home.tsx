@@ -136,6 +136,7 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
               style={{ paddingTop: Platform.OS === 'ios' ? 70 : 0, height: Platform.OS === 'ios' ? '33%' : '32%'}}
             >
               <View className="flex flex-col gap-4">
+                  
                   <Text className="text-center text-[20px] font-bold mb-2">Monthly Activity Calendar:</Text>
                   <Text className="text-[16px]">This calendar displays your activity history for the month.</Text>
                   <Text className="text-[16px]">Days marked in blue show when you recorded exercises.</Text>

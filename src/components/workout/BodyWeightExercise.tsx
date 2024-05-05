@@ -111,7 +111,7 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
   const setOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: `${num} sets`, value: num }));
 
 
-  const durationOptions = [30, 45, 60, 90, 120, 150, 180].map(sec => ({ label: `${sec} seconds`, value: sec }));
+  const durationOptions = [30, 45, 60, 90, 120, 150, 180, 200, 220, 250].map(sec => ({ label: `${sec} seconds`, value: sec }));
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -126,9 +126,11 @@ const BodyWeightExercise = ({ workout, workoutId }: ExerciseProps) => {
           onChange={(item) => {
             if (item.value === 'custom') {
               setShowCustomInput(true);
+              setIsDurationBased(false); // Assuming custom exercises are not duration based by default
             } else {
               setShowCustomInput(false);
               setExerciseName(item.value);
+              setIsDurationBased(item.isDurationBased); // Update based on the selected exercise
             }
           }}
           style={styles.dropdown}

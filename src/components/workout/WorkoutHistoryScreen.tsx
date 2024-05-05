@@ -1,9 +1,9 @@
-import { FlatList, Image, ImageSourcePropType, Pressable, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, ImageSourcePropType, Pressable, Text, View } from "react-native"
 import { useWorkouts } from "../../hooks/apiHooks"
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useUserContext } from "../../hooks/ContextHooks";
-import { UserWorkout } from "../../types/DBTypes";
+import { UserWorkout as OriginalUserWorkout } from "../../types/DBTypes";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../types/LocalTypes";
@@ -18,7 +18,9 @@ type WorkoutTypeImages = {
   'Body Weight': ImageSourcePropType;
 };
 
-
+type UserWorkout = OriginalUserWorkout & {
+  isLoading: boolean;
+};
 
 const WorkoutHistoryScreen = () => {
 
@@ -42,17 +44,29 @@ const WorkoutHistoryScreen = () => {
 
 
 
-  const getWorkouts =  async () => {
+  const getWorkouts = async () => {
     const token = await AsyncStorage.getItem('token');
     if (!token || !user) return;
-    try {
-      const completedWorkouts = await getCompletedWorkouts(user.user_id, token);
 
-      setWorkouts(completedWorkouts);
+    try {
+        const completedWorkouts = await getCompletedWorkouts(user.user_id, token);
+        const workoutsWithLoading = completedWorkouts.map(workout => ({
+            ...workout,
+            isLoading: true // Initialize loading state
+        }));
+        setWorkouts(workoutsWithLoading);
     } catch (error) {
-      console.error(error);
+        console.error("Failed to fetch workouts:", error);
     }
-  }
+}
+
+const handleImageLoad = (workoutId: number) => {
+  const updatedWorkouts = workouts.map(workout =>
+      workout.user_workout_id === workoutId ? { ...workout, isLoading: false } : workout
+  );
+  setWorkouts(updatedWorkouts);
+};
+
 
   const workoutTypeImages: WorkoutTypeImages = {
     'Gym': gymImage,
@@ -90,7 +104,14 @@ const WorkoutHistoryScreen = () => {
                   <Text className="text-gray-800 mb-1">Date: {item.workout_date?.toString().split('T')[0]}</Text>
                   <Text className="text-gray-400">Created at: {new Date(item.created_at).toISOString().split('T')[0]}</Text>
                 </View>
-                <Image source={workoutTypeImages[item.workout_type]} className="w-[46%] h-full  mr-4 absolute -right-16 rounded-r-xl" />
+                {item.isLoading && (
+                    <ActivityIndicator size="large" color="#0000ff" style={{ position: 'absolute', right: '1%', top: '50%', transform: [{ translateX: -25 }, { translateY: -25 }] }} />
+                )}
+                <Image
+                    source={workoutTypeImages[item.workout_type]}
+                    className="w-[46%] h-full  mr-4 absolute -right-16 rounded-r-xl"
+                    onLoad={() => handleImageLoad(item.user_workout_id)}
+                />
                 <View className="absolute -bottom-10 -right-20 bg-white h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2] "/>
 
               </View>

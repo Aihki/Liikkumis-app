@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from "react"
 import {ActivityIndicator, Alert, FlatList, Image, Modal, Platform, Pressable, TouchableOpacity, View} from "react-native"
-import {Exercise} from "../../types/DBTypes"
+import {Exercise  as OriginalUserExercise} from "../../types/DBTypes"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useUserContext} from "../../hooks/ContextHooks";
 import {useExercise, useWorkouts} from "../../hooks/apiHooks";
@@ -47,6 +47,10 @@ type ExercisesProps = {
   onExerciseDeleted: (exerciseId: number) => void;
 };
 
+type Exercise = OriginalUserExercise & {
+  isLoading: boolean;
+};
+
 
 const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, onExerciseDeleted }) => {
 
@@ -74,13 +78,13 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
     try {
       const exercisesResponse = await getUsersExercisesByWorkoutId(user.user_id, workoutId, token);
       if (exercisesResponse) {
-        const processedExercises = exercisesResponse.map(exercise => ({
+        const exercisesWithLoading = exercisesResponse.map(exercise => ({
           ...exercise,
-          exercise_distance: exercise.exercise_distance,
+          isLoading: true, // Initialize with the loading state as true
           created_at: new Date(exercise.created_at),
           exercise_completed: exercise.exercise_completed ?? 0
         }));
-        const sortedExercises = sortExercises(processedExercises);
+        const sortedExercises = sortExercises(exercisesWithLoading);
         setuserExercises(sortedExercises);
         setIsLoading(false);
       }
@@ -102,6 +106,20 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
         return dateB.getTime() - dateA.getTime();
       }
     });
+  };
+
+  const handleImageLoad = (exerciseId: number) => {
+    const updatedExercises = userExercises.map(exercise =>
+      exercise.exercise_id === exerciseId ? { ...exercise, isLoading: false } : exercise
+    );
+    setuserExercises(updatedExercises);
+  };
+
+  const handleImageError = (exerciseId: number) => {
+    const updatedExercises = userExercises.map(exercise =>
+      exercise.exercise_id === exerciseId ? { ...exercise, isLoading: false } : exercise
+    );
+    setuserExercises(updatedExercises);
   };
 
   const getWorkoutStatusByWorkoutId = async () => {
@@ -179,6 +197,10 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
         </TouchableOpacity>
       );
     }
+  };
+
+  const truncateText = (text: string, limit: number) => {
+    return text.length > limit ? text.substring(0, limit) + '...' : text;
   };
 
   useFocusEffect(
@@ -264,11 +286,19 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                     <TouchableOpacity className="absolute -top-2 right-2 p-2 z-10 h-full justify-center">
                   </TouchableOpacity>
                   )}
-                  <Image
-                    source={exerciseImages[item.exercise_name] || exerciseImages['default']}
-                    className={`absolute w-[169px] h-full top-0 right-0 ${Platform.OS === 'ios' ? 'w-[179px]' : '' } `}
-                    resizeMode="cover"
-                  />
+                   {item.isLoading && (
+                      <ActivityIndicator
+                        size="large"
+                        color="#0000ff"
+                        style={{ position: 'absolute', right: '1%', top: '50%', transform: [{ translateX: -25 }, { translateY: -25 }] }}
+                      />
+                    )}
+                    <Image
+                      source={exerciseImages[item.exercise_name] || exerciseImages['default']}
+                      className={`absolute w-[169px] h-full top-0 right-0 ${Platform.OS === 'ios' ? 'w-[179px]' : '' } `}
+                      onLoad={() => handleImageLoad(item.exercise_id)}
+                      onError={() => handleImageError(item.exercise_id)}
+                    />
                   <View className={`${item.exercise_completed == 1 ? ('border-t border-green-300 bg-green-50') : ('bg-white')} absolute -bottom-24 -right-20  h-[99%] w-[100%] transform rotate-45 translate-x-1/2 -translate-y-1/2 z-[2]`} />
                   {item.exercise_duration === 0 && item.exercise_distance === 0 && item.exercise_weight > 0 ? (
                     // Gym
@@ -277,7 +307,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                           <FontAwesome name="check" size={20} color="#4CAF50"/>
                         ) : null}
                       </Text>
-                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{truncateText(item.exercise_name, 15)}</Text>
                       <Text className="text-base text-gray-600 mb-0.5">{item.exercise_weight} kg</Text>
                       <Text className="text-base text-gray-600 mb-0.5">{item.exercise_reps} rep</Text>
                       <Text className="text-base text-gray-600 mb-2">{item.exercise_sets} sets</Text>
@@ -289,8 +319,8 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                           <FontAwesome name="check" size={20} color="#4CAF50"/>
                         ) : null}
                       </Text>
-                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
-                      <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration}</Text>
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{truncateText(item.exercise_name, 15)}</Text>
+                      <Text className="text-base text-gray-600 mb-1">Duration: {item.exercise_duration} Seconds</Text>
                     </View>
                   ) : item.exercise_weight === 0 && (item.exercise_distance !== 0 || item.exercise_duration > 0) ? (
                     // Cardio
@@ -299,7 +329,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                           <FontAwesome name="check" size={20} color="#4CAF50"/>
                         ) : null}
                       </Text>
-                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{truncateText(item.exercise_name, 15)}</Text>
                       <Text className="text-base text-gray-600 mb-1">{item.exercise_distance} km</Text>
                       <Text className="text-base text-gray-600 mb-1">{item.exercise_duration} minutes</Text>
                     </View>
@@ -310,7 +340,7 @@ const Exercises: React.FC<ExercisesProps> = ({ workoutId, onExerciseCompleted, o
                           <FontAwesome name="check" size={20} color="#4CAF50"/>
                         ) : null}
                       </Text>
-                      <Text className="text-lg font-bold text-gray-800 mb-1">{item.exercise_name}</Text>
+                      <Text className="text-lg font-bold text-gray-800 mb-1">{truncateText(item.exercise_name, 17)}</Text>
                       <Text className="text-base text-gray-600 mb-0.5">Reps: {item.exercise_reps}</Text>
                       <Text className="text-base text-gray-600 mb-1">Sets: {item.exercise_sets}</Text>
                     </View>
