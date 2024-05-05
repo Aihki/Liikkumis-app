@@ -86,18 +86,18 @@ const FoodDiary = () => {
 
   return (
     <ScrollView className="flex-1 bg-gray-100 pt-10">
-      <View className="p-4  border-gray-300 border-b ">
-          <Text className="text-lg font-bold mb-2 mt-3 ml-1">Meal Name</Text>
+      <View className={`p-4  border-gray-300 border-b `}>
+          <Text className={`text-lg font-bold mb-2 mt-3 ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Meal Name</Text>
           <TextInput
-            className="border border-gray-300 p-2 rounded mb-2"
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[60px]' : ''}`}
             onChangeText={(text) => setMeal(text.substring(0, 35))}
             value={meal}
             placeholder="e.g. Breakfast, or Meal 1"
           />
-          <Text className="text-lg font-bold mb-2 ml-1">Notes</Text>
+          <Text className={`text-lg font-bold mb-2  ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Notes</Text>
         <View className='relative'>
           <TextInput
-            className="border border-gray-300 p-3 rounded mb-2 "
+            className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[120px]' : ''}`}
             onChangeText={(text) => setNotes(text.substring(0, 200))}
             value={notes}
             numberOfLines={4}
@@ -116,11 +116,10 @@ const FoodDiary = () => {
             {notes.length} / 200
           </Text>
         </View>
-        <Text className="text-lg font-bold mb-2 ml-1">Ingredients</Text>
+        <Text className={`text-lg font-bold mb-2  ml-1 ${Platform.OS === 'ios' ? ' ml-3' : ''}`}>Ingredients</Text>
         <View className='relative'>
           <TextInput
             className={`p-3  border border-gray-300 mb-4 rounded-md ${Platform.OS === 'ios' ? ' ml-2 h-[120px]' : ''}`}
-
             onChangeText={(text) => setIngredients(text.substring(0, 200))}
             value={ingredients}
             numberOfLines={4}
@@ -139,7 +138,7 @@ const FoodDiary = () => {
             {ingredients.length} / 200
           </Text>
         </View>
-        <View className="bg-cyan-700 rounded-md ">
+        <View className="bg-indigo-500 rounded-md ">
           <TouchableOpacity onPress={handleAddMeal} >
             <Text className="text-white text-center p-2 font-semibold text-[18px]">Add Meal</Text>
           </TouchableOpacity>

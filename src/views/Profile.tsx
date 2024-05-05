@@ -52,18 +52,20 @@ const Profile = () => {
               />
           </TouchableOpacity>
             </View>
-            <View className='z-10'>
-              <TouchableOpacity onPress={() => navigation.navigate('Challenges')}>
-                <View className="absolute left-8 -top-[67px] ">
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate('Challenges')} className='absolute left-8 -top-[67px]'>
+                <View>
                   <FontAwesome name="gamepad" size={32} color="black" />
                 </View>
               </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <View className="absolute right-8 -top-[65px]">
+          <View>
+          <TouchableOpacity onPress={() => setModalVisible(true)} className='absolute right-8 -top-[67px]'>
+            <View>
               <FontAwesome name="gear" size={32} color="black" />
             </View>
           </TouchableOpacity>
+          </View>
           <Modal
             animationType="slide"
             transparent={true}

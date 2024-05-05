@@ -151,6 +151,9 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
             </View>
           </Modal>
           <Calendar
+            renderHeader={(date) => {
+              return null;
+            }}
             className='text-center bg-gray-50'
             showWeekNumbers={false}
             hideArrows={true}
@@ -169,13 +172,13 @@ const Home = ({ navigation }: { navigation: NavigationProp<ParamListBase> }) => 
       </View>
       <View className='items-center mb-2'>
         <TouchableOpacity
-          className='px-4 py-2 bg-indigo-500 rounded-md w-[85%]'
+          className={`px-4  bg-indigo-500 rounded-md w-[85%] ${Platform.OS === 'ios' ? 'mt-3 py-4' : 'mt-2 py-3'}`}
           onPress={() => navigation.navigate('Challenges')}
         >
           <Text className='text-white text-center font-semibold'>Challenges</Text>
         </TouchableOpacity>
       </View>
-      <View className='bg-gray-200 p-4 rounded-lg mt-5 mb-7 border-2 mx-2'>
+      <View className={`bg-gray-200 p-4 rounded-lg mb-7 border-2 mx-2 border-gray-500 ${Platform.OS === 'ios' ? 'mt-4' : 'mt-2'} `}>
         <Text className='text-base font-bold text-center my-2'>Here's what you can do!{'\n'}</Text>
         <Text className='text-sm'>- Create and track your workouts in the exercise page.{'\n'}</Text>
         <Text className='text-sm'>- Create meal plans to follow in the food diary.{'\n'}</Text>
