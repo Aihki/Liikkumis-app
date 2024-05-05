@@ -108,7 +108,7 @@ const Profile = () => {
         <View>
           <TouchableOpacity
             onPress={() => navigation.navigate('AddProgress')}
-            className="bg-cyan-700 p-2 rounded-lg w-1/2 self-center m-1.5"
+            className="bg-indigo-500 p-2 rounded-lg w-1/2 self-center m-1.5"
           >
             <Text className="text-white font-bold text-lg text-center">
               Add/update Progress
@@ -116,7 +116,7 @@ const Profile = () => {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate('CompareProgress')}
-            className="bg-cyan-700 p-2 rounded-lg w-1/2 self-center m-1.5 mb-7"
+            className="bg-indigo-500 p-2 rounded-lg w-1/2 self-center m-1.5 mb-7"
           >
             <Text className="text-white font-bold text-lg text-center">
               Compare Progress
